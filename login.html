@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - Iniciar Sesión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-contenedor">
+      <div class="header-marca">
+        <img src="img/logo.png" alt="Logo JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO</h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="pedido.html">Mi Pedido</a>
+        <a href="turno.html">Mi Turno</a>
+        <a href="login.html" class="activo destacado">Iniciar Sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div class="formulario-contenedor tarjeta">
+      <h2>Iniciar Sesión</h2>
+      <p class="subtitulo-form">Ingresa con tu usuario registrado</p>
+
+      <!-- Formulario visual (sin funcionalidad) -->
+      <form action="#" method="post">
+        <div class="form-grupo">
+          <label for="usuario">Usuario</label>
+          <input type="text" id="usuario" name="usuario" placeholder="Escribe tu usuario">
+        </div>
+
+        <div class="form-grupo">
+          <label for="contrasena">Contraseña</label>
+          <input type="password" id="contrasena" name="contrasena" placeholder="Escribe tu contraseña">
+        </div>
+
+        <button type="button" class="btn btn-verde form-boton">Ingresar</button>
+      </form>
+
+      <p class="form-enlace">
+        ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
+      </p>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="amarillo-linea"></div>
+    <p>CAFETIX JOACO &copy; 2026 - Institución Educativa José Joaquín Flórez Hernández</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f5f7fa"/>
+  <rect x="110" y="130" width="180" height="60" rx="30" fill="#d4a574"/>
+  <rect x="120" y="125" width="160" height="50" rx="25" fill="#e8c99b"/>
+  <rect x="140" y="140" width="120" height="20" rx="4" fill="#5c3317"/>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="22" fill="#2b78c5" font-weight="bold">Pan con chocolate</text>
+</svg>

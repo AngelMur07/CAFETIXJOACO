@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f5f7fa"/>
+  <ellipse cx="200" cy="175" rx="85" ry="28" fill="#ddd"/>
+  <circle cx="170" cy="140" r="22" fill="#fff200"/>
+  <rect x="195" y="125" width="50" height="30" rx="4" fill="#d4a574"/>
+  <rect x="255" y="130" width="35" height="25" rx="4" fill="#3fb54f"/>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="22" fill="#2b78c5" font-weight="bold">Desayuno completo</text>
+</svg>

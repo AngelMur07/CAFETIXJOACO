@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - Mi Pedido</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-contenedor">
+      <div class="header-marca">
+        <img src="img/logo.png" alt="Logo JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO</h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="catalogo.html">Catálogo</a>
+        <a href="pedido.html" class="activo">Mi Pedido</a>
+        <a href="turno.html">Mi Turno</a>
+        <a href="login.html" class="destacado">Iniciar Sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div class="pedido-titulo">
+      <h2>Mi Pedido</h2>
+      <p>Revisa los productos que seleccionaste</p>
+    </div>
+
+    <div class="pedido-tabla-contenedor">
+      <table class="pedido-tabla">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio unitario</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Arepa con queso</td>
+            <td>2</td>
+            <td>$3.500</td>
+            <td>$7.000</td>
+          </tr>
+          <tr>
+            <td>Jugo natural</td>
+            <td>1</td>
+            <td>$2.500</td>
+            <td>$2.500</td>
+          </tr>
+          <tr>
+            <td>Empanada</td>
+            <td>3</td>
+            <td>$2.000</td>
+            <td>$6.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pedido-total">
+      <p>Total del pedido:</p>
+      <p class="total-valor">$15.500</p>
+    </div>
+
+    <div class="pedido-acciones">
+      <button type="button" class="btn btn-verde btn-grande">Confirmar pedido</button>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="amarillo-linea"></div>
+    <p>CAFETIX JOACO &copy; 2026 - Institución Educativa José Joaquín Flórez Hernández</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f5f7fa"/>
+  <path d="M120 180 Q200 80 280 180 Q200 220 120 180" fill="#c68642"/>
+  <path d="M130 175 Q200 100 270 175" fill="none" stroke="#8b5a2b" stroke-width="2"/>
+  <line x1="200" y1="100" x2="200" y2="190" stroke="#8b5a2b" stroke-width="1.5"/>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="22" fill="#2b78c5" font-weight="bold">Empanada</text>
+</svg>

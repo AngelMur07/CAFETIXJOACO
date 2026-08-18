@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f5f7fa"/>
+  <ellipse cx="200" cy="155" rx="100" ry="35" fill="#d4a574"/>
+  <rect x="130" y="130" width="140" height="25" rx="5" fill="#ee2d24"/>
+  <rect x="140" y="120" width="30" height="15" fill="#fff200" rx="3"/>
+  <rect x="230" y="120" width="30" height="15" fill="#3fb54f" rx="3"/>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="22" fill="#2b78c5" font-weight="bold">Perro caliente</text>
+</svg>

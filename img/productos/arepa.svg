@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f5f7fa"/>
+  <ellipse cx="200" cy="160" rx="110" ry="70" fill="#e8a849"/>
+  <ellipse cx="200" cy="155" rx="95" ry="58" fill="#f5c76b"/>
+  <ellipse cx="200" cy="140" rx="60" ry="25" fill="#fff200" opacity="0.6"/>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="22" fill="#2b78c5" font-weight="bold">Arepa con queso</text>
+</svg>

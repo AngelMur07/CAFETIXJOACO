@@ -1,0 +1,756 @@
+/* =============================================
+   CAFETIX JOACO - Estilos generales (Día 1)
+   Institución Educativa JJFH
+   ============================================= */
+
+/* --- Variables de color (basadas en el logo) --- */
+:root {
+  --azul: #2b78c5;
+  --azul-oscuro: #1e5a96;
+  --verde: #3fb54f;
+  --verde-oscuro: #2d8a3a;
+  --rojo: #ee2d24;
+  --amarillo: #fff200;
+  --blanco: #ffffff;
+  --gris-claro: #f5f7fa;
+  --gris: #e8ecf0;
+  --texto: #1a1a1a;
+  --texto-suave: #555555;
+  --sombra: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --sombra-fuerte: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --radio: 12px;
+  --radio-btn: 8px;
+}
+
+/* --- Reset básico --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--texto);
+  background-color: var(--blanco);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --- Encabezado principal --- */
+.header {
+  background-color: var(--azul);
+  color: var(--blanco);
+  padding: 12px 24px;
+  box-shadow: var(--sombra);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-contenedor {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header-marca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--blanco);
+  object-fit: cover;
+  background-color: var(--blanco);
+}
+
+.header-texto h1 {
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+.header-texto p {
+  font-size: 0.75rem;
+  opacity: 0.9;
+  font-weight: normal;
+}
+
+/* --- Navegación --- */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.nav a {
+  color: var(--blanco);
+  padding: 8px 14px;
+  border-radius: var(--radio-btn);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.nav a:hover,
+.nav a.activo {
+  background-color: var(--azul-oscuro);
+}
+
+.nav a.destacado {
+  background-color: var(--verde);
+}
+
+.nav a.destacado:hover {
+  background-color: var(--verde-oscuro);
+}
+
+/* --- Contenido principal --- */
+.main {
+  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  width: 100%;
+}
+
+/* --- Pie de página --- */
+.footer {
+  background-color: var(--azul);
+  color: var(--blanco);
+  text-align: center;
+  padding: 20px 24px;
+  font-size: 0.85rem;
+  margin-top: auto;
+}
+
+.footer p {
+  opacity: 0.9;
+}
+
+.footer .amarillo-linea {
+  width: 60px;
+  height: 3px;
+  background-color: var(--amarillo);
+  margin: 8px auto;
+  border-radius: 2px;
+}
+
+/* --- Botones --- */
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: var(--radio-btn);
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Poppins', Arial, sans-serif;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-verde {
+  background-color: var(--verde);
+  color: var(--blanco);
+}
+
+.btn-verde:hover {
+  background-color: var(--verde-oscuro);
+}
+
+.btn-azul {
+  background-color: var(--azul);
+  color: var(--blanco);
+}
+
+.btn-azul:hover {
+  background-color: var(--azul-oscuro);
+}
+
+.btn-rojo {
+  background-color: var(--rojo);
+  color: var(--blanco);
+}
+
+.btn-rojo:hover {
+  background-color: #c9241c;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--azul);
+  border: 2px solid var(--azul);
+}
+
+.btn-outline:hover {
+  background-color: var(--azul);
+  color: var(--blanco);
+}
+
+.btn-pequeno {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}
+
+.btn-grande {
+  padding: 14px 36px;
+  font-size: 1.1rem;
+}
+
+/* --- Tarjetas --- */
+.tarjeta {
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 24px;
+  border: 1px solid var(--gris);
+}
+
+/* --- Sección de inicio --- */
+.inicio-hero {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.inicio-logo-grande {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  border: 4px solid var(--azul);
+  box-shadow: var(--sombra-fuerte);
+}
+
+.inicio-hero h2 {
+  font-size: 2rem;
+  color: var(--azul);
+  margin-bottom: 8px;
+}
+
+.inicio-hero .subtitulo {
+  color: var(--texto-suave);
+  font-size: 1rem;
+  margin-bottom: 24px;
+}
+
+.inicio-descripcion {
+  max-width: 650px;
+  margin: 0 auto 32px;
+  color: var(--texto-suave);
+  font-size: 1.05rem;
+}
+
+.inicio-botones {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.inicio-caracteristicas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.caracteristica {
+  text-align: center;
+  padding: 24px 16px;
+  background-color: var(--gris-claro);
+  border-radius: var(--radio);
+  border-top: 4px solid var(--verde);
+}
+
+.caracteristica h3 {
+  color: var(--azul);
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.caracteristica p {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+/* --- Formularios (login y registro) --- */
+.formulario-contenedor {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.formulario-contenedor h2 {
+  text-align: center;
+  color: var(--azul);
+  margin-bottom: 8px;
+}
+
+.formulario-contenedor .subtitulo-form {
+  text-align: center;
+  color: var(--texto-suave);
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+
+.form-grupo {
+  margin-bottom: 18px;
+}
+
+.form-grupo label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--texto);
+}
+
+.form-grupo input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--gris);
+  border-radius: var(--radio-btn);
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+  transition: border-color 0.2s;
+}
+
+.form-grupo input:focus {
+  outline: none;
+  border-color: var(--azul);
+}
+
+.form-boton {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.form-enlace {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+.form-enlace a {
+  color: var(--azul);
+  font-weight: 600;
+}
+
+.form-enlace a:hover {
+  text-decoration: underline;
+}
+
+/* --- Catálogo --- */
+.catalogo-titulo {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.catalogo-titulo h2 {
+  color: var(--azul);
+  font-size: 1.8rem;
+}
+
+.catalogo-titulo p {
+  color: var(--texto-suave);
+}
+
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.producto-card {
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  overflow: hidden;
+  border: 1px solid var(--gris);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s;
+}
+
+.producto-card:hover {
+  box-shadow: var(--sombra-fuerte);
+}
+
+.producto-imagen {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  background-color: var(--gris-claro);
+}
+
+.producto-info {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.producto-info h3 {
+  color: var(--azul);
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.producto-info .descripcion {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+  flex: 1;
+}
+
+.producto-precio {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--verde-oscuro);
+  margin-bottom: 12px;
+}
+
+.producto-info .btn {
+  width: 100%;
+}
+
+/* --- Pedido --- */
+.pedido-titulo {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.pedido-titulo h2 {
+  color: var(--azul);
+}
+
+.pedido-tabla-contenedor {
+  overflow-x: auto;
+  margin-bottom: 24px;
+}
+
+.pedido-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+
+.pedido-tabla th {
+  background-color: var(--azul);
+  color: var(--blanco);
+  padding: 14px 16px;
+  text-align: left;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+.pedido-tabla td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gris);
+}
+
+.pedido-tabla tr:last-child td {
+  border-bottom: none;
+}
+
+.pedido-tabla tr:nth-child(even) {
+  background-color: var(--gris-claro);
+}
+
+.pedido-total {
+  text-align: right;
+  padding: 20px;
+  background-color: var(--gris-claro);
+  border-radius: var(--radio);
+  margin-bottom: 24px;
+}
+
+.pedido-total p {
+  font-size: 1.1rem;
+  color: var(--texto-suave);
+}
+
+.pedido-total .total-valor {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--azul);
+  margin-top: 4px;
+}
+
+.pedido-acciones {
+  text-align: center;
+}
+
+.pedido-vacio {
+  text-align: center;
+  padding: 40px;
+  color: var(--texto-suave);
+}
+
+/* --- Turno --- */
+.turno-contenedor {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.turno-card {
+  background: linear-gradient(135deg, var(--azul) 0%, var(--azul-oscuro) 100%);
+  color: var(--blanco);
+  border-radius: var(--radio);
+  padding: 48px 32px;
+  box-shadow: var(--sombra-fuerte);
+  margin-bottom: 24px;
+}
+
+.turno-card .etiqueta {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+
+.turno-numero {
+  font-size: 5rem;
+  font-weight: 700;
+  font-family: 'Poppins', Arial, sans-serif;
+  line-height: 1;
+  margin: 16px 0;
+  color: var(--amarillo);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.turno-estado {
+  display: inline-block;
+  background-color: var(--amarillo);
+  color: var(--texto);
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-top: 12px;
+}
+
+.turno-mensaje {
+  background-color: var(--gris-claro);
+  border-radius: var(--radio);
+  padding: 24px;
+  border-left: 4px solid var(--verde);
+}
+
+.turno-mensaje h3 {
+  color: var(--azul);
+  margin-bottom: 8px;
+}
+
+.turno-mensaje p {
+  color: var(--texto-suave);
+}
+
+/* --- Panel cafetería --- */
+.panel-header {
+  background-color: var(--azul-oscuro);
+}
+
+.panel-nav a.activo {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.panel-titulo {
+  margin-bottom: 24px;
+}
+
+.panel-titulo h2 {
+  color: var(--azul);
+}
+
+.panel-titulo p {
+  color: var(--texto-suave);
+}
+
+.panel-tabla-contenedor {
+  overflow-x: auto;
+}
+
+.panel-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+
+.panel-tabla th {
+  background-color: var(--azul-oscuro);
+  color: var(--blanco);
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.panel-tabla td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--gris);
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.panel-tabla tr:nth-child(even) {
+  background-color: var(--gris-claro);
+}
+
+.estado-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.estado-pendiente {
+  background-color: var(--amarillo);
+  color: var(--texto);
+}
+
+.estado-preparando {
+  background-color: #ff9800;
+  color: var(--blanco);
+}
+
+.estado-listo {
+  background-color: var(--verde);
+  color: var(--blanco);
+}
+
+.estado-entregado {
+  background-color: var(--gris);
+  color: var(--texto);
+}
+
+.panel-acciones {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.aviso-panel {
+  background-color: #fff8e1;
+  border-left: 4px solid var(--amarillo);
+  padding: 14px 18px;
+  border-radius: var(--radio-btn);
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+/* --- Títulos de página --- */
+.pagina-titulo {
+  margin-bottom: 28px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--amarillo);
+}
+
+.pagina-titulo h2 {
+  color: var(--azul);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .header-contenedor {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .header-marca {
+    flex-direction: column;
+  }
+
+  .nav {
+    justify-content: center;
+  }
+
+  .nav a {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .inicio-hero h2 {
+    font-size: 1.5rem;
+  }
+
+  .turno-numero {
+    font-size: 3.5rem;
+  }
+
+  .main {
+    padding: 24px 16px;
+  }
+
+  .panel-acciones {
+    flex-direction: column;
+  }
+
+  .panel-acciones .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-texto h1 {
+    font-size: 1.1rem;
+  }
+
+  .productos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inicio-botones {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .inicio-botones .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}

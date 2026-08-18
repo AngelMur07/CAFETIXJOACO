@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f5f7fa"/>
+  <rect x="160" y="80" width="80" height="140" rx="8" fill="#fff" stroke="#2b78c5" stroke-width="3"/>
+  <rect x="165" y="120" width="70" height="95" fill="#ff9800"/>
+  <rect x="185" y="60" width="30" height="25" rx="4" fill="#ccc"/>
+  <circle cx="200" cy="100" r="8" fill="#fff200"/>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="22" fill="#2b78c5" font-weight="bold">Jugo natural</text>
+</svg>

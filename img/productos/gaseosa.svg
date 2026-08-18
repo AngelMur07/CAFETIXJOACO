@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f5f7fa"/>
+  <rect x="170" y="70" width="60" height="150" rx="10" fill="#ee2d24"/>
+  <rect x="175" y="90" width="50" height="40" fill="#fff" opacity="0.3" rx="4"/>
+  <rect x="185" y="55" width="30" height="20" fill="#888"/>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="22" fill="#2b78c5" font-weight="bold">Gaseosa</text>
+</svg>
