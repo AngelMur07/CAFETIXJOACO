@@ -6,26 +6,28 @@
   <title>CAFETIX JOACO - Registro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
   <header class="header">
     <div class="header-contenedor">
-      <div class="header-marca">
-        <img src="img/logo.png" alt="Logo JJFH" class="header-logo">
+      <a href="index.html" class="header-marca">
+        <span class="header-logo-caja">
+          <img src="../img/logo.png" alt="Logo Institución Educativa JJFH" class="header-logo">
+        </span>
         <div class="header-texto">
           <h1>CAFETIX JOACO</h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
-      </div>
+      </a>
       <nav class="nav">
         <a href="index.html">Inicio</a>
         <a href="catalogo.html">Catálogo</a>
         <a href="pedido.html">Mi Pedido</a>
         <a href="turno.html">Mi Turno</a>
-        <a href="login.html" class="destacado">Iniciar Sesión</a>
+        <a href="login.html" class="btn-sesion">Iniciar Sesión</a>
+        <a href="registro.html" class="btn-registro activo">Registrarse</a>
       </nav>
     </div>
   </header>
@@ -33,6 +35,14 @@
   <main class="main">
 
     <div class="formulario-contenedor tarjeta">
+      <div class="form-icono" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+          <path d="M19 8v6"></path>
+          <path d="M16 11h6"></path>
+        </svg>
+      </div>
       <h2>Crear Cuenta</h2>
       <p class="subtitulo-form">Regístrate para usar el sistema de la cafetería</p>
 
@@ -74,8 +84,12 @@
   </main>
 
   <footer class="footer">
-    <div class="amarillo-linea"></div>
-    <p>CAFETIX JOACO &copy; 2026 - Institución Educativa José Joaquín Flórez Hernández</p>
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
+    <p class="footer-enlace"><a href="panel.html">Panel de cafetería</a></p>
   </footer>
 
 </body>

@@ -1,11 +1,11 @@
 """
 CAFETIX JOACO - Servidor local (Día 1)
-Ejecuta este archivo desde Visual Studio Code para ver el sitio web.
+Ejecuta este archivo para ver el sitio web.
 
 Uso:
-  1. Abre la carpeta del proyecto en VS Code
+  1. Abre la carpeta del proyecto
   2. Ejecuta: py app.py
-  3. Abre el navegador en: http://localhost:8000
+  3. El navegador se abre en: http://localhost:8000/html/index.html
 """
 
 import http.server
@@ -14,23 +14,31 @@ import os
 import webbrowser
 from threading import Timer
 
-# Puerto del servidor local
 PUERTO = 8000
 
 # Cambiar al directorio del proyecto
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-Handler = http.server.SimpleHTTPRequestHandler
+
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        # Si alguien entra a la raíz, lo lleva a la página de inicio
+        if self.path == "/" or self.path == "/index.html":
+            self.send_response(302)
+            self.send_header("Location", "/html/index.html")
+            self.end_headers()
+            return
+        return super().do_GET()
+
 
 print("=" * 50)
 print("  CAFETIX JOACO - Servidor local")
 print("=" * 50)
-print(f"  Abre tu navegador en: http://localhost:{PUERTO}")
+print(f"  Abre tu navegador en: http://localhost:{PUERTO}/html/index.html")
 print("  Presiona Ctrl+C para detener el servidor")
 print("=" * 50)
 
-# Abrir el navegador automáticamente después de 1 segundo
-Timer(1, lambda: webbrowser.open(f"http://localhost:{PUERTO}")).start()
+Timer(1, lambda: webbrowser.open(f"http://localhost:{PUERTO}/html/index.html")).start()
 
 with socketserver.TCPServer(("", PUERTO), Handler) as httpd:
     httpd.serve_forever()

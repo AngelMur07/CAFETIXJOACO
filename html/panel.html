@@ -6,23 +6,23 @@
   <title>CAFETIX JOACO - Panel Cafetería</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
-  <!-- Encabezado del panel (navegación independiente) -->
   <header class="header panel-header">
     <div class="header-contenedor">
-      <div class="header-marca">
-        <img src="img/logo.png" alt="Logo JJFH" class="header-logo">
+      <a href="index.html" class="header-marca">
+        <span class="header-logo-caja">
+          <img src="../img/logo.png" alt="Logo Institución Educativa JJFH" class="header-logo">
+        </span>
         <div class="header-texto">
-          <h1>Panel Cafetería</h1>
-          <p>Gestión de pedidos - CAFETIX JOACO</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
-      </div>
-      <nav class="nav panel-nav">
-        <a href="panel.html" class="activo">Pedidos</a>
+      </a>
+      <nav class="nav">
+        <a href="panel.html" class="activo">Panel</a>
         <a href="index.html">Salir al sitio</a>
       </nav>
     </div>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="aviso-panel">
-      Vista de demostración. Los botones son solo visuales; la funcionalidad se implementará en días posteriores.
+      Vista de demostración. Los botones son solo visuales; la funcionalidad se implementará más adelante.
     </div>
 
     <div class="panel-tabla-contenedor">
@@ -60,7 +60,7 @@
               <div class="panel-acciones">
                 <button type="button" class="btn btn-azul btn-pequeno">Preparando</button>
                 <button type="button" class="btn btn-verde btn-pequeno">Listo</button>
-                <button type="button" class="btn btn-rojo btn-pequeno">Entregado</button>
+                <button type="button" class="btn btn-oscuro btn-pequeno">Entregado</button>
               </div>
             </td>
           </tr>
@@ -73,7 +73,7 @@
               <div class="panel-acciones">
                 <button type="button" class="btn btn-azul btn-pequeno">Preparando</button>
                 <button type="button" class="btn btn-verde btn-pequeno">Listo</button>
-                <button type="button" class="btn btn-rojo btn-pequeno">Entregado</button>
+                <button type="button" class="btn btn-oscuro btn-pequeno">Entregado</button>
               </div>
             </td>
           </tr>
@@ -86,7 +86,7 @@
               <div class="panel-acciones">
                 <button type="button" class="btn btn-azul btn-pequeno">Preparando</button>
                 <button type="button" class="btn btn-verde btn-pequeno">Listo</button>
-                <button type="button" class="btn btn-rojo btn-pequeno">Entregado</button>
+                <button type="button" class="btn btn-oscuro btn-pequeno">Entregado</button>
               </div>
             </td>
           </tr>
@@ -99,7 +99,7 @@
               <div class="panel-acciones">
                 <button type="button" class="btn btn-azul btn-pequeno">Preparando</button>
                 <button type="button" class="btn btn-verde btn-pequeno">Listo</button>
-                <button type="button" class="btn btn-rojo btn-pequeno">Entregado</button>
+                <button type="button" class="btn btn-oscuro btn-pequeno">Entregado</button>
               </div>
             </td>
           </tr>
@@ -112,7 +112,7 @@
               <div class="panel-acciones">
                 <button type="button" class="btn btn-azul btn-pequeno">Preparando</button>
                 <button type="button" class="btn btn-verde btn-pequeno">Listo</button>
-                <button type="button" class="btn btn-rojo btn-pequeno">Entregado</button>
+                <button type="button" class="btn btn-oscuro btn-pequeno">Entregado</button>
               </div>
             </td>
           </tr>
@@ -123,8 +123,11 @@
   </main>
 
   <footer class="footer">
-    <div class="amarillo-linea"></div>
-    <p>CAFETIX JOACO &copy; 2026 - Panel de Cafetería | JJFH</p>
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
   </footer>
 
 </body>
