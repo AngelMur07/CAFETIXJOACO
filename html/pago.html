@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAFETIX JOACO - Mi turno</title>
+  <title>CAFETIX JOACO - Pago</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
       <nav class="nav">
         <a href="catalogo.html">Catálogo</a>
         <a href="carrito.html">Carrito</a>
-        <a href="turno.html" class="activo">Mi turno</a>
+        <a href="turno.html">Mi turno</a>
         <a href="pqr.html">PQR</a>
         <a href="encuesta.html">Encuesta</a>
         <a href="index.html" class="btn-registro">Cerrar sesión</a>
@@ -39,24 +39,30 @@
       <span class="guia-flecha">→</span>
       <a href="carrito.html" class="guia-paso">2. Carrito</a>
       <span class="guia-flecha">→</span>
-      <a href="pago.html" class="guia-paso">3. Pago</a>
+      <span class="guia-paso guia-paso-activo">3. Pago</span>
       <span class="guia-flecha">→</span>
-      <span class="guia-paso guia-paso-activo">4. Turno</span>
+      <a href="turno.html" class="guia-paso">4. Turno</a>
     </div>
 
-    <div class="turno-pagina">
+    <div class="pago-pagina">
 
-      <h2 class="turno-titulo">Tu pedido fue registrado</h2>
-      <p class="turno-subtitulo">Este número es una simulación. Acércate cuando lo llamen.</p>
+      <div class="qr-caja">
+        <h2>Pago mediante código QR</h2>
+        <p class="qr-ayuda">
+          Esta es una pantalla de prueba. Más adelante se colocará el QR real.
+          No se realiza ningún cobro.
+        </p>
 
-      <div class="turno-card">
-        <p class="etiqueta">Tu turno es</p>
-        <p class="turno-numero-grande">029</p>
-        <p>Estado del pedido: <span class="turno-estado">En preparación</span></p>
+        <div class="qr-marco">
+          <img src="../img/qr-demo.svg" alt="Código QR de prueba para el pago">
+        </div>
+
+        <p>Total a pagar</p>
+        <p class="qr-total">$15.500</p>
       </div>
 
       <div class="detalle-pedido">
-        <h3>Detalle de tu compra</h3>
+        <h3>Resumen del pedido</h3>
         <div class="detalle-fila">
           <span>Número de pedido</span>
           <strong>CJ-014</strong>
@@ -65,28 +71,21 @@
           <span>Usuario</span>
           <strong>Estudiante</strong>
         </div>
-        <div class="detalle-fila">
-          <span>Estado del pago</span>
-          <strong>Pagado (prueba)</strong>
-        </div>
-        <div class="detalle-fila">
-          <span>Estado del pedido</span>
-          <strong>En preparación</strong>
-        </div>
         <ul class="detalle-lista">
           <li>Arepa con queso × 2 — $7.000</li>
           <li>Jugo natural × 1 — $2.500</li>
           <li>Empanada × 3 — $6.000</li>
         </ul>
-        <div class="detalle-fila">
-          <span>Total</span>
-          <strong>$15.500</strong>
-        </div>
+        <p>Cuando el pago quede confirmado, el sistema asignará un turno.</p>
+      </div>
+
+      <div class="aviso-panel">
+        Mensaje de confirmación: si el QR fuera real, aquí se validaría el pago.
       </div>
 
       <div class="pedido-acciones">
-        <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
-        <a href="encuesta.html" class="btn btn-verde">Responder encuesta</a>
+        <a href="carrito.html" class="btn btn-outline">Volver al carrito</a>
+        <a href="turno.html" class="btn btn-verde btn-grande">Confirmar pago de prueba</a>
       </div>
 
     </div>
@@ -100,8 +99,8 @@
     <p>Institución Educativa José Joaquín Flórez Hernández</p>
     <p>Ibagué - Tolima</p>
     <nav class="footer-nav">
-      <a href="pqr.html">PQR</a>
-      <a href="encuesta.html">Encuesta</a>
+      <a href="carrito.html">Carrito</a>
+      <a href="turno.html">Mi turno</a>
     </nav>
   </footer>
 

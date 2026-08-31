@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - Superadministrador</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/paneles.css">
+</head>
+<body>
+
+  <header class="header panel-header">
+    <div class="header-contenedor">
+      <a href="index.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Superadmin</span></h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="superadmin.html" class="activo">Usuarios</a>
+        <a href="administrador.html">Administración</a>
+        <a href="index.html" class="btn-registro">Cerrar sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div class="panel-titulo">
+      <h2>Vista del superadministrador</h2>
+      <p>Control general de roles y usuarios del sistema</p>
+    </div>
+
+    <div class="aviso-panel">
+      Vista de demostración. Los permisos reales se implementarán más adelante.
+    </div>
+
+    <div class="resumen">
+      <article class="resumen-tarjeta">
+        <p>Administradores</p>
+        <strong>2</strong>
+      </article>
+      <article class="resumen-tarjeta">
+        <p>Vendedores</p>
+        <strong>3</strong>
+      </article>
+      <article class="resumen-tarjeta">
+        <p>Clientes</p>
+        <strong>41</strong>
+      </article>
+      <article class="resumen-tarjeta">
+        <p>Roles del sistema</p>
+        <strong>5</strong>
+      </article>
+    </div>
+
+    <section class="bloque-panel">
+      <h3>Usuarios del sistema</h3>
+      <p class="bloque-ayuda">El superadministrador podrá asignar o cambiar roles.</p>
+      <div class="acciones-rapidas">
+        <button type="button" class="btn btn-verde btn-pequeno">Crear usuario</button>
+        <button type="button" class="btn btn-outline btn-pequeno">Asignar rol</button>
+      </div>
+      <div class="panel-tabla-contenedor">
+        <table class="panel-tabla">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Usuario</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Director de sede</td>
+              <td>superadmin</td>
+              <td>Superadministrador</td>
+              <td><span class="estado-badge estado-listo">Activo</span></td>
+              <td>
+                <div class="panel-acciones">
+                  <button type="button" class="btn btn-azul btn-pequeno">Editar</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Coordinación</td>
+              <td>admin.jjfh</td>
+              <td>Administrador</td>
+              <td><span class="estado-badge estado-listo">Activo</span></td>
+              <td>
+                <div class="panel-acciones">
+                  <button type="button" class="btn btn-azul btn-pequeno">Editar</button>
+                  <button type="button" class="btn btn-oscuro btn-pequeno">Desactivar</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Personal de cafetería</td>
+              <td>vendedor01</td>
+              <td>Vendedor</td>
+              <td><span class="estado-badge estado-listo">Activo</span></td>
+              <td>
+                <div class="panel-acciones">
+                  <button type="button" class="btn btn-azul btn-pequeno">Editar</button>
+                  <button type="button" class="btn btn-oscuro btn-pequeno">Desactivar</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Juan Pérez</td>
+              <td>juanp</td>
+              <td>Usuario / cliente</td>
+              <td><span class="estado-badge estado-listo">Activo</span></td>
+              <td>
+                <div class="panel-acciones">
+                  <button type="button" class="btn btn-azul btn-pequeno">Editar</button>
+                  <button type="button" class="btn btn-oscuro btn-pequeno">Desactivar</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="bloque-panel">
+      <h3>Roles previstos</h3>
+      <p class="bloque-ayuda">Estas vistas ya están preparadas para conectar permisos más adelante.</p>
+      <div class="panel-tabla-contenedor">
+        <table class="panel-tabla">
+          <thead>
+            <tr>
+              <th>Rol</th>
+              <th>Página principal</th>
+              <th>Función prevista</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Visitante</td>
+              <td>index.html</td>
+              <td>Ver inicio, catálogo, login y registro</td>
+            </tr>
+            <tr>
+              <td>Usuario / cliente</td>
+              <td>carrito.html</td>
+              <td>Pedir productos y consultar turno</td>
+            </tr>
+            <tr>
+              <td>Vendedor</td>
+              <td>vendedor.html</td>
+              <td>Atender pedidos y turnos</td>
+            </tr>
+            <tr>
+              <td>Administrador</td>
+              <td>administrador.html</td>
+              <td>Gestionar productos y PQR</td>
+            </tr>
+            <tr>
+              <td>Superadministrador</td>
+              <td>superadmin.html</td>
+              <td>Gestionar usuarios y roles</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
+  </footer>
+
+</body>
+</html>

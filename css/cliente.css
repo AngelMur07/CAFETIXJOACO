@@ -1,0 +1,256 @@
+/* =============================================
+   CAFETIX JOACO - Estilos del módulo cliente
+   Se usa en: catálogo, carrito, pago, turno, PQR y encuesta
+   ============================================= */
+
+/* --- Tipo de usuario (estudiante, docente o administrativo) --- */
+.usuario-tipo {
+  font-size: 0.88rem;
+  color: var(--texto-suave);
+  margin-top: 6px;
+}
+
+/* --- Menú de categorías del catálogo --- */
+.categorias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.categorias a {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--azul-oscuro);
+  background-color: var(--blanco);
+  border: 1px solid var(--gris);
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.categorias a:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra);
+  background-color: var(--azul-suave);
+}
+
+/* Cada grupo de productos */
+.categoria-bloque {
+  margin-bottom: 36px;
+  scroll-margin-top: 110px;
+}
+
+.categoria-titulo {
+  color: var(--azul);
+  font-size: 1.2rem;
+  margin-bottom: 14px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--verde);
+}
+
+/* Datos del producto */
+.producto-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.producto-stock {
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+}
+
+.estado-agotado {
+  background-color: #fdecea;
+  color: var(--rojo);
+}
+
+.producto-agotado {
+  opacity: 0.75;
+}
+
+.producto-agotado:hover {
+  transform: none;
+  box-shadow: var(--sombra);
+}
+
+/* Botón desactivado cuando no hay existencias */
+.btn-agotado,
+.btn:disabled {
+  background-color: #9aa3ab;
+  color: var(--blanco);
+  cursor: not-allowed;
+  box-shadow: none;
+  pointer-events: none;
+  transform: none;
+}
+
+/* --- Resumen de pedido (pago y turno) --- */
+.detalle-pedido {
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 22px;
+  margin-bottom: 20px;
+  text-align: left;
+  border: 1px solid var(--gris);
+}
+
+.detalle-pedido h3 {
+  color: var(--azul);
+  margin-bottom: 12px;
+}
+
+.detalle-lista {
+  list-style: none;
+  margin-bottom: 14px;
+}
+
+.detalle-lista li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--gris);
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+}
+
+.detalle-lista li:last-child {
+  border-bottom: none;
+}
+
+.detalle-fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.detalle-fila strong {
+  color: var(--azul-oscuro);
+}
+
+/* --- Pago con QR de prueba --- */
+.pago-pagina {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.qr-caja {
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 28px 22px;
+  text-align: center;
+  margin-bottom: 20px;
+  border-top: 4px solid var(--verde);
+}
+
+.qr-caja h2 {
+  color: var(--azul);
+  margin-bottom: 8px;
+}
+
+.qr-caja .qr-ayuda {
+  color: var(--texto-suave);
+  margin-bottom: 18px;
+}
+
+.qr-marco {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 16px;
+  padding: 12px;
+  background-color: var(--blanco);
+  border: 2px dashed var(--azul);
+  border-radius: 8px;
+}
+
+.qr-marco img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.qr-total {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--verde-oscuro);
+}
+
+/* --- Turno grande en blanco --- */
+.turno-pagina {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.turno-titulo {
+  color: var(--azul);
+  margin-bottom: 8px;
+}
+
+.turno-subtitulo {
+  color: var(--texto-suave);
+  margin-bottom: 20px;
+}
+
+.turno-numero-grande {
+  font-size: 5.2rem;
+  font-weight: 700;
+  font-family: 'Poppins', Arial, sans-serif;
+  line-height: 1;
+  margin: 18px auto;
+  color: var(--blanco);
+  background-color: var(--verde);
+  display: inline-block;
+  padding: 18px 44px;
+  border-radius: 12px;
+  letter-spacing: 2px;
+}
+
+/* --- Encuesta de satisfacción --- */
+.calificacion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.calificacion label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  padding: 10px 12px;
+  border: 2px solid var(--gris);
+  border-radius: 8px;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600;
+  color: var(--azul-oscuro);
+  background-color: var(--blanco);
+  cursor: pointer;
+}
+
+.calificacion input {
+  margin-right: 6px;
+}
+
+.calificacion label:hover {
+  background-color: var(--azul-suave);
+}
+
+@media (max-width: 480px) {
+  .turno-numero-grande {
+    font-size: 3.4rem;
+    padding: 14px 24px;
+  }
+
+  .qr-marco {
+    width: 180px;
+    height: 180px;
+  }
+}

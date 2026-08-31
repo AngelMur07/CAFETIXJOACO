@@ -1,9 +1,13 @@
 /* =============================================
-   CAFETIX JOACO - Estilos del sitio (Día 1)
+   CAFETIX JOACO - Estilos compartidos
    Institución Educativa José Joaquín Flórez Hernández
+
+   Este archivo tiene los estilos que se usan en todo el sitio.
+   Las vistas de vendedor, administrador y superadministrador
+   también usan css/paneles.css
    ============================================= */
 
-/* --- Colores del logo institucional --- */
+/* --- Colores del escudo institucional --- */
 :root {
   --azul: #2b78c5;
   --azul-oscuro: #1e5a96;
@@ -16,6 +20,7 @@
   --texto-suave: #555555;
   --azul-suave: #e8f3fb;
   --verde-suave: #eaf7ec;
+  --rojo: #c0392b; /* Solo como acento, en poca cantidad */
   --sombra: 0 2px 8px rgba(0, 0, 0, 0.1);
   --sombra-fuerte: 0 4px 16px rgba(0, 0, 0, 0.15);
   --radio: 12px;
@@ -117,12 +122,24 @@ img {
   object-fit: contain;
   object-position: center;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .header-texto h1 {
-  font-size: 1.4rem;
-  letter-spacing: 0.5px;
-  line-height: 1;
+  font-size: 1.35rem;
+  letter-spacing: 0.4px;
+  line-height: 1.15;
+}
+
+/* Subtítulo del encabezado: texto institucional */
+.header-texto p {
+  margin-top: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  opacity: 0.92;
+  max-width: 280px;
+  line-height: 1.3;
 }
 
 /* --- Navegación --- */
@@ -412,6 +429,7 @@ img {
   object-fit: contain;
   object-position: center;
   border-radius: 50%;
+  margin: 0 auto 12px;
 }
 
 .hero-etiqueta {
@@ -523,20 +541,23 @@ img {
 }
 
 .tarjeta-caracteristica:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: var(--sombra-fuerte);
+  background-color: var(--blanco);
 }
 
+/* Icono rectangular (no circular) dentro de las tarjetas */
 .tarjeta-icono {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
+  width: 64px;
+  height: 52px;
+  border-radius: 8px;
   background-color: var(--blanco);
   color: var(--azul);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
 .tarjeta-icono svg {
@@ -585,9 +606,9 @@ img {
   box-shadow: var(--sombra);
   padding: 22px 16px;
   text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
-  flex: 1 1 200px;
-  max-width: 240px;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+  flex: 1 1 160px;
+  max-width: 200px;
 }
 
 .paso:nth-child(even) {
@@ -740,17 +761,28 @@ img {
   color: var(--texto);
 }
 
-.form-grupo input {
+.form-grupo input,
+.form-grupo select,
+.form-grupo textarea {
   width: 100%;
   padding: 12px 14px;
   border: 2px solid var(--gris);
   border-radius: var(--radio-btn);
   font-size: 1rem;
   font-family: 'Nunito', Arial, sans-serif;
+  background-color: var(--blanco);
+  color: var(--texto);
   transition: border-color 0.2s;
 }
 
-.form-grupo input:focus {
+.form-grupo textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-grupo input:focus,
+.form-grupo select:focus,
+.form-grupo textarea:focus {
   outline: none;
   border-color: var(--azul);
 }
@@ -758,6 +790,7 @@ img {
 .form-boton {
   width: 100%;
   margin-top: 8px;
+  display: block;
 }
 
 .form-enlace {
@@ -970,6 +1003,10 @@ a.guia-paso:hover {
 
 .pedido-acciones {
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
 }
 
 .pedido-vacio {
@@ -1141,6 +1178,131 @@ a.guia-paso:hover {
   color: var(--texto-suave);
 }
 
+/* --- Etiqueta de rol (después del inicio de sesión simulado) --- */
+.rol-etiqueta {
+  display: inline-block;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  background-color: var(--verde);
+  color: var(--blanco);
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* --- Acceso de demostración por rol (login) --- */
+.roles-demo {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gris);
+}
+
+.roles-demo h3 {
+  text-align: center;
+  color: var(--azul);
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.roles-demo p {
+  text-align: center;
+  color: var(--texto-suave);
+  font-size: 0.88rem;
+  margin-bottom: 16px;
+}
+
+.roles-lista {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.rol-enlace {
+  display: block;
+  text-align: center;
+  padding: 12px 10px;
+  border-radius: var(--radio-btn);
+  border: 1px solid #d5e8f5;
+  background-color: var(--azul-suave);
+  color: var(--azul-oscuro);
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.rol-enlace:nth-child(even) {
+  background-color: var(--verde-suave);
+  border-color: #d4ead8;
+  color: var(--verde-oscuro);
+}
+
+.rol-enlace:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra);
+}
+
+/* --- Caja de pago simulado (carrito) --- */
+.pago-caja {
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 22px;
+  margin-bottom: 24px;
+  border-left: 4px solid var(--azul);
+}
+
+.pago-caja h3 {
+  color: var(--azul);
+  margin-bottom: 8px;
+}
+
+.pago-caja p {
+  color: var(--texto-suave);
+  font-size: 0.92rem;
+  margin-bottom: 16px;
+}
+
+/* --- Enlaces del pie de página --- */
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: 12px;
+}
+
+.footer-nav a {
+  color: var(--blanco);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.footer-nav a:hover {
+  text-decoration: underline;
+}
+
+/* --- Mensaje de demostración (formularios) --- */
+.mensaje-demo {
+  display: none;
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: var(--radio-btn);
+  background-color: var(--verde-suave);
+  border: 1px solid #d4ead8;
+  color: var(--verde-oscuro);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.mensaje-demo.visible {
+  display: block;
+}
+
 /* --- Títulos de página --- */
 .pagina-titulo {
   margin-bottom: 28px;
@@ -1166,6 +1328,10 @@ a.guia-paso:hover {
 
   .header-texto h1 {
     font-size: 1.2rem;
+  }
+
+  .header-texto p {
+    max-width: 100%;
   }
 
   .nav {
@@ -1274,5 +1440,9 @@ a.guia-paso:hover {
   .panel-tabla td {
     padding: 10px 8px;
     font-size: 0.8rem;
+  }
+
+  .roles-lista {
+    grid-template-columns: 1fr;
   }
 }

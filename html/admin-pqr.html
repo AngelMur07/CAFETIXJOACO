@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - PQR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/paneles.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+  <header class="header panel-header">
+    <div class="header-contenedor">
+      <a href="administrador.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="administrador.html">Inicio</a>
+        <a href="admin-productos.html">Productos</a>
+        <a href="admin-inventarios.html">Inventarios</a>
+        <a href="admin-pedidos.html">Pedidos</a>
+        <a href="admin-pqr.html" class="activo">PQR</a>
+        <a href="admin-reportes.html">Reportes</a>
+        <a href="index.html" class="btn-registro">Cerrar sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="admin-pagina">
+
+      <div class="panel-titulo">
+        <h2>PQR recibidas</h2>
+        <p>Peticiones, quejas, reclamos y felicitaciones de ejemplo.</p>
+      </div>
+
+      <section class="bloque-panel">
+        <h3>Mensajes</h3>
+        <p class="bloque-ayuda">Más adelante se leerán desde la base de datos.</p>
+
+        <div class="panel-tabla-contenedor">
+          <table class="panel-tabla">
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Asunto</th>
+                <th>Usuario</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="tipo-pqr">Petición</span></td>
+                <td>Agregar jugo de mango</td>
+                <td>Sofía Díaz</td>
+                <td><span class="estado-badge estado-pendiente">Pendiente</span></td>
+              </tr>
+              <tr>
+                <td><span class="tipo-pqr queja">Queja</span></td>
+                <td>Tiempo de espera</td>
+                <td>Andrés López</td>
+                <td><span class="estado-badge estado-preparando">En revisión</span></td>
+              </tr>
+              <tr>
+                <td><span class="tipo-pqr reclamo">Reclamo</span></td>
+                <td>Producto incompleto</td>
+                <td>Camilo Pérez</td>
+                <td><span class="estado-badge estado-pendiente">Pendiente</span></td>
+              </tr>
+              <tr>
+                <td><span class="tipo-pqr felicitacion">Felicitación</span></td>
+                <td>Atención amable</td>
+                <td>Camila Rojas</td>
+                <td><span class="estado-badge estado-listo">Cerrada</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
+  </footer>
+
+</body>
+</html>

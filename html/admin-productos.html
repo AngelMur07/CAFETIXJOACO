@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - Productos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/paneles.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+  <header class="header panel-header">
+    <div class="header-contenedor">
+      <a href="administrador.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="administrador.html">Inicio</a>
+        <a href="admin-productos.html" class="activo">Productos</a>
+        <a href="admin-inventarios.html">Inventarios</a>
+        <a href="admin-pedidos.html">Pedidos</a>
+        <a href="admin-pqr.html">PQR</a>
+        <a href="admin-reportes.html">Reportes</a>
+        <a href="index.html" class="btn-registro">Cerrar sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="admin-pagina">
+
+      <div class="panel-titulo">
+        <h2>Registrar o editar producto</h2>
+        <p>Formulario visual. Todavía no se guarda en una base de datos.</p>
+      </div>
+
+      <section class="bloque-panel form-admin">
+        <h3>Datos del producto</h3>
+        <p class="bloque-ayuda">Completa los campos y usa Guardar para ver el mensaje de demostración.</p>
+
+        <form action="#" method="post">
+          <div class="form-grupo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Empanada">
+          </div>
+
+          <div class="form-grupo">
+            <label for="categoria">Categoría</label>
+            <select id="categoria" name="categoria">
+              <option>Cafetería</option>
+              <option>Productos preparados</option>
+              <option>Desayunos</option>
+              <option>Almuerzos</option>
+              <option>Bebidas</option>
+              <option>Otros productos</option>
+            </select>
+          </div>
+
+          <div class="form-grupo">
+            <label for="precio">Precio</label>
+            <input type="text" id="precio" name="precio" placeholder="Ej: 2000">
+          </div>
+
+          <div class="form-grupo">
+            <label for="cantidad">Cantidad</label>
+            <input type="text" id="cantidad" name="cantidad" placeholder="Ej: 15">
+          </div>
+
+          <div class="form-grupo">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" placeholder="Descripción corta del producto"></textarea>
+          </div>
+
+          <div class="form-grupo">
+            <label for="imagen">Imagen</label>
+            <input type="file" id="imagen" name="imagen" accept="image/*">
+          </div>
+
+          <div class="form-grupo">
+            <label for="estado">Estado</label>
+            <select id="estado" name="estado">
+              <option>Disponible</option>
+              <option>Agotado</option>
+            </select>
+          </div>
+
+          <div class="form-acciones">
+            <button type="button" class="btn btn-verde" onclick="document.getElementById('mensaje-demo').classList.add('visible')">
+              Guardar
+            </button>
+            <a href="admin-inventarios.html" class="btn btn-outline">Cancelar</a>
+          </div>
+        </form>
+
+        <p id="mensaje-demo" class="mensaje-demo">
+          Producto de demostración. Más adelante se guardará con Python y MySQL.
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
+  </footer>
+
+</body>
+</html>

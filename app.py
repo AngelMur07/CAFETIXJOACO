@@ -1,6 +1,6 @@
 """
-CAFETIX JOACO - Servidor local (Día 1)
-Ejecuta este archivo para ver el sitio web.
+CAFETIX JOACO - Servidor local para ver el sitio
+Este archivo solo abre las páginas HTML. Todavía no usa base de datos.
 
 Uso:
   1. Abre la carpeta del proyecto

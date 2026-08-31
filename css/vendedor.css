@@ -1,0 +1,166 @@
+/* =============================================
+   CAFETIX JOACO - Vista del vendedor
+   Solo para entregar pedidos y llamar turnos.
+   No se usan estos estilos en inventario ni usuarios.
+   ============================================= */
+
+/* Encabezado un poco más oscuro: área de trabajo de la cafetería */
+.panel-header {
+  background-color: var(--azul-oscuro);
+}
+
+.vendedor-pagina {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* Caja principal: se ve rápido en el computador de la cafetería */
+.turno-actual {
+  background-color: var(--azul);
+  background-image: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul) 100%);
+  color: var(--blanco);
+  border-radius: var(--radio);
+  padding: 32px 28px 28px;
+  text-align: center;
+  box-shadow: var(--sombra-fuerte);
+  border-bottom: 4px solid var(--verde);
+  margin-bottom: 20px;
+}
+
+.turno-actual h2 {
+  color: var(--blanco);
+  font-size: 1.15rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* Número grande para leerlo de lejos */
+.turno-actual-numero {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 6rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--blanco);
+  background-color: var(--verde);
+  display: inline-block;
+  padding: 12px 48px;
+  border-radius: 12px;
+  margin: 10px 0 18px;
+}
+
+.turno-actual-nombre {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.turno-actual-pedido {
+  font-size: 1.05rem;
+  opacity: 0.95;
+  margin-bottom: 16px;
+}
+
+.turno-productos {
+  list-style: none;
+  max-width: 320px;
+  margin: 0 auto 16px;
+  text-align: left;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 12px 18px;
+}
+
+.turno-productos li {
+  padding: 6px 0;
+  font-size: 1.05rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.turno-productos li:last-child {
+  border-bottom: none;
+}
+
+.turno-pago {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.turno-pago strong {
+  color: var(--blanco);
+  background-color: var(--verde);
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+
+/* Los dos botones principales, grandes y claros */
+.vendedor-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.vendedor-acciones .btn {
+  min-width: 220px;
+  padding: 14px 22px;
+  font-size: 1rem;
+}
+
+/* Lista corta de los que siguen */
+.proximos {
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 20px;
+  border: 1px solid var(--gris);
+}
+
+.proximos h3 {
+  color: var(--azul);
+  margin-bottom: 12px;
+}
+
+.proximos-lista {
+  list-style: none;
+}
+
+.proximos-lista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--gris);
+  font-size: 1rem;
+}
+
+.proximos-lista li:last-child {
+  border-bottom: none;
+}
+
+.proximos-lista .proximo-numero {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 700;
+  color: var(--azul);
+  background-color: var(--azul-suave);
+  min-width: 48px;
+  text-align: center;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+
+@media (max-width: 480px) {
+  .turno-actual-numero {
+    font-size: 4rem;
+    padding: 10px 28px;
+  }
+
+  .vendedor-acciones .btn {
+    width: 100%;
+    min-width: 0;
+  }
+}

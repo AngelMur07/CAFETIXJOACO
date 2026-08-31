@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - Pedidos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/paneles.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+  <header class="header panel-header">
+    <div class="header-contenedor">
+      <a href="administrador.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="administrador.html">Inicio</a>
+        <a href="admin-productos.html">Productos</a>
+        <a href="admin-inventarios.html">Inventarios</a>
+        <a href="admin-pedidos.html" class="activo">Pedidos</a>
+        <a href="admin-pqr.html">PQR</a>
+        <a href="admin-reportes.html">Reportes</a>
+        <a href="index.html" class="btn-registro">Cerrar sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="admin-pagina">
+
+      <div class="panel-titulo">
+        <h2>Pedidos</h2>
+        <p>Consulta de pedidos del día. Datos de ejemplo.</p>
+      </div>
+
+      <section class="bloque-panel">
+        <h3>Pedidos registrados</h3>
+        <p class="bloque-ayuda">El administrador revisa; el vendedor es quien entrega.</p>
+
+        <div class="panel-tabla-contenedor">
+          <table class="panel-tabla">
+            <thead>
+              <tr>
+                <th>Pedido</th>
+                <th>Turno</th>
+                <th>Cliente</th>
+                <th>Productos</th>
+                <th>Total</th>
+                <th>Pago</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>CJ-014</td>
+                <td>18</td>
+                <td>Camilo Pérez</td>
+                <td>2 empanadas, 1 gaseosa</td>
+                <td>$7.000</td>
+                <td>Realizado</td>
+                <td><span class="estado-badge estado-preparando">En preparación</span></td>
+              </tr>
+              <tr>
+                <td>CJ-015</td>
+                <td>19</td>
+                <td>Ana Torres</td>
+                <td>1 almuerzo del día</td>
+                <td>$8.000</td>
+                <td>Realizado</td>
+                <td><span class="estado-badge estado-pendiente">Pendiente</span></td>
+              </tr>
+              <tr>
+                <td>CJ-016</td>
+                <td>20</td>
+                <td>Luis Gómez</td>
+                <td>1 desayuno completo</td>
+                <td>$6.500</td>
+                <td>Realizado</td>
+                <td><span class="estado-badge estado-listo">Entregado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
+  </footer>
+
+</body>
+</html>

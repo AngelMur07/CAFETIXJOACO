@@ -1,0 +1,57 @@
+/* =============================================
+   CAFETIX JOACO - Estilos del administrador
+   Panel visual. El CRUD real se conectará después.
+   ============================================= */
+
+.admin-pagina {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Alertas de inventario bajo */
+.alerta-lista {
+  list-style: none;
+}
+
+.alerta-item {
+  background-color: #fff8e8;
+  border: 1px solid #f0e0b8;
+  border-left: 4px solid #d4a017;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  color: #5c4a12;
+  font-weight: 600;
+}
+
+.alerta-item strong {
+  color: var(--azul-oscuro);
+}
+
+/* Formulario de producto */
+.form-admin {
+  max-width: 560px;
+}
+
+.form-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.form-acciones .btn {
+  min-width: 140px;
+}
+
+/* Acciones del CRUD en la tabla */
+.crud-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.estado-agotado {
+  background-color: #fdecea;
+  color: var(--rojo);
+}

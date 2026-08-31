@@ -1,0 +1,121 @@
+/* =============================================
+   CAFETIX JOACO - Estilos de los paneles internos
+   Se usa en: vendedor, administrador y superadministrador
+   ============================================= */
+
+/* Encabezado un poco más oscuro para diferenciar el área de trabajo */
+.panel-header {
+  background-color: var(--azul-oscuro);
+}
+
+/* Tarjetas de resumen (números del día) */
+.resumen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.resumen-tarjeta {
+  flex: 1 1 180px;
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 18px 16px;
+  border: 1px solid var(--gris);
+  border-top: 4px solid var(--azul);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.resumen-tarjeta:nth-child(2) {
+  border-top-color: var(--verde);
+  background-color: var(--verde-suave);
+}
+
+.resumen-tarjeta:nth-child(3) {
+  background-color: var(--azul-suave);
+}
+
+.resumen-tarjeta:nth-child(4) {
+  border-top-color: var(--verde);
+}
+
+.resumen-tarjeta:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-fuerte);
+}
+
+.resumen-tarjeta p {
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 500;
+}
+
+.resumen-tarjeta strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.7rem;
+  font-family: 'Poppins', Arial, sans-serif;
+  color: var(--azul-oscuro);
+  line-height: 1;
+}
+
+/* Bloques de contenido dentro del panel */
+.bloque-panel {
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 22px 20px;
+  margin-bottom: 24px;
+  border: 1px solid var(--gris);
+}
+
+.bloque-panel h3 {
+  color: var(--azul);
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.bloque-panel .bloque-ayuda {
+  color: var(--texto-suave);
+  font-size: 0.88rem;
+  margin-bottom: 16px;
+}
+
+/* Acciones rápidas (botones simulados) */
+.acciones-rapidas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+/* Distintivo pequeño para PQR */
+.tipo-pqr {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: 'Poppins', Arial, sans-serif;
+  background-color: var(--azul-suave);
+  color: var(--azul-oscuro);
+}
+
+.tipo-pqr.queja,
+.tipo-pqr.reclamo {
+  background-color: #fdecea;
+  color: var(--rojo);
+}
+
+.tipo-pqr.felicitacion {
+  background-color: var(--verde-suave);
+  color: var(--verde-oscuro);
+}
+
+@media (max-width: 480px) {
+  .resumen-tarjeta {
+    flex: 1 1 100%;
+  }
+}

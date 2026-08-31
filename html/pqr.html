@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - PQR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cliente.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-contenedor">
+      <a href="index.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Cliente</span></h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="catalogo.html">Catálogo</a>
+        <a href="carrito.html">Carrito</a>
+        <a href="turno.html">Mi turno</a>
+        <a href="pqr.html" class="activo">PQR</a>
+        <a href="encuesta.html">Encuesta</a>
+        <a href="index.html" class="btn-registro">Cerrar sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div class="formulario-contenedor tarjeta">
+      <div class="form-icono" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 5h16v14H4z"></path>
+          <path d="M8 9h8"></path>
+          <path d="M8 13h5"></path>
+        </svg>
+      </div>
+      <h2>PQR</h2>
+      <p class="subtitulo-form">Peticiones, quejas, reclamos y felicitaciones</p>
+
+      <div class="aviso-panel">
+        Este formulario es visual. El mensaje no se guarda todavía.
+      </div>
+
+      <form action="#" method="post">
+        <div class="form-grupo">
+          <label for="tipo-usuario">Tipo de usuario</label>
+          <select id="tipo-usuario" name="tipo-usuario">
+            <option>Estudiante</option>
+            <option>Docente</option>
+            <option>Administrativo</option>
+          </select>
+        </div>
+
+        <div class="form-grupo">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre">
+        </div>
+
+        <div class="form-grupo">
+          <label for="correo">Correo</label>
+          <input type="email" id="correo" name="correo" placeholder="Tu correo">
+        </div>
+
+        <div class="form-grupo">
+          <label for="tipo">Tipo</label>
+          <select id="tipo" name="tipo">
+            <option>Petición</option>
+            <option>Queja</option>
+            <option>Reclamo</option>
+            <option>Felicitación</option>
+          </select>
+        </div>
+
+        <div class="form-grupo">
+          <label for="asunto">Asunto</label>
+          <input type="text" id="asunto" name="asunto" placeholder="Ej: Tiempo de espera">
+        </div>
+
+        <div class="form-grupo">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje"></textarea>
+        </div>
+
+        <button type="button" class="btn btn-verde form-boton" onclick="document.getElementById('mensaje-demo').classList.add('visible')">
+          Enviar
+        </button>
+      </form>
+
+      <p id="mensaje-demo" class="mensaje-demo">
+        Mensaje de demostración. Más adelante las PQR se guardarán en la base de datos.
+      </p>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
+    <nav class="footer-nav">
+      <a href="catalogo.html">Catálogo</a>
+      <a href="encuesta.html">Encuesta</a>
+    </nav>
+  </footer>
+
+</body>
+</html>

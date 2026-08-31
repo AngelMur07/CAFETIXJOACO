@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - Administrador</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/paneles.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+  <header class="header panel-header">
+    <div class="header-contenedor">
+      <a href="administrador.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="administrador.html" class="activo">Inicio</a>
+        <a href="admin-productos.html">Productos</a>
+        <a href="admin-inventarios.html">Inventarios</a>
+        <a href="admin-pedidos.html">Pedidos</a>
+        <a href="admin-pqr.html">PQR</a>
+        <a href="admin-reportes.html">Reportes</a>
+        <a href="index.html" class="btn-registro">Cerrar sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="admin-pagina">
+
+      <div class="panel-titulo">
+        <h2>Panel de administración</h2>
+        <p>Resumen del día. Los números son de ejemplo.</p>
+      </div>
+
+      <div class="aviso-panel">
+        Este panel es visual. Más adelante se conectará con MySQL.
+      </div>
+
+      <!-- Dashboard -->
+      <div class="resumen">
+        <article class="resumen-tarjeta">
+          <p>Ventas del día</p>
+          <strong>$186.000</strong>
+        </article>
+        <article class="resumen-tarjeta">
+          <p>Productos disponibles</p>
+          <strong>8</strong>
+        </article>
+        <article class="resumen-tarjeta">
+          <p>Productos con bajo inventario</p>
+          <strong>2</strong>
+        </article>
+        <article class="resumen-tarjeta">
+          <p>Pedidos realizados</p>
+          <strong>12</strong>
+        </article>
+      </div>
+
+      <!-- Alertas: más adelante se generan cuando la cantidad llegue al límite -->
+      <section class="bloque-panel">
+        <h3>Alertas de inventario</h3>
+        <p class="bloque-ayuda">Aviso cuando un producto queda con pocas unidades.</p>
+        <ul class="alerta-lista">
+          <li class="alerta-item">Alerta: <strong>Gaseosa</strong> — quedan 5 unidades.</li>
+          <li class="alerta-item">Alerta: <strong>Jugo natural</strong> — quedan 3 unidades.</li>
+        </ul>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
+  </footer>
+
+</body>
+</html>

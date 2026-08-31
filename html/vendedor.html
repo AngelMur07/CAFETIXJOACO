@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - Vendedor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/vendedor.css">
+</head>
+<body>
+
+  <header class="header panel-header">
+    <div class="header-contenedor">
+      <a href="index.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Vendedor</span></h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="vendedor.html" class="activo">Turnos</a>
+        <a href="index.html" class="btn-registro">Cerrar sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div class="vendedor-pagina">
+
+      <div class="aviso-panel">
+        Panel de entrega. Los datos son de ejemplo. Más adelante se conectarán los pedidos reales.
+      </div>
+
+      <!-- Turno que el vendedor debe atender ahora -->
+      <section class="turno-actual">
+        <h2>Turno actual</h2>
+        <p class="turno-actual-numero">18</p>
+        <p class="turno-actual-nombre">Camilo Pérez</p>
+        <p class="turno-actual-pedido">Pedido #018</p>
+
+        <ul class="turno-productos">
+          <li>2 empanadas</li>
+          <li>1 gaseosa</li>
+        </ul>
+
+        <p class="turno-pago">Pago: <strong>Realizado</strong></p>
+      </section>
+
+      <div class="vendedor-acciones">
+        <button type="button" class="btn btn-azul" onclick="document.getElementById('mensaje-vendedor').classList.add('visible')">
+          Llamar siguiente turno
+        </button>
+        <button type="button" class="btn btn-verde" onclick="document.getElementById('mensaje-vendedor').classList.add('visible')">
+          Pedido entregado
+        </button>
+      </div>
+
+      <p id="mensaje-vendedor" class="mensaje-demo">
+        Acción de demostración. Cuando exista base de datos, aquí se actualizará el turno real.
+      </p>
+
+      <!-- Cola corta: solo para ver quién sigue -->
+      <section class="proximos">
+        <h3>Próximos turnos</h3>
+        <ul class="proximos-lista">
+          <li>
+            <span class="proximo-numero">19</span>
+            <span>Ana Torres — Pedido #019</span>
+          </li>
+          <li>
+            <span class="proximo-numero">20</span>
+            <span>Luis Gómez — Pedido #020</span>
+          </li>
+          <li>
+            <span class="proximo-numero">21</span>
+            <span>Sofía Díaz — Pedido #021</span>
+          </li>
+        </ul>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
+  </footer>
+
+</body>
+</html>

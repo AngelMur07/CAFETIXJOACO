@@ -8,25 +8,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cliente.css">
 </head>
 <body>
 
   <header class="header">
     <div class="header-contenedor">
       <a href="index.html" class="header-marca">
-        <span class="header-logo-caja">
-          <img src="../img/logo.png" alt="Logo Institución Educativa JJFH" class="header-logo">
-        </span>
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO</h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
       <nav class="nav">
         <a href="index.html">Inicio</a>
         <a href="catalogo.html" class="activo">Catálogo</a>
-        <a href="pedido.html">Mi Pedido</a>
-        <a href="turno.html">Mi Turno</a>
-        <a href="login.html" class="btn-sesion">Iniciar Sesión</a>
+        <a href="login.html" class="btn-sesion">Iniciar sesión</a>
         <a href="registro.html" class="btn-registro">Registrarse</a>
       </nav>
     </div>
@@ -35,101 +33,219 @@
   <main class="main">
 
     <div class="catalogo-titulo">
-      <h2>Catálogo de Productos</h2>
-      <p>Consulta los alimentos y bebidas disponibles en la cafetería</p>
+      <h2>Catálogo de productos</h2>
+      <p>Consulta productos, precios y disponibilidad. Estudiante, docente o administrativo puede pedir después de iniciar sesión.</p>
     </div>
 
     <div class="guia-pasos">
       <span class="guia-paso guia-paso-activo">1. Catálogo</span>
       <span class="guia-flecha">→</span>
-      <a href="pedido.html" class="guia-paso">2. Pedido</a>
+      <a href="carrito.html" class="guia-paso">2. Carrito</a>
       <span class="guia-flecha">→</span>
-      <a href="turno.html" class="guia-paso">3. Turno</a>
+      <a href="pago.html" class="guia-paso">3. Pago</a>
+      <span class="guia-flecha">→</span>
+      <a href="turno.html" class="guia-paso">4. Turno</a>
     </div>
 
-    <div class="productos-grid">
-
-      <article class="producto-card">
-        <img src="../img/productos/arepa.svg" alt="Arepa con queso" class="producto-imagen">
-        <div class="producto-info">
-          <h3>Arepa con queso</h3>
-          <p class="descripcion">Arepa caliente rellena con queso derretido.</p>
-          <p class="producto-precio">$3.500</p>
-          <a href="pedido.html" class="btn btn-verde">Agregar</a>
-        </div>
-      </article>
-
-      <article class="producto-card">
-        <img src="../img/productos/jugo.svg" alt="Jugo natural" class="producto-imagen">
-        <div class="producto-info">
-          <h3>Jugo natural</h3>
-          <p class="descripcion">Jugo de fruta natural, sabor del día.</p>
-          <p class="producto-precio">$2.500</p>
-          <a href="pedido.html" class="btn btn-verde">Agregar</a>
-        </div>
-      </article>
-
-      <article class="producto-card">
-        <img src="../img/productos/empanada.svg" alt="Empanada" class="producto-imagen">
-        <div class="producto-info">
-          <h3>Empanada</h3>
-          <p class="descripcion">Empanada frita de carne o pollo.</p>
-          <p class="producto-precio">$2.000</p>
-          <a href="pedido.html" class="btn btn-verde">Agregar</a>
-        </div>
-      </article>
-
-      <article class="producto-card">
-        <img src="../img/productos/gaseosa.svg" alt="Gaseosa" class="producto-imagen">
-        <div class="producto-info">
-          <h3>Gaseosa</h3>
-          <p class="descripcion">Bebida gaseosa en lata o botella personal.</p>
-          <p class="producto-precio">$3.000</p>
-          <a href="pedido.html" class="btn btn-verde">Agregar</a>
-        </div>
-      </article>
-
-      <article class="producto-card">
-        <img src="../img/productos/pan.svg" alt="Pan con chocolate" class="producto-imagen">
-        <div class="producto-info">
-          <h3>Pan con chocolate</h3>
-          <p class="descripcion">Pan dulce relleno de chocolate.</p>
-          <p class="producto-precio">$1.500</p>
-          <a href="pedido.html" class="btn btn-verde">Agregar</a>
-        </div>
-      </article>
-
-      <article class="producto-card">
-        <img src="../img/productos/perro.svg" alt="Perro caliente" class="producto-imagen">
-        <div class="producto-info">
-          <h3>Perro caliente</h3>
-          <p class="descripcion">Pan con salchicha, salsas y queso rallado.</p>
-          <p class="producto-precio">$4.500</p>
-          <a href="pedido.html" class="btn btn-verde">Agregar</a>
-        </div>
-      </article>
-
-      <article class="producto-card">
-        <img src="../img/productos/almuerzo.svg" alt="Almuerzo del día" class="producto-imagen">
-        <div class="producto-info">
-          <h3>Almuerzo del día</h3>
-          <p class="descripcion">Plato completo con sopa, proteína y jugo.</p>
-          <p class="producto-precio">$8.000</p>
-          <a href="pedido.html" class="btn btn-verde">Agregar</a>
-        </div>
-      </article>
-
-      <article class="producto-card">
-        <img src="../img/productos/desayuno.svg" alt="Desayuno completo" class="producto-imagen">
-        <div class="producto-info">
-          <h3>Desayuno completo</h3>
-          <p class="descripcion">Huevos, arepa, chocolate y pan.</p>
-          <p class="producto-precio">$6.500</p>
-          <a href="pedido.html" class="btn btn-verde">Agregar</a>
-        </div>
-      </article>
-
+    <div class="aviso-panel">
+      Los productos son de ejemplo. Agregar al carrito abre el pedido de demostración.
+      Si ya estás en el módulo cliente, también puedes ir al
+      <a href="carrito.html">carrito</a>,
+      <a href="turno.html">tu turno</a> o la
+      <a href="encuesta.html">encuesta</a>.
     </div>
+
+    <!-- Enlaces a cada categoría de la misma página -->
+    <nav class="categorias">
+      <a href="#cafeteria">Cafetería</a>
+      <a href="#preparados">Productos preparados</a>
+      <a href="#desayunos">Desayunos</a>
+      <a href="#almuerzos">Almuerzos</a>
+      <a href="#bebidas">Bebidas</a>
+      <a href="#otros">Otros productos</a>
+    </nav>
+
+    <section id="cafeteria" class="categoria-bloque">
+      <h3 class="categoria-titulo">Cafetería</h3>
+      <div class="productos-grid">
+
+        <article class="producto-card">
+          <img src="../img/productos/arepa.svg" alt="Arepa con queso" class="producto-imagen">
+          <div class="producto-info">
+            <h3>Arepa con queso</h3>
+            <p class="descripcion">Arepa caliente rellena con queso derretido.</p>
+            <p class="producto-precio">$3.500</p>
+            <div class="producto-meta">
+              <span class="estado-badge estado-listo">Disponible</span>
+              <span class="producto-stock">Cantidad: 12</span>
+            </div>
+            <a href="carrito.html" class="btn btn-verde">Agregar al carrito</a>
+          </div>
+        </article>
+
+        <article class="producto-card">
+          <img src="../img/productos/pan.svg" alt="Pan con chocolate" class="producto-imagen">
+          <div class="producto-info">
+            <h3>Pan con chocolate</h3>
+            <p class="descripcion">Pan dulce relleno de chocolate.</p>
+            <p class="producto-precio">$1.500</p>
+            <div class="producto-meta">
+              <span class="estado-badge estado-listo">Disponible</span>
+              <span class="producto-stock">Cantidad: 8</span>
+            </div>
+            <a href="carrito.html" class="btn btn-verde">Agregar al carrito</a>
+          </div>
+        </article>
+
+        <article class="producto-card">
+          <img src="../img/productos/cafe.svg" alt="Café con leche" class="producto-imagen">
+          <div class="producto-info">
+            <h3>Café con leche</h3>
+            <p class="descripcion">Taza de café con leche caliente.</p>
+            <p class="producto-precio">$2.000</p>
+            <div class="producto-meta">
+              <span class="estado-badge estado-listo">Disponible</span>
+              <span class="producto-stock">Cantidad: 20</span>
+            </div>
+            <a href="carrito.html" class="btn btn-verde">Agregar al carrito</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="preparados" class="categoria-bloque">
+      <h3 class="categoria-titulo">Productos preparados</h3>
+      <div class="productos-grid">
+
+        <article class="producto-card">
+          <img src="../img/productos/empanada.svg" alt="Empanada" class="producto-imagen">
+          <div class="producto-info">
+            <h3>Empanada</h3>
+            <p class="descripcion">Empanada frita de carne o pollo.</p>
+            <p class="producto-precio">$2.000</p>
+            <div class="producto-meta">
+              <span class="estado-badge estado-listo">Disponible</span>
+              <span class="producto-stock">Cantidad: 15</span>
+            </div>
+            <a href="carrito.html" class="btn btn-verde">Agregar al carrito</a>
+          </div>
+        </article>
+
+        <article class="producto-card">
+          <img src="../img/productos/perro.svg" alt="Perro caliente" class="producto-imagen">
+          <div class="producto-info">
+            <h3>Perro caliente</h3>
+            <p class="descripcion">Pan con salchicha, salsas y queso rallado.</p>
+            <p class="producto-precio">$4.500</p>
+            <div class="producto-meta">
+              <span class="estado-badge estado-listo">Disponible</span>
+              <span class="producto-stock">Cantidad: 6</span>
+            </div>
+            <a href="carrito.html" class="btn btn-verde">Agregar al carrito</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="desayunos" class="categoria-bloque">
+      <h3 class="categoria-titulo">Desayunos</h3>
+      <div class="productos-grid">
+
+        <article class="producto-card">
+          <img src="../img/productos/desayuno.svg" alt="Desayuno completo" class="producto-imagen">
+          <div class="producto-info">
+            <h3>Desayuno completo</h3>
+            <p class="descripcion">Huevos, arepa, chocolate y pan.</p>
+            <p class="producto-precio">$6.500</p>
+            <div class="producto-meta">
+              <span class="estado-badge estado-listo">Disponible</span>
+              <span class="producto-stock">Cantidad: 4</span>
+            </div>
+            <a href="carrito.html" class="btn btn-verde">Agregar al carrito</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="almuerzos" class="categoria-bloque">
+      <h3 class="categoria-titulo">Almuerzos</h3>
+      <div class="productos-grid">
+
+        <article class="producto-card producto-agotado">
+          <img src="../img/productos/almuerzo.svg" alt="Almuerzo del día" class="producto-imagen">
+          <div class="producto-info">
+            <h3>Almuerzo del día</h3>
+            <p class="descripcion">Plato completo con sopa, proteína y jugo.</p>
+            <p class="producto-precio">$8.000</p>
+            <div class="producto-meta">
+              <span class="estado-badge estado-agotado">Agotado</span>
+              <span class="producto-stock">Cantidad: 0</span>
+            </div>
+            <button type="button" class="btn btn-agotado" disabled>Agotado</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="bebidas" class="categoria-bloque">
+      <h3 class="categoria-titulo">Bebidas</h3>
+      <div class="productos-grid">
+
+        <article class="producto-card">
+          <img src="../img/productos/jugo.svg" alt="Jugo natural" class="producto-imagen">
+          <div class="producto-info">
+            <h3>Jugo natural</h3>
+            <p class="descripcion">Jugo de fruta natural, sabor del día.</p>
+            <p class="producto-precio">$2.500</p>
+            <div class="producto-meta">
+              <span class="estado-badge estado-listo">Disponible</span>
+              <span class="producto-stock">Cantidad: 10</span>
+            </div>
+            <a href="carrito.html" class="btn btn-verde">Agregar al carrito</a>
+          </div>
+        </article>
+
+        <article class="producto-card">
+          <img src="../img/productos/gaseosa.svg" alt="Gaseosa" class="producto-imagen">
+          <div class="producto-info">
+            <h3>Gaseosa</h3>
+            <p class="descripcion">Bebida gaseosa en lata o botella personal.</p>
+            <p class="producto-precio">$3.000</p>
+            <div class="producto-meta">
+              <span class="estado-badge estado-listo">Disponible</span>
+              <span class="producto-stock">Cantidad: 18</span>
+            </div>
+            <a href="carrito.html" class="btn btn-verde">Agregar al carrito</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="otros" class="categoria-bloque">
+      <h3 class="categoria-titulo">Otros productos</h3>
+      <div class="productos-grid">
+
+        <article class="producto-card producto-agotado">
+          <img src="../img/productos/galletas.svg" alt="Galletas" class="producto-imagen">
+          <div class="producto-info">
+            <h3>Galletas</h3>
+            <p class="descripcion">Paquete pequeño de galletas dulces.</p>
+            <p class="producto-precio">$1.500</p>
+            <div class="producto-meta">
+              <span class="estado-badge estado-agotado">Agotado</span>
+              <span class="producto-stock">Cantidad: 0</span>
+            </div>
+            <button type="button" class="btn btn-agotado" disabled>Agotado</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
 
   </main>
 
@@ -139,7 +255,11 @@
     <p>Cafetería Institucional JJFH</p>
     <p>Institución Educativa José Joaquín Flórez Hernández</p>
     <p>Ibagué - Tolima</p>
-    <p class="footer-enlace"><a href="panel.html">Panel de cafetería</a></p>
+    <nav class="footer-nav">
+      <a href="index.html">Inicio</a>
+      <a href="carrito.html">Carrito</a>
+      <a href="pqr.html">PQR</a>
+    </nav>
   </footer>
 
 </body>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - Inventarios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/paneles.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+  <header class="header panel-header">
+    <div class="header-contenedor">
+      <a href="administrador.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="administrador.html">Inicio</a>
+        <a href="admin-productos.html">Productos</a>
+        <a href="admin-inventarios.html" class="activo">Inventarios</a>
+        <a href="admin-pedidos.html">Pedidos</a>
+        <a href="admin-pqr.html">PQR</a>
+        <a href="admin-reportes.html">Reportes</a>
+        <a href="index.html" class="btn-registro">Cerrar sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="admin-pagina">
+
+      <div class="panel-titulo">
+        <h2>Inventarios</h2>
+        <p>CRUD visual: agregar, editar, eliminar y consultar.</p>
+      </div>
+
+      <div class="aviso-panel">
+        Los botones aún no cambian datos reales. Sirven para preparar la conexión con MySQL.
+      </div>
+
+      <section class="bloque-panel">
+        <h3>Listado de productos</h3>
+        <p class="bloque-ayuda">Cantidad, precio y estado de ejemplo.</p>
+
+        <div class="acciones-rapidas">
+          <a href="admin-productos.html" class="btn btn-verde btn-pequeno">Agregar</a>
+        </div>
+
+        <div class="panel-tabla-contenedor">
+          <table class="panel-tabla">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Arepa con queso</td>
+                <td>Cafetería</td>
+                <td>12</td>
+                <td>$3.500</td>
+                <td><span class="estado-badge estado-listo">Disponible</span></td>
+                <td>
+                  <div class="crud-acciones">
+                    <a href="admin-productos.html" class="btn btn-azul btn-pequeno">Editar</a>
+                    <button type="button" class="btn btn-oscuro btn-pequeno" onclick="document.getElementById('mensaje-demo').classList.add('visible')">Eliminar</button>
+                    <button type="button" class="btn btn-outline btn-pequeno" onclick="document.getElementById('mensaje-demo').classList.add('visible')">Consultar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Empanada</td>
+                <td>Productos preparados</td>
+                <td>15</td>
+                <td>$2.000</td>
+                <td><span class="estado-badge estado-listo">Disponible</span></td>
+                <td>
+                  <div class="crud-acciones">
+                    <a href="admin-productos.html" class="btn btn-azul btn-pequeno">Editar</a>
+                    <button type="button" class="btn btn-oscuro btn-pequeno" onclick="document.getElementById('mensaje-demo').classList.add('visible')">Eliminar</button>
+                    <button type="button" class="btn btn-outline btn-pequeno" onclick="document.getElementById('mensaje-demo').classList.add('visible')">Consultar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Jugo natural</td>
+                <td>Bebidas</td>
+                <td>3</td>
+                <td>$2.500</td>
+                <td><span class="estado-badge estado-pendiente">Bajo inventario</span></td>
+                <td>
+                  <div class="crud-acciones">
+                    <a href="admin-productos.html" class="btn btn-azul btn-pequeno">Editar</a>
+                    <button type="button" class="btn btn-oscuro btn-pequeno" onclick="document.getElementById('mensaje-demo').classList.add('visible')">Eliminar</button>
+                    <button type="button" class="btn btn-outline btn-pequeno" onclick="document.getElementById('mensaje-demo').classList.add('visible')">Consultar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Gaseosa</td>
+                <td>Bebidas</td>
+                <td>5</td>
+                <td>$3.000</td>
+                <td><span class="estado-badge estado-pendiente">Bajo inventario</span></td>
+                <td>
+                  <div class="crud-acciones">
+                    <a href="admin-productos.html" class="btn btn-azul btn-pequeno">Editar</a>
+                    <button type="button" class="btn btn-oscuro btn-pequeno" onclick="document.getElementById('mensaje-demo').classList.add('visible')">Eliminar</button>
+                    <button type="button" class="btn btn-outline btn-pequeno" onclick="document.getElementById('mensaje-demo').classList.add('visible')">Consultar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Almuerzo del día</td>
+                <td>Almuerzos</td>
+                <td>0</td>
+                <td>$8.000</td>
+                <td><span class="estado-badge estado-agotado">Agotado</span></td>
+                <td>
+                  <div class="crud-acciones">
+                    <a href="admin-productos.html" class="btn btn-azul btn-pequeno">Editar</a>
+                    <button type="button" class="btn btn-oscuro btn-pequeno" onclick="document.getElementById('mensaje-demo').classList.add('visible')">Eliminar</button>
+                    <button type="button" class="btn btn-outline btn-pequeno" onclick="document.getElementById('mensaje-demo').classList.add('visible')">Consultar</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p id="mensaje-demo" class="mensaje-demo">
+          Acción de demostración. El CRUD real se implementará con Python y MySQL.
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
+  </footer>
+
+</body>
+</html>

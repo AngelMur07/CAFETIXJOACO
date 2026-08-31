@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - Carrito</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cliente.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-contenedor">
+      <a href="index.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Cliente</span></h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="catalogo.html">Catálogo</a>
+        <a href="carrito.html" class="activo">Carrito</a>
+        <a href="turno.html">Mi turno</a>
+        <a href="pqr.html">PQR</a>
+        <a href="encuesta.html">Encuesta</a>
+        <a href="index.html" class="btn-registro">Cerrar sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div class="pedido-titulo">
+      <h2>Revisar el pedido</h2>
+      <p>Confirma los productos antes de continuar con el pago</p>
+      <p class="usuario-tipo">Usuario de ejemplo: Estudiante</p>
+    </div>
+
+    <div class="guia-pasos">
+      <a href="catalogo.html" class="guia-paso">1. Catálogo</a>
+      <span class="guia-flecha">→</span>
+      <span class="guia-paso guia-paso-activo">2. Carrito</span>
+      <span class="guia-flecha">→</span>
+      <a href="pago.html" class="guia-paso">3. Pago</a>
+      <span class="guia-flecha">→</span>
+      <a href="turno.html" class="guia-paso">4. Turno</a>
+    </div>
+
+    <div class="aviso-panel">
+      Este carrito muestra un pedido de ejemplo. Todavía no se guardan productos reales.
+    </div>
+
+    <div class="pedido-tabla-contenedor">
+      <table class="pedido-tabla">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Arepa con queso</td>
+            <td>2</td>
+            <td>$3.500</td>
+            <td>$7.000</td>
+          </tr>
+          <tr>
+            <td>Jugo natural</td>
+            <td>1</td>
+            <td>$2.500</td>
+            <td>$2.500</td>
+          </tr>
+          <tr>
+            <td>Empanada</td>
+            <td>3</td>
+            <td>$2.000</td>
+            <td>$6.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pedido-total">
+      <p>Total</p>
+      <p class="total-valor">$15.500</p>
+    </div>
+
+    <div class="pedido-acciones">
+      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+      <a href="pago.html" class="btn btn-verde btn-grande">Continuar</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
+    <nav class="footer-nav">
+      <a href="catalogo.html">Catálogo</a>
+      <a href="pago.html">Pago</a>
+    </nav>
+  </footer>
+
+</body>
+</html>

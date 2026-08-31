@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - Reportes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/paneles.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+  <header class="header panel-header">
+    <div class="header-contenedor">
+      <a href="administrador.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="administrador.html">Inicio</a>
+        <a href="admin-productos.html">Productos</a>
+        <a href="admin-inventarios.html">Inventarios</a>
+        <a href="admin-pedidos.html">Pedidos</a>
+        <a href="admin-pqr.html">PQR</a>
+        <a href="admin-reportes.html" class="activo">Reportes</a>
+        <a href="index.html" class="btn-registro">Cerrar sesión</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="admin-pagina">
+
+      <div class="panel-titulo">
+        <h2>Reportes</h2>
+        <p>Resumen de ejemplo. Los cálculos reales se harán después.</p>
+      </div>
+
+      <div class="resumen">
+        <article class="resumen-tarjeta">
+          <p>Ventas del día</p>
+          <strong>$186.000</strong>
+        </article>
+        <article class="resumen-tarjeta">
+          <p>Pedidos del día</p>
+          <strong>12</strong>
+        </article>
+        <article class="resumen-tarjeta">
+          <p>Producto más pedido</p>
+          <strong>Empanada</strong>
+        </article>
+        <article class="resumen-tarjeta">
+          <p>PQR del día</p>
+          <strong>4</strong>
+        </article>
+      </div>
+
+      <section class="bloque-panel">
+        <h3>Ventas por categoría</h3>
+        <p class="bloque-ayuda">Tabla de demostración para un reporte sencillo.</p>
+        <div class="panel-tabla-contenedor">
+          <table class="panel-tabla">
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th>Pedidos</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cafetería</td>
+                <td>4</td>
+                <td>$42.000</td>
+              </tr>
+              <tr>
+                <td>Productos preparados</td>
+                <td>5</td>
+                <td>$68.000</td>
+              </tr>
+              <tr>
+                <td>Bebidas</td>
+                <td>3</td>
+                <td>$76.000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="acento-linea"></div>
+    <p class="footer-nombre">CAFETIX JOACO</p>
+    <p>Cafetería Institucional JJFH</p>
+    <p>Institución Educativa José Joaquín Flórez Hernández</p>
+    <p>Ibagué - Tolima</p>
+  </footer>
+
+</body>
+</html>

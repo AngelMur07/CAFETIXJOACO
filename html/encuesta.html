@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAFETIX JOACO - Registro</title>
+  <title>CAFETIX JOACO - Encuesta</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cliente.css">
 </head>
 <body>
 
@@ -16,15 +17,17 @@
       <a href="index.html" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO</h1>
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Cliente</span></h1>
           <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
       <nav class="nav">
-        <a href="index.html">Inicio</a>
         <a href="catalogo.html">Catálogo</a>
-        <a href="login.html" class="btn-sesion">Iniciar sesión</a>
-        <a href="registro.html" class="btn-registro activo">Registrarse</a>
+        <a href="carrito.html">Carrito</a>
+        <a href="turno.html">Mi turno</a>
+        <a href="pqr.html">PQR</a>
+        <a href="encuesta.html" class="activo">Encuesta</a>
+        <a href="index.html" class="btn-registro">Cerrar sesión</a>
       </nav>
     </div>
   </header>
@@ -34,53 +37,49 @@
     <div class="formulario-contenedor tarjeta">
       <div class="form-icono" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="8" r="4"></circle>
-          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
-          <path d="M19 8v6"></path>
-          <path d="M16 11h6"></path>
+          <path d="M12 3l2.2 6.6H21l-5.4 4 2.1 6.4L12 16.8 6.3 20l2.1-6.4L3 9.6h6.8z"></path>
         </svg>
       </div>
-      <h2>Crear cuenta</h2>
-      <p class="subtitulo-form">Regístrate para usar el sistema de la cafetería</p>
+      <h2>Encuesta de satisfacción</h2>
+      <p class="subtitulo-form">Cuéntanos cómo te fue con tu pedido</p>
 
-      <!-- Formulario solo visual. Los datos no se guardan todavía. -->
+      <div class="aviso-panel">
+        Esta encuesta es visual. Las respuestas no se guardan todavía.
+      </div>
+
       <form action="#" method="post">
         <div class="form-grupo">
-          <label for="nombre">Nombre completo</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez">
+          <label for="tipo-usuario">Tipo de usuario</label>
+          <select id="tipo-usuario" name="tipo-usuario">
+            <option>Estudiante</option>
+            <option>Docente</option>
+            <option>Administrativo</option>
+          </select>
         </div>
 
         <div class="form-grupo">
-          <label for="documento">Documento</label>
-          <input type="text" id="documento" name="documento" placeholder="Ej: 1234567890">
+          <label>Calificación del servicio (1 a 5)</label>
+          <div class="calificacion">
+            <label><input type="radio" name="nota" value="1"> 1</label>
+            <label><input type="radio" name="nota" value="2"> 2</label>
+            <label><input type="radio" name="nota" value="3"> 3</label>
+            <label><input type="radio" name="nota" value="4"> 4</label>
+            <label><input type="radio" name="nota" value="5" checked> 5</label>
+          </div>
         </div>
 
         <div class="form-grupo">
-          <label for="correo">Correo electrónico</label>
-          <input type="email" id="correo" name="correo" placeholder="Ej: estudiante@jjfh.edu.co">
-        </div>
-
-        <div class="form-grupo">
-          <label for="usuario">Usuario</label>
-          <input type="text" id="usuario" name="usuario" placeholder="Elige un nombre de usuario">
-        </div>
-
-        <div class="form-grupo">
-          <label for="contrasena">Contraseña</label>
-          <input type="password" id="contrasena" name="contrasena" placeholder="Crea una contraseña">
+          <label for="comentario">Comentario</label>
+          <textarea id="comentario" name="comentario" placeholder="¿Qué te gustó o qué podemos mejorar?"></textarea>
         </div>
 
         <button type="button" class="btn btn-verde form-boton" onclick="document.getElementById('mensaje-demo').classList.add('visible')">
-          Registrarse
+          Enviar encuesta
         </button>
       </form>
 
       <p id="mensaje-demo" class="mensaje-demo">
-        Registro de demostración. Más adelante esta información se guardará en la base de datos.
-      </p>
-
-      <p class="form-enlace">
-        ¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a>
+        Gracias por tu opinión. Más adelante esta encuesta se guardará en la base de datos.
       </p>
     </div>
 
@@ -93,7 +92,7 @@
     <p>Institución Educativa José Joaquín Flórez Hernández</p>
     <p>Ibagué - Tolima</p>
     <nav class="footer-nav">
-      <a href="index.html">Inicio</a>
+      <a href="turno.html">Mi turno</a>
       <a href="pqr.html">PQR</a>
     </nav>
   </footer>

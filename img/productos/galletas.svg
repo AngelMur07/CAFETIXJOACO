@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f5f7fa"/>
+  <circle cx="170" cy="140" r="52" fill="#e8a849"/>
+  <circle cx="230" cy="150" r="52" fill="#d4923a"/>
+  <circle cx="160" cy="128" r="5" fill="#6d4c41"/>
+  <circle cx="186" cy="150" r="5" fill="#6d4c41"/>
+  <circle cx="155" cy="158" r="5" fill="#6d4c41"/>
+  <circle cx="218" cy="138" r="5" fill="#5d4037"/>
+  <circle cx="246" cy="160" r="5" fill="#5d4037"/>
+  <circle cx="232" cy="178" r="5" fill="#5d4037"/>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="22" fill="#2b78c5" font-weight="bold">Galletas</text>
+</svg>
