@@ -1,0 +1,180 @@
+/* =============================================
+   CAFETIX JOACO - Estilos del superadministrador
+   Solo HTML y CSS. Los datos son de ejemplo.
+   ============================================= */
+
+.superadmin-pagina {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Tarjetas 5 y 6 del dashboard */
+.resumen-tarjeta:nth-child(5) {
+  border-top-color: var(--verde);
+  background-color: var(--verde-suave);
+}
+
+.resumen-tarjeta:nth-child(6) {
+  background-color: var(--azul-suave);
+}
+
+/* Nombre de producto dentro de una tarjeta */
+.resumen-tarjeta strong.dato-corto {
+  font-size: 1.35rem;
+}
+
+/* Dos columnas: mayor movimiento y poca rotación */
+.dos-columnas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.dos-columnas .bloque-panel {
+  flex: 1 1 300px;
+  margin-bottom: 0;
+}
+
+/* Lista de productos con cantidad */
+.lista-simple {
+  list-style: none;
+}
+
+.lista-simple li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--gris);
+  font-size: 0.95rem;
+}
+
+.lista-simple li:last-child {
+  border-bottom: none;
+}
+
+.lista-simple strong {
+  color: var(--azul-oscuro);
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+/* Ranking de productos más vendidos */
+.ranking-lista {
+  list-style: none;
+  counter-reset: puesto;
+}
+
+.ranking-lista li {
+  counter-increment: puesto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--gris);
+}
+
+.ranking-lista li:last-child {
+  border-bottom: none;
+}
+
+.ranking-lista li::before {
+  content: counter(puesto);
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--azul);
+  color: var(--blanco);
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ranking-lista li:first-child::before {
+  background-color: var(--verde);
+}
+
+.ranking-nombre {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600;
+  color: var(--azul-oscuro);
+}
+
+.ranking-detalle {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+/* Gráfico de barras con HTML y CSS */
+.grafico-barras {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.barra-fila {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.barra-etiqueta {
+  width: 88px;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.barra-pista {
+  flex: 1;
+  background-color: var(--gris);
+  border-radius: 8px;
+  height: 28px;
+  overflow: hidden;
+}
+
+.barra-relleno {
+  height: 100%;
+  background-color: var(--azul);
+  color: var(--blanco);
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: 'Poppins', Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  border-radius: 8px;
+  min-width: 72px;
+}
+
+.barra-relleno.verde {
+  background-color: var(--verde);
+}
+
+/* Anchos del gráfico (porcentaje de la venta más alta) */
+.barra-65 { width: 65%; }
+.barra-70 { width: 70%; }
+.barra-80 { width: 80%; }
+.barra-85 { width: 85%; }
+.barra-90 { width: 90%; }
+.barra-95 { width: 95%; }
+.barra-100 { width: 100%; }
+
+@media (max-width: 480px) {
+  .barra-fila {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .barra-etiqueta {
+    width: auto;
+  }
+}

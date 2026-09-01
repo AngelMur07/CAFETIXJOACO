@@ -49,13 +49,16 @@
         Este formulario es visual. El mensaje no se guarda todavía.
       </div>
 
+      <!-- Más adelante action apuntará al archivo PHP -->
       <form action="#" method="post">
         <div class="form-grupo">
-          <label for="tipo-usuario">Tipo de usuario</label>
-          <select id="tipo-usuario" name="tipo-usuario">
-            <option>Estudiante</option>
-            <option>Docente</option>
-            <option>Administrativo</option>
+          <label for="tipo">Tipo de PQR</label>
+          <select id="tipo" name="tipo">
+            <option value="">Selecciona un tipo</option>
+            <option value="peticion">Petición</option>
+            <option value="queja">Queja</option>
+            <option value="reclamo">Reclamo</option>
+            <option value="felicitacion">Felicitación</option>
           </select>
         </div>
 
@@ -70,16 +73,6 @@
         </div>
 
         <div class="form-grupo">
-          <label for="tipo">Tipo</label>
-          <select id="tipo" name="tipo">
-            <option>Petición</option>
-            <option>Queja</option>
-            <option>Reclamo</option>
-            <option>Felicitación</option>
-          </select>
-        </div>
-
-        <div class="form-grupo">
           <label for="asunto">Asunto</label>
           <input type="text" id="asunto" name="asunto" placeholder="Ej: Tiempo de espera">
         </div>
@@ -89,12 +82,12 @@
           <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje"></textarea>
         </div>
 
-        <button type="button" class="btn btn-verde form-boton" onclick="document.getElementById('mensaje-demo').classList.add('visible')">
+        <button type="button" class="btn btn-verde form-boton">
           Enviar
         </button>
       </form>
 
-      <p id="mensaje-demo" class="mensaje-demo">
+      <p id="mensaje-pqr" class="mensaje-demo">
         Mensaje de demostración. Más adelante las PQR se guardarán en la base de datos.
       </p>
     </div>

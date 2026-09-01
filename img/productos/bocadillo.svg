@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f5f7fa"/>
+  <rect x="90" y="135" width="220" height="48" rx="24" fill="#d4a574"/>
+  <rect x="100" y="130" width="200" height="40" rx="20" fill="#e8c99b"/>
+  <rect x="120" y="142" width="160" height="16" rx="4" fill="#c0392b"/>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="20" fill="#2b78c5" font-weight="bold">Dedo de bocadillo</text>
+</svg>

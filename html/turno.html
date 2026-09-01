@@ -47,12 +47,12 @@
     <div class="turno-pagina">
 
       <h2 class="turno-titulo">Tu pedido fue registrado</h2>
-      <p class="turno-subtitulo">Este número es una simulación. Acércate cuando lo llamen.</p>
+      <p class="turno-subtitulo">Tu turno ya fue atendido. El pedido está entregado.</p>
 
       <div class="turno-card">
         <p class="etiqueta">Tu turno es</p>
         <p class="turno-numero-grande">029</p>
-        <p>Estado del pedido: <span class="turno-estado">En preparación</span></p>
+        <p>Estado del pedido: <span class="turno-estado">Entregado</span></p>
       </div>
 
       <div class="detalle-pedido">
@@ -71,7 +71,7 @@
         </div>
         <div class="detalle-fila">
           <span>Estado del pedido</span>
-          <strong>En preparación</strong>
+          <strong>Entregado</strong>
         </div>
         <ul class="detalle-lista">
           <li>Arepa con queso × 2 — $7.000</li>
@@ -89,6 +89,36 @@
         <a href="encuesta.html" class="btn btn-verde">Responder encuesta</a>
       </div>
 
+    </div>
+
+    <!-- Ventana de cierre del turno. Solo visual, sin JavaScript. -->
+    <div class="ventana-fondo">
+      <div class="ventana-gracias">
+        <h2>¡Gracias por tu compra!</h2>
+        <p class="ventana-texto">Tu pedido ha sido entregado correctamente.</p>
+
+        <p class="ventana-pregunta">¿Cómo calificas tu experiencia?</p>
+        <div class="estrellas">
+          <input type="radio" id="nota-5" name="nota" value="5">
+          <label for="nota-5" title="5 estrellas">★</label>
+          <input type="radio" id="nota-4" name="nota" value="4">
+          <label for="nota-4" title="4 estrellas">★</label>
+          <input type="radio" id="nota-3" name="nota" value="3">
+          <label for="nota-3" title="3 estrellas">★</label>
+          <input type="radio" id="nota-2" name="nota" value="2">
+          <label for="nota-2" title="2 estrellas">★</label>
+          <input type="radio" id="nota-1" name="nota" value="1">
+          <label for="nota-1" title="1 estrella">★</label>
+        </div>
+
+        <p class="ventana-pregunta">¿Quieres responder una encuesta sobre tu experiencia?</p>
+        <div class="ventana-botones">
+          <a href="encuesta.html" class="btn btn-verde">Sí, responder encuesta</a>
+          <a href="catalogo.html" class="btn btn-outline">No, gracias</a>
+        </div>
+
+        <p class="ventana-cierre">Gracias por comprar en CAFETIX JOACO.</p>
+      </div>
     </div>
 
   </main>

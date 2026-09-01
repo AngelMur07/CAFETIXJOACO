@@ -40,45 +40,61 @@
           <path d="M12 3l2.2 6.6H21l-5.4 4 2.1 6.4L12 16.8 6.3 20l2.1-6.4L3 9.6h6.8z"></path>
         </svg>
       </div>
-      <h2>Encuesta de satisfacción</h2>
-      <p class="subtitulo-form">Cuéntanos cómo te fue con tu pedido</p>
+      <h2>Satisfacción</h2>
+      <p class="subtitulo-form">Cuéntanos cómo te fue con CAFETIX JOACO</p>
 
       <div class="aviso-panel">
         Esta encuesta es visual. Las respuestas no se guardan todavía.
       </div>
 
+      <!-- Más adelante action apuntará al archivo PHP -->
       <form action="#" method="post">
         <div class="form-grupo">
-          <label for="tipo-usuario">Tipo de usuario</label>
-          <select id="tipo-usuario" name="tipo-usuario">
-            <option>Estudiante</option>
-            <option>Docente</option>
-            <option>Administrativo</option>
-          </select>
-        </div>
-
-        <div class="form-grupo">
-          <label>Calificación del servicio (1 a 5)</label>
-          <div class="calificacion">
-            <label><input type="radio" name="nota" value="1"> 1</label>
-            <label><input type="radio" name="nota" value="2"> 2</label>
-            <label><input type="radio" name="nota" value="3"> 3</label>
-            <label><input type="radio" name="nota" value="4"> 4</label>
-            <label><input type="radio" name="nota" value="5" checked> 5</label>
+          <p class="pregunta-encuesta">¿Cómo fue tu experiencia con CAFETIX JOACO?</p>
+          <p class="estrellas-ayuda">Elige de 1 a 5 estrellas</p>
+          <!-- El CSS muestra las estrellas de 1 a 5. Los valores quedan listos para la base de datos. -->
+          <div class="estrellas">
+            <input type="radio" id="experiencia-5" name="experiencia" value="5">
+            <label for="experiencia-5" title="5 estrellas">★</label>
+            <input type="radio" id="experiencia-4" name="experiencia" value="4">
+            <label for="experiencia-4" title="4 estrellas">★</label>
+            <input type="radio" id="experiencia-3" name="experiencia" value="3">
+            <label for="experiencia-3" title="3 estrellas">★</label>
+            <input type="radio" id="experiencia-2" name="experiencia" value="2">
+            <label for="experiencia-2" title="2 estrellas">★</label>
+            <input type="radio" id="experiencia-1" name="experiencia" value="1">
+            <label for="experiencia-1" title="1 estrella">★</label>
           </div>
         </div>
 
         <div class="form-grupo">
-          <label for="comentario">Comentario</label>
-          <textarea id="comentario" name="comentario" placeholder="¿Qué te gustó o qué podemos mejorar?"></textarea>
+          <p class="pregunta-encuesta">¿Qué tan fácil fue realizar tu compra?</p>
+          <p class="estrellas-ayuda">Elige de 1 a 5 estrellas</p>
+          <div class="estrellas">
+            <input type="radio" id="facilidad-5" name="facilidad" value="5">
+            <label for="facilidad-5" title="5 estrellas">★</label>
+            <input type="radio" id="facilidad-4" name="facilidad" value="4">
+            <label for="facilidad-4" title="4 estrellas">★</label>
+            <input type="radio" id="facilidad-3" name="facilidad" value="3">
+            <label for="facilidad-3" title="3 estrellas">★</label>
+            <input type="radio" id="facilidad-2" name="facilidad" value="2">
+            <label for="facilidad-2" title="2 estrellas">★</label>
+            <input type="radio" id="facilidad-1" name="facilidad" value="1">
+            <label for="facilidad-1" title="1 estrella">★</label>
+          </div>
         </div>
 
-        <button type="button" class="btn btn-verde form-boton" onclick="document.getElementById('mensaje-demo').classList.add('visible')">
-          Enviar encuesta
+        <div class="form-grupo">
+          <label for="comentario">Déjanos un comentario</label>
+          <textarea id="comentario" name="comentario" placeholder="Escribe tu opinión"></textarea>
+        </div>
+
+        <button type="button" class="btn btn-verde form-boton">
+          Enviar opinión
         </button>
       </form>
 
-      <p id="mensaje-demo" class="mensaje-demo">
+      <p id="mensaje-opinion" class="mensaje-demo">
         Gracias por tu opinión. Más adelante esta encuesta se guardará en la base de datos.
       </p>
     </div>

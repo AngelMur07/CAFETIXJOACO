@@ -1,10 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
   <rect width="400" height="300" fill="#f5f7fa"/>
-  <ellipse cx="190" cy="210" rx="70" ry="14" fill="#d5e8f5"/>
-  <path d="M140 100 h90 a8 8 0 0 1 8 8 v70 a40 40 0 0 1 -80 0 v-70 a8 8 0 0 1 8 -8z" fill="#fff" stroke="#2b78c5" stroke-width="3"/>
-  <path d="M238 128 h18 a16 16 0 0 1 0 32 h-18" fill="none" stroke="#2b78c5" stroke-width="3"/>
-  <rect x="152" y="118" width="74" height="55" rx="6" fill="#6d4c41"/>
-  <path d="M168 88 q8 -16 16 0" fill="none" stroke="#9aa3ab" stroke-width="3"/>
-  <path d="M186 84 q8 -16 16 0" fill="none" stroke="#9aa3ab" stroke-width="3"/>
+  <ellipse cx="190" cy="200" rx="55" ry="14" fill="#d8dee4"/>
+  <rect x="145" y="110" width="90" height="90" rx="12" fill="#ffffff" stroke="#2b78c5" stroke-width="3"/>
+  <rect x="152" y="118" width="76" height="50" rx="8" fill="#c68642"/>
+  <path d="M235 130 q30 20 0 50" fill="none" stroke="#2b78c5" stroke-width="6"/>
   <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="22" fill="#2b78c5" font-weight="bold">Café con leche</text>
 </svg>

@@ -9,12 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/paneles.css">
+  <link rel="stylesheet" href="../css/superadmin.css">
 </head>
 <body>
 
   <header class="header panel-header">
     <div class="header-contenedor">
-      <a href="index.html" class="header-marca">
+      <a href="superadmin.html" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO <span class="rol-etiqueta">Superadmin</span></h1>
@@ -22,157 +23,135 @@
         </div>
       </a>
       <nav class="nav">
-        <a href="superadmin.html" class="activo">Usuarios</a>
-        <a href="administrador.html">Administración</a>
+        <a href="superadmin.html" class="activo">Inicio</a>
+        <a href="superadmin-productos.html">Productos</a>
+        <a href="superadmin-reportes.html">Reportes</a>
+        <a href="superadmin-usuarios.html">Usuarios</a>
+        <a href="superadmin-pqr.html">PQR</a>
         <a href="index.html" class="btn-registro">Cerrar sesión</a>
       </nav>
     </div>
   </header>
 
   <main class="main">
+    <div class="superadmin-pagina">
 
-    <div class="panel-titulo">
-      <h2>Vista del superadministrador</h2>
-      <p>Control general de roles y usuarios del sistema</p>
-    </div>
-
-    <div class="aviso-panel">
-      Vista de demostración. Los permisos reales se implementarán más adelante.
-    </div>
-
-    <div class="resumen">
-      <article class="resumen-tarjeta">
-        <p>Administradores</p>
-        <strong>2</strong>
-      </article>
-      <article class="resumen-tarjeta">
-        <p>Vendedores</p>
-        <strong>3</strong>
-      </article>
-      <article class="resumen-tarjeta">
-        <p>Clientes</p>
-        <strong>41</strong>
-      </article>
-      <article class="resumen-tarjeta">
-        <p>Roles del sistema</p>
-        <strong>5</strong>
-      </article>
-    </div>
-
-    <section class="bloque-panel">
-      <h3>Usuarios del sistema</h3>
-      <p class="bloque-ayuda">El superadministrador podrá asignar o cambiar roles.</p>
-      <div class="acciones-rapidas">
-        <button type="button" class="btn btn-verde btn-pequeno">Crear usuario</button>
-        <button type="button" class="btn btn-outline btn-pequeno">Asignar rol</button>
+      <div class="panel-titulo">
+        <h2>Panel del superadministrador</h2>
+        <p>Vista general del negocio. Los números son de ejemplo.</p>
       </div>
-      <div class="panel-tabla-contenedor">
-        <table class="panel-tabla">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Usuario</th>
-              <th>Rol</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Director de sede</td>
-              <td>superadmin</td>
-              <td>Superadministrador</td>
-              <td><span class="estado-badge estado-listo">Activo</span></td>
-              <td>
-                <div class="panel-acciones">
-                  <button type="button" class="btn btn-azul btn-pequeno">Editar</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Coordinación</td>
-              <td>admin.jjfh</td>
-              <td>Administrador</td>
-              <td><span class="estado-badge estado-listo">Activo</span></td>
-              <td>
-                <div class="panel-acciones">
-                  <button type="button" class="btn btn-azul btn-pequeno">Editar</button>
-                  <button type="button" class="btn btn-oscuro btn-pequeno">Desactivar</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Personal de cafetería</td>
-              <td>vendedor01</td>
-              <td>Vendedor</td>
-              <td><span class="estado-badge estado-listo">Activo</span></td>
-              <td>
-                <div class="panel-acciones">
-                  <button type="button" class="btn btn-azul btn-pequeno">Editar</button>
-                  <button type="button" class="btn btn-oscuro btn-pequeno">Desactivar</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Juan Pérez</td>
-              <td>juanp</td>
-              <td>Usuario / cliente</td>
-              <td><span class="estado-badge estado-listo">Activo</span></td>
-              <td>
-                <div class="panel-acciones">
-                  <button type="button" class="btn btn-azul btn-pequeno">Editar</button>
-                  <button type="button" class="btn btn-oscuro btn-pequeno">Desactivar</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
 
-    <section class="bloque-panel">
-      <h3>Roles previstos</h3>
-      <p class="bloque-ayuda">Estas vistas ya están preparadas para conectar permisos más adelante.</p>
-      <div class="panel-tabla-contenedor">
-        <table class="panel-tabla">
-          <thead>
-            <tr>
-              <th>Rol</th>
-              <th>Página principal</th>
-              <th>Función prevista</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Visitante</td>
-              <td>index.html</td>
-              <td>Ver inicio, catálogo, login y registro</td>
-            </tr>
-            <tr>
-              <td>Usuario / cliente</td>
-              <td>carrito.html</td>
-              <td>Pedir productos y consultar turno</td>
-            </tr>
-            <tr>
-              <td>Vendedor</td>
-              <td>vendedor.html</td>
-              <td>Atender pedidos y turnos</td>
-            </tr>
-            <tr>
-              <td>Administrador</td>
-              <td>administrador.html</td>
-              <td>Gestionar productos y PQR</td>
-            </tr>
-            <tr>
-              <td>Superadministrador</td>
-              <td>superadmin.html</td>
-              <td>Gestionar usuarios y roles</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="aviso-panel">
+        Esta pantalla es visual. Más adelante se conectará con MySQL.
       </div>
-    </section>
 
+      <!-- Dashboard: números principales del día -->
+      <div class="resumen">
+        <article class="resumen-tarjeta">
+          <p>Ventas del día</p>
+          <strong>$186.000</strong>
+        </article>
+        <article class="resumen-tarjeta">
+          <p>Total de pedidos</p>
+          <strong>24</strong>
+        </article>
+        <article class="resumen-tarjeta">
+          <p>Producto más vendido</p>
+          <strong class="dato-corto">Gaseosa</strong>
+        </article>
+        <article class="resumen-tarjeta">
+          <p>Producto menos vendido</p>
+          <strong class="dato-corto">Galletas</strong>
+        </article>
+        <article class="resumen-tarjeta">
+          <p>Mayor movimiento</p>
+          <strong class="dato-corto">Gaseosa</strong>
+        </article>
+        <article class="resumen-tarjeta">
+          <p>Poca rotación</p>
+          <strong class="dato-corto">Galletas</strong>
+        </article>
+      </div>
+
+      <div class="dos-columnas">
+        <section class="bloque-panel">
+          <h3>Productos con mayor movimiento</h3>
+          <p class="bloque-ayuda">Los que más se piden en el día.</p>
+          <ul class="lista-simple">
+            <li>
+              <span>Gaseosa</span>
+              <strong>42</strong>
+            </li>
+            <li>
+              <span>Empanada</span>
+              <strong>31</strong>
+            </li>
+            <li>
+              <span>Jugo natural</span>
+              <strong>24</strong>
+            </li>
+          </ul>
+        </section>
+
+        <section class="bloque-panel">
+          <h3>Productos con poca rotación</h3>
+          <p class="bloque-ayuda">Los que se venden menos.</p>
+          <ul class="lista-simple">
+            <li>
+              <span>Galletas</span>
+              <strong>2</strong>
+            </li>
+            <li>
+              <span>Pan con chocolate</span>
+              <strong>5</strong>
+            </li>
+            <li>
+              <span>Café con leche</span>
+              <strong>8</strong>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- Resumen de ventas con barras de CSS -->
+      <section class="bloque-panel">
+        <h3>Resumen de ventas</h3>
+        <p class="bloque-ayuda">Ventas de la semana. La barra más larga es el día con más ventas.</p>
+        <div class="grafico-barras">
+          <div class="barra-fila">
+            <span class="barra-etiqueta">Lunes</span>
+            <div class="barra-pista">
+              <div class="barra-relleno barra-70">$142.000</div>
+            </div>
+          </div>
+          <div class="barra-fila">
+            <span class="barra-etiqueta">Martes</span>
+            <div class="barra-pista">
+              <div class="barra-relleno barra-80">$168.000</div>
+            </div>
+          </div>
+          <div class="barra-fila">
+            <span class="barra-etiqueta">Miércoles</span>
+            <div class="barra-pista">
+              <div class="barra-relleno barra-90">$186.000</div>
+            </div>
+          </div>
+          <div class="barra-fila">
+            <span class="barra-etiqueta">Jueves</span>
+            <div class="barra-pista">
+              <div class="barra-relleno verde barra-100">$210.000</div>
+            </div>
+          </div>
+          <div class="barra-fila">
+            <span class="barra-etiqueta">Viernes</span>
+            <div class="barra-pista">
+              <div class="barra-relleno barra-95">$206.000</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
   </main>
 
   <footer class="footer">
