@@ -21,14 +21,21 @@
           <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
-      <nav class="nav">
-        <a href="catalogo.html">Catálogo</a>
-        <a href="carrito.html">Carrito</a>
-        <a href="turno.html" class="activo">Mi turno</a>
-        <a href="pqr.html">PQR</a>
-        <a href="encuesta.html">Encuesta</a>
-        <a href="index.html" class="btn-registro">Cerrar sesión</a>
-      </nav>
+      <div class="header-derecha">
+        <nav class="nav">
+          <a href="catalogo.html">Catálogo</a>
+          <a href="carrito.html">Carrito</a>
+          <a href="turno.html" class="activo">Mi turno</a>
+          <a href="pqr.html">PQR</a>
+          <a href="encuesta.html">Encuesta</a>
+          <a href="index.html" class="btn-registro">Cerrar sesión</a>
+        </nav>
+        {% if sistema_activo %}
+        <p class="caja-turno-actual">Turno actual: <strong>{{ turno_actual }}</strong></p>
+        {% else %}
+        <p class="caja-turno-actual caja-turno-cerrado">INACTIVO</p>
+        {% endif %}
+      </div>
     </div>
   </header>
 
@@ -44,82 +51,68 @@
       <span class="guia-paso guia-paso-activo">4. Turno</span>
     </div>
 
+    {% if ultimo_pedido %}
+
     <div class="turno-pagina">
 
-      <h2 class="turno-titulo">Tu pedido fue registrado</h2>
-      <p class="turno-subtitulo">Tu turno ya fue atendido. El pedido está entregado.</p>
+      <h2 class="turno-titulo">¡Compra realizada correctamente!</h2>
+      <p class="turno-subtitulo">Tu pedido ha sido registrado.</p>
+      <p>Dirígete a la cafetería cuando tu turno sea llamado.</p>
 
       <div class="turno-card">
         <p class="etiqueta">Tu turno es</p>
-        <p class="turno-numero-grande">029</p>
-        <p>Estado del pedido: <span class="turno-estado">Entregado</span></p>
+        <p class="turno-numero-grande">{{ ultimo_pedido.turno }}</p>
+        <p>Pedido {{ ultimo_pedido.numero }}</p>
       </div>
 
       <div class="detalle-pedido">
         <h3>Detalle de tu compra</h3>
         <div class="detalle-fila">
           <span>Número de pedido</span>
-          <strong>CJ-014</strong>
-        </div>
-        <div class="detalle-fila">
-          <span>Usuario</span>
-          <strong>Estudiante</strong>
+          <strong>{{ ultimo_pedido.numero }}</strong>
         </div>
         <div class="detalle-fila">
           <span>Estado del pago</span>
           <strong>Pagado (prueba)</strong>
         </div>
-        <div class="detalle-fila">
-          <span>Estado del pedido</span>
-          <strong>Entregado</strong>
-        </div>
         <ul class="detalle-lista">
-          <li>Arepa con queso × 2 — $7.000</li>
-          <li>Jugo natural × 1 — $2.500</li>
-          <li>Empanada × 3 — $6.000</li>
+          {% for item in ultimo_pedido.productos %}
+          <li>{{ item.nombre }} × {{ item.cantidad }} — {{ item.subtotal_texto }}</li>
+          {% endfor %}
         </ul>
         <div class="detalle-fila">
           <span>Total</span>
-          <strong>$15.500</strong>
+          <strong>{{ ultimo_pedido.total_texto }}</strong>
         </div>
       </div>
 
       <div class="pedido-acciones">
         <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
         <a href="encuesta.html" class="btn btn-verde">Responder encuesta</a>
+        <a href="gracias.html" class="btn btn-outline">No, gracias</a>
       </div>
 
     </div>
 
-    <!-- Ventana de cierre del turno. Solo visual, sin JavaScript. -->
-    <div class="ventana-fondo">
-      <div class="ventana-gracias">
-        <h2>¡Gracias por tu compra!</h2>
-        <p class="ventana-texto">Tu pedido ha sido entregado correctamente.</p>
+    {% elif not sistema_activo %}
 
-        <p class="ventana-pregunta">¿Cómo calificas tu experiencia?</p>
-        <div class="estrellas">
-          <input type="radio" id="nota-5" name="nota" value="5">
-          <label for="nota-5" title="5 estrellas">★</label>
-          <input type="radio" id="nota-4" name="nota" value="4">
-          <label for="nota-4" title="4 estrellas">★</label>
-          <input type="radio" id="nota-3" name="nota" value="3">
-          <label for="nota-3" title="3 estrellas">★</label>
-          <input type="radio" id="nota-2" name="nota" value="2">
-          <label for="nota-2" title="2 estrellas">★</label>
-          <input type="radio" id="nota-1" name="nota" value="1">
-          <label for="nota-1" title="1 estrella">★</label>
-        </div>
-
-        <p class="ventana-pregunta">¿Quieres responder una encuesta sobre tu experiencia?</p>
-        <div class="ventana-botones">
-          <a href="encuesta.html" class="btn btn-verde">Sí, responder encuesta</a>
-          <a href="catalogo.html" class="btn btn-outline">No, gracias</a>
-        </div>
-
-        <p class="ventana-cierre">Gracias por comprar en CAFETIX JOACO.</p>
-      </div>
+    <div class="aviso-panel">
+      {{ mensaje_turnos_cerrados }}
     </div>
+    <div class="pedido-acciones">
+      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+    </div>
+
+    {% else %}
+
+    <div class="aviso-panel">
+      Aún no tienes un pedido confirmado. Agrega productos al carrito para comprar.
+    </div>
+    <div class="pedido-acciones">
+      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+    </div>
+
+    {% endif %}
 
   </main>
 

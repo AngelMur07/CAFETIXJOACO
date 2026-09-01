@@ -38,71 +38,111 @@
     <div class="admin-pagina">
 
       <div class="panel-titulo">
-        <h2>Registrar o editar producto</h2>
-        <p>Formulario visual. Todavía no se guarda en una base de datos.</p>
+        <h2>Productos</h2>
+        <p>Agrega, edita o elimina productos. Los datos se guardan en Flask mientras el servidor esté encendido.</p>
       </div>
 
-      <section class="bloque-panel form-admin">
-        <h3>Datos del producto</h3>
-        <p class="bloque-ayuda">Completa los campos y usa Guardar para ver el mensaje de demostración.</p>
+      {% if aviso %}
+      <div class="aviso-panel">{{ aviso }}</div>
+      {% endif %}
 
-        <form action="#" method="post">
+      <section class="bloque-panel">
+        <h3>Lista de productos</h3>
+        <p class="bloque-ayuda">La disponibilidad sale de la cantidad: más de 0 es Disponible, 0 es Agotado.</p>
+
+        <div class="panel-tabla-contenedor">
+          <table class="panel-tabla">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for producto in productos %}
+              <tr>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.categoria_nombre }}</td>
+                <td>{{ producto.precio_texto }}</td>
+                <td>{{ producto.cantidad }}</td>
+                <td>
+                  {% if producto.disponible %}
+                  <span class="estado-badge estado-listo">Disponible</span>
+                  {% else %}
+                  <span class="estado-badge estado-agotado">Agotado</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <div class="crud-acciones">
+                    <a href="admin-productos.html?editar={{ producto.id }}" class="btn btn-azul btn-pequeno">Editar</a>
+                    <a href="admin-eliminar.html?id={{ producto.id }}" class="btn btn-oscuro btn-pequeno">Eliminar</a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="bloque-panel form-admin">
+        {% if producto_editar %}
+        <h3>Editar producto</h3>
+        <p class="bloque-ayuda">Cambia los datos y guarda. La cantidad no puede ser negativa.</p>
+        <form action="/editar-producto" method="post">
+          <input type="hidden" name="id" value="{{ producto_editar.id }}">
+        {% else %}
+        <h3>Agregar producto</h3>
+        <p class="bloque-ayuda">Completa los campos. La imagen se elige entre las que ya están en img/productos/.</p>
+        <form action="/agregar-producto" method="post">
+        {% endif %}
+
           <div class="form-grupo">
             <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Ej: Empanada">
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Empanada" value="{% if producto_editar %}{{ producto_editar.nombre }}{% endif %}">
           </div>
 
           <div class="form-grupo">
             <label for="categoria">Categoría</label>
             <select id="categoria" name="categoria">
-              <option>Cafetería</option>
-              <option>Productos preparados</option>
-              <option>Desayunos</option>
-              <option>Almuerzos</option>
-              <option>Bebidas</option>
-              <option>Otros productos</option>
+              {% for item in categorias_form %}
+              <option value="{{ item.id }}"{% if producto_editar and producto_editar.categoria == item.id %} selected{% endif %}>{{ item.nombre }}</option>
+              {% endfor %}
             </select>
           </div>
 
           <div class="form-grupo">
             <label for="precio">Precio</label>
-            <input type="text" id="precio" name="precio" placeholder="Ej: 2000">
+            <input type="text" id="precio" name="precio" placeholder="Ej: 2000" value="{% if producto_editar %}{{ producto_editar.precio }}{% endif %}">
           </div>
 
           <div class="form-grupo">
             <label for="cantidad">Cantidad</label>
-            <input type="text" id="cantidad" name="cantidad" placeholder="Ej: 15">
-          </div>
-
-          <div class="form-grupo">
-            <label for="descripcion">Descripción</label>
-            <textarea id="descripcion" name="descripcion" placeholder="Descripción corta del producto"></textarea>
+            <input type="text" id="cantidad" name="cantidad" placeholder="Ej: 15" value="{% if producto_editar %}{{ producto_editar.cantidad }}{% endif %}">
           </div>
 
           <div class="form-grupo">
             <label for="imagen">Imagen</label>
-            <input type="file" id="imagen" name="imagen" accept="image/*">
-          </div>
-
-          <div class="form-grupo">
-            <label for="estado">Estado</label>
-            <select id="estado" name="estado">
-              <option>Disponible</option>
-              <option>Agotado</option>
+            <select id="imagen" name="imagen">
+              {% for archivo in imagenes %}
+              <option value="{{ archivo }}"{% if producto_editar and producto_editar.imagen == archivo %} selected{% endif %}>{{ archivo }}</option>
+              {% endfor %}
             </select>
           </div>
 
           <div class="form-acciones">
-            <button type="button" class="btn btn-verde">
-              Guardar
-            </button>
-            <a href="admin-inventarios.html" class="btn btn-outline">Cancelar</a>
+            {% if producto_editar %}
+            <button type="submit" class="btn btn-verde">Guardar cambios</button>
+            <a href="admin-productos.html" class="btn btn-outline">Cancelar</a>
+            {% else %}
+            <button type="submit" class="btn btn-verde">Agregar producto</button>
+            {% endif %}
           </div>
         </form>
-
-        <p id="mensaje-demo" class="mensaje-demo">
-          Producto de demostración. Más adelante se guardará con Python y MySQL.
-        </p>
       </section>
 
     </div>

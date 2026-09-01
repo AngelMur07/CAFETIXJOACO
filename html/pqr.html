@@ -49,8 +49,8 @@
         Este formulario es visual. El mensaje no se guarda todavía.
       </div>
 
-      <!-- Más adelante action apuntará al archivo PHP -->
-      <form action="#" method="post">
+      <!-- Flask recibe el formulario y muestra un mensaje según el tipo. Todavía no se guarda en MySQL. -->
+      <form action="pqr-gracias.html" method="post">
         <div class="form-grupo">
           <label for="tipo">Tipo de PQR</label>
           <select id="tipo" name="tipo">
@@ -82,14 +82,10 @@
           <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje"></textarea>
         </div>
 
-        <button type="button" class="btn btn-verde form-boton">
+        <button type="submit" class="btn btn-verde form-boton">
           Enviar
         </button>
       </form>
-
-      <p id="mensaje-pqr" class="mensaje-demo">
-        Mensaje de demostración. Más adelante las PQR se guardarán en la base de datos.
-      </p>
     </div>
 
   </main>

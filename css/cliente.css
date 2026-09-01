@@ -3,6 +3,37 @@
    Se usa en: catálogo, carrito, pago, turno, PQR y encuesta
    ============================================= */
 
+/* Turno actual: a la derecha del menú, sin taparlo */
+.header-derecha {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.caja-turno-actual {
+  margin: 0;
+  padding: 7px 14px;
+  background-color: var(--verde);
+  color: var(--blanco);
+  border-radius: var(--radio-btn);
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.caja-turno-actual strong {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.caja-turno-cerrado {
+  background-color: var(--azul-oscuro);
+}
+
 /* --- Productos destacados (catálogo) --- */
 .destacados {
   margin-bottom: 36px;
@@ -435,6 +466,10 @@
   margin-bottom: 10px;
 }
 
+.formulario-contenedor .pedido-acciones {
+  margin-top: 8px;
+}
+
 /*
   Estrellas de 1 a 5 solo con HTML y CSS.
   En el HTML se escriben de 5 a 1. El CSS las voltea
@@ -557,4 +592,28 @@
     width: 180px;
     height: 180px;
   }
+}
+
+/* Formularios del carrito (sin JavaScript) */
+.form-agregar-carrito {
+  margin: 0;
+}
+
+.producto-info .form-agregar-carrito .btn {
+  width: 100%;
+}
+
+.form-cantidad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-cantidad {
+  width: 64px;
+  padding: 8px 10px;
+  border: 1px solid var(--gris);
+  border-radius: 8px;
+  text-align: center;
 }

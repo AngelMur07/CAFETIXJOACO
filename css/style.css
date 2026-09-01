@@ -1009,6 +1009,10 @@ a.guia-paso:hover {
   gap: 12px;
 }
 
+.pedido-acciones form {
+  margin: 0;
+}
+
 .pedido-vacio {
   text-align: center;
   padding: 40px;

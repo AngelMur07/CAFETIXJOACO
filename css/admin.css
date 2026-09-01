@@ -44,6 +44,10 @@
   min-width: 140px;
 }
 
+.form-cancelar-extension {
+  margin-top: 12px;
+}
+
 /* Acciones del CRUD en la tabla */
 .crud-acciones {
   display: flex;

@@ -32,56 +32,91 @@
 
     <div class="vendedor-pagina">
 
+      <section class="estado-sistema">
+        <h3>Estado del sistema</h3>
+        {% if sistema_activo %}
+        <p class="estado-etiqueta activo">ACTIVO — Horario de descanso</p>
+        <p>{{ jornada_activa }}: {{ horario_texto }}</p>
+        {% else %}
+        <p class="estado-etiqueta inactivo">INACTIVO — Fuera del horario de descanso</p>
+        <p>El sistema se encuentra fuera del horario de descanso.</p>
+        {% endif %}
+      </section>
+
+      {% if aviso_turno_cerrado %}
       <div class="aviso-panel">
-        Panel de entrega. Los datos son de ejemplo. Más adelante se conectarán los pedidos reales.
+        No se pueden avanzar turnos porque el sistema está cerrado.
       </div>
+      {% endif %}
 
-      <!-- Turno que el vendedor debe atender ahora -->
+      {% if aviso_pedido %}
+      <div class="aviso-panel">{{ aviso_pedido }}</div>
+      {% endif %}
+
       <section class="turno-actual">
-        <h2>Turno actual</h2>
-        <p class="turno-actual-numero">18</p>
-        <p class="turno-actual-nombre">Camilo Pérez</p>
-        <p class="turno-actual-pedido">Pedido #018</p>
-
-        <ul class="turno-productos">
-          <li>2 empanadas</li>
-          <li>1 gaseosa</li>
-        </ul>
-
-        <p class="turno-pago">Pago: <strong>Realizado</strong></p>
+        <h2>Turno actual: {{ turno_actual }}</h2>
+        <p class="turno-actual-numero">{{ turno_actual }}</p>
       </section>
 
       <div class="vendedor-acciones">
-        <button type="button" class="btn btn-azul">
-          Llamar siguiente turno
-        </button>
-        <button type="button" class="btn btn-verde">
-          Pedido entregado
-        </button>
+        <form action="/siguiente-turno" method="post">
+          <button type="submit" class="btn btn-azul">Siguiente turno</button>
+        </form>
       </div>
 
-      <p id="mensaje-vendedor" class="mensaje-demo">
-        Acción de demostración. Cuando exista base de datos, aquí se actualizará el turno real.
-      </p>
+      <section class="pedidos-vendedor">
+        <h3>Pedidos pendientes</h3>
 
-      <!-- Cola corta: solo para ver quién sigue -->
-      <section class="proximos">
-        <h3>Próximos turnos</h3>
-        <ul class="proximos-lista">
-          <li>
-            <span class="proximo-numero">19</span>
-            <span>Ana Torres — Pedido #019</span>
-          </li>
-          <li>
-            <span class="proximo-numero">20</span>
-            <span>Luis Gómez — Pedido #020</span>
-          </li>
-          <li>
-            <span class="proximo-numero">21</span>
-            <span>Sofía Díaz — Pedido #021</span>
-          </li>
-        </ul>
+        {% if not hay_pedidos %}
+        <p class="bloque-ayuda">Actualmente no hay pedidos registrados.</p>
+        {% elif not pedidos_pendientes %}
+        <p class="bloque-ayuda">No hay pedidos pendientes.</p>
+        {% else %}
+        <div class="pedidos-lista">
+          {% for pedido in pedidos_pendientes %}
+          <article class="pedido-card pedido-{{ pedido.estado }}">
+            <h4>PEDIDO #{{ pedido.id }}</h4>
+            <p>Turno: {{ pedido.turno }}</p>
+            <ul class="pedido-productos">
+              {% for item in pedido.productos %}
+              <li>{{ item.nombre }} x{{ item.cantidad }}</li>
+              {% endfor %}
+            </ul>
+            <p>Total: {{ pedido.total_texto }}</p>
+            <p>Estado: <span class="estado-badge {{ pedido.estado_clase }}">{{ pedido.estado_texto }}</span></p>
+            {% if pedido.siguiente_estado %}
+            <form action="/cambiar-estado-pedido" method="post" class="form-estado-pedido">
+              <input type="hidden" name="id" value="{{ pedido.id }}">
+              <input type="hidden" name="estado" value="{{ pedido.siguiente_estado }}">
+              <button type="submit" class="btn btn-verde btn-pequeno">{{ pedido.siguiente_texto }}</button>
+            </form>
+            {% endif %}
+          </article>
+          {% endfor %}
+        </div>
+        {% endif %}
       </section>
+
+      {% if pedidos_entregados %}
+      <section class="pedidos-vendedor pedidos-entregados">
+        <h3>Pedidos entregados</h3>
+        <div class="pedidos-lista">
+          {% for pedido in pedidos_entregados %}
+          <article class="pedido-card pedido-entregado">
+            <h4>PEDIDO #{{ pedido.id }}</h4>
+            <p>Turno: {{ pedido.turno }}</p>
+            <ul class="pedido-productos">
+              {% for item in pedido.productos %}
+              <li>{{ item.nombre }} x{{ item.cantidad }}</li>
+              {% endfor %}
+            </ul>
+            <p>Total: {{ pedido.total_texto }}</p>
+            <p>Estado: <span class="estado-badge {{ pedido.estado_clase }}">{{ pedido.estado_texto }}</span></p>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
 
     </div>
 

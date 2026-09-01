@@ -47,8 +47,8 @@
         Esta encuesta es visual. Las respuestas no se guardan todavía.
       </div>
 
-      <!-- Más adelante action apuntará al archivo PHP -->
-      <form action="#" method="post">
+      <!-- El formulario envía a la página de agradecimiento. Más adelante se guardará en MySQL. -->
+      <form action="gracias.html" method="post">
         <div class="form-grupo">
           <p class="pregunta-encuesta">¿Cómo fue tu experiencia con CAFETIX JOACO?</p>
           <p class="estrellas-ayuda">Elige de 1 a 5 estrellas</p>
@@ -89,14 +89,11 @@
           <textarea id="comentario" name="comentario" placeholder="Escribe tu opinión"></textarea>
         </div>
 
-        <button type="button" class="btn btn-verde form-boton">
-          Enviar opinión
-        </button>
+        <div class="pedido-acciones">
+          <button type="submit" class="btn btn-verde">Enviar opinión</button>
+          <a href="gracias.html" class="btn btn-outline">No, gracias</a>
+        </div>
       </form>
-
-      <p id="mensaje-opinion" class="mensaje-demo">
-        Gracias por tu opinión. Más adelante esta encuesta se guardará en la base de datos.
-      </p>
     </div>
 
   </main>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAFETIX JOACO - Inventarios</title>
+  <title>CAFETIX JOACO - Eliminar producto</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -24,8 +24,8 @@
       </a>
       <nav class="nav">
         <a href="administrador.html">Inicio</a>
-        <a href="admin-productos.html">Productos</a>
-        <a href="admin-inventarios.html" class="activo">Inventarios</a>
+        <a href="admin-productos.html" class="activo">Productos</a>
+        <a href="admin-inventarios.html">Inventarios</a>
         <a href="admin-pedidos.html">Pedidos</a>
         <a href="admin-pqr.html">PQR</a>
         <a href="admin-reportes.html">Reportes</a>
@@ -38,50 +38,23 @@
     <div class="admin-pagina">
 
       <div class="panel-titulo">
-        <h2>Inventarios</h2>
-        <p>Consulta la cantidad y el estado de cada producto.</p>
+        <h2>Eliminar producto</h2>
+        <p>Confirma si quieres quitar este producto de la lista.</p>
       </div>
 
-      <div class="aviso-panel">
-        Si la cantidad es 0, el producto aparece como Agotado. Para cambiar cantidades, usa Productos.
-      </div>
+      <section class="bloque-panel form-admin">
+        <h3>{{ producto.nombre }}</h3>
+        <p class="bloque-ayuda">Esta acción lo saca de la lista actual. No borra la imagen de la carpeta.</p>
+        <p>Categoría: {{ producto.categoria_nombre }}</p>
+        <p>Cantidad: {{ producto.cantidad }}</p>
 
-      <section class="bloque-panel">
-        <h3>Listado de productos</h3>
-        <p class="bloque-ayuda">Disponible cuando hay unidades. Agotado cuando la cantidad es 0.</p>
-
-        <div class="acciones-rapidas">
-          <a href="admin-productos.html" class="btn btn-verde btn-pequeno">Agregar</a>
-        </div>
-
-        <div class="panel-tabla-contenedor">
-          <table class="panel-tabla">
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th>Categoría</th>
-                <th>Cantidad</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for producto in productos %}
-              <tr>
-                <td>{{ producto.nombre }}</td>
-                <td>{{ producto.categoria_nombre }}</td>
-                <td>{{ producto.cantidad }}</td>
-                <td>
-                  {% if producto.disponible %}
-                  <span class="estado-badge estado-listo">Disponible</span>
-                  {% else %}
-                  <span class="estado-badge estado-agotado">Agotado</span>
-                  {% endif %}
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+        <form action="/eliminar-producto" method="post">
+          <input type="hidden" name="id" value="{{ producto.id }}">
+          <div class="form-acciones">
+            <button type="submit" class="btn btn-oscuro">Eliminar</button>
+            <a href="admin-productos.html" class="btn btn-outline">Cancelar</a>
+          </div>
+        </form>
       </section>
 
     </div>

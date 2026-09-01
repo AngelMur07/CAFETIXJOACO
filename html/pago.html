@@ -21,14 +21,21 @@
           <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
-      <nav class="nav">
-        <a href="catalogo.html">Catálogo</a>
-        <a href="carrito.html">Carrito</a>
-        <a href="turno.html">Mi turno</a>
-        <a href="pqr.html">PQR</a>
-        <a href="encuesta.html">Encuesta</a>
-        <a href="index.html" class="btn-registro">Cerrar sesión</a>
-      </nav>
+      <div class="header-derecha">
+        <nav class="nav">
+          <a href="catalogo.html">Catálogo</a>
+          <a href="carrito.html">Carrito</a>
+          <a href="turno.html">Mi turno</a>
+          <a href="pqr.html">PQR</a>
+          <a href="encuesta.html">Encuesta</a>
+          <a href="index.html" class="btn-registro">Cerrar sesión</a>
+        </nav>
+        {% if sistema_activo %}
+        <p class="caja-turno-actual">Turno actual: <strong>{{ turno_actual }}</strong></p>
+        {% else %}
+        <p class="caja-turno-actual caja-turno-cerrado">INACTIVO</p>
+        {% endif %}
+      </div>
     </div>
   </header>
 
@@ -44,10 +51,34 @@
       <a href="turno.html" class="guia-paso">4. Turno</a>
     </div>
 
+    {% if not sistema_activo %}
+
+    <div class="aviso-panel">
+      {{ mensaje_cerrado }}
+    </div>
+    <div class="pedido-acciones">
+      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+    </div>
+
+    {% elif carrito_vacio %}
+
+    <div class="aviso-panel">
+      El carrito está vacío. Agrega productos antes de pagar.
+    </div>
+    <div class="pedido-acciones">
+      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+    </div>
+
+    {% else %}
+
+    {% if aviso %}
+    <div class="aviso-panel">{{ aviso }}</div>
+    {% endif %}
+
     <div class="pago-pagina">
 
       <div class="qr-caja">
-        <h2>Pago mediante código QR</h2>
+        <h2>Pago mediante QR</h2>
         <p class="qr-ayuda">
           Esta es una pantalla de prueba. Más adelante se colocará el QR real.
           No se realiza ningún cobro.
@@ -58,37 +89,52 @@
         </div>
 
         <p>Total a pagar</p>
-        <p class="qr-total">$15.500</p>
+        <p class="qr-total">{{ total_texto }}</p>
       </div>
 
       <div class="detalle-pedido">
-        <h3>Resumen del pedido</h3>
-        <div class="detalle-fila">
-          <span>Número de pedido</span>
-          <strong>CJ-014</strong>
+        <h3>Resumen de compra</h3>
+        <div class="pedido-tabla-contenedor">
+          <table class="pedido-tabla">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in items %}
+              <tr>
+                <td>{{ item.nombre }}</td>
+                <td>{{ item.cantidad }}</td>
+                <td>{{ item.subtotal_texto }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
         <div class="detalle-fila">
-          <span>Usuario</span>
-          <strong>Estudiante</strong>
+          <span>Total a pagar</span>
+          <strong>{{ total_texto }}</strong>
         </div>
-        <ul class="detalle-lista">
-          <li>Arepa con queso × 2 — $7.000</li>
-          <li>Jugo natural × 1 — $2.500</li>
-          <li>Empanada × 3 — $6.000</li>
-        </ul>
-        <p>Cuando el pago quede confirmado, el sistema asignará un turno.</p>
+        <p>Cuando confirmes el pago, el sistema descontará el inventario y te asignará un turno.</p>
       </div>
 
       <div class="aviso-panel">
-        Mensaje de confirmación: si el QR fuera real, aquí se validaría el pago.
+        Simulación académica: si el QR fuera real, aquí se validaría el pago.
       </div>
 
       <div class="pedido-acciones">
         <a href="carrito.html" class="btn btn-outline">Volver al carrito</a>
-        <a href="turno.html" class="btn btn-verde btn-grande">Confirmar pago de prueba</a>
+        <form action="/confirmar-pago" method="post">
+          <button type="submit" class="btn btn-verde btn-grande">CONFIRMAR PAGO</button>
+        </form>
       </div>
 
     </div>
+
+    {% endif %}
 
   </main>
 

@@ -14,6 +14,35 @@
   margin: 0 auto;
 }
 
+.estado-sistema {
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 20px;
+  border: 1px solid var(--gris);
+  margin-bottom: 20px;
+}
+
+.estado-sistema h3 {
+  color: var(--azul);
+  margin-bottom: 8px;
+}
+
+.estado-etiqueta {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 6px;
+}
+
+.estado-etiqueta.activo {
+  color: var(--verde-oscuro);
+}
+
+.estado-etiqueta.inactivo {
+  color: var(--rojo);
+}
+
 /* Caja principal: se ve rápido en el computador de la cafetería */
 .turno-actual {
   background-color: var(--azul);
@@ -104,6 +133,10 @@
   margin-bottom: 24px;
 }
 
+.vendedor-acciones form {
+  margin: 0;
+}
+
 .vendedor-acciones .btn {
   min-width: 220px;
   padding: 14px 22px;
@@ -163,4 +196,71 @@
     width: 100%;
     min-width: 0;
   }
+}
+
+/* Pedidos del vendedor */
+.pedidos-vendedor {
+  background-color: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 20px;
+  border: 1px solid var(--gris);
+  margin-bottom: 20px;
+}
+
+.pedidos-vendedor h3 {
+  color: var(--azul);
+  margin-bottom: 12px;
+}
+
+.pedidos-vendedor .bloque-ayuda {
+  color: var(--texto-suave);
+}
+
+.pedidos-lista {
+  display: grid;
+  gap: 14px;
+}
+
+.pedido-card {
+  background-color: var(--gris-claro);
+  border: 1px solid var(--gris);
+  border-left: 4px solid var(--azul);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.pedido-card h4 {
+  color: var(--azul-oscuro);
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.pedido-pendiente {
+  border-left-color: #d4a017;
+}
+
+.pedido-en_preparacion {
+  border-left-color: var(--azul);
+}
+
+.pedido-listo {
+  border-left-color: var(--verde);
+}
+
+.pedido-entregado {
+  border-left-color: #8a96a3;
+}
+
+.pedido-productos {
+  list-style: none;
+  margin: 10px 0;
+}
+
+.pedido-productos li {
+  padding: 4px 0;
+}
+
+.form-estado-pedido {
+  margin: 12px 0 0;
 }

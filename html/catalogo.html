@@ -21,12 +21,19 @@
           <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
-      <nav class="nav">
-        <a href="index.html">Inicio</a>
-        <a href="catalogo.html" class="activo">Catálogo</a>
-        <a href="login.html" class="btn-sesion">Iniciar sesión</a>
-        <a href="registro.html" class="btn-registro">Registrarse</a>
-      </nav>
+      <div class="header-derecha">
+        <nav class="nav">
+          <a href="index.html">Inicio</a>
+          <a href="catalogo.html" class="activo">Catálogo</a>
+          <a href="login.html" class="btn-sesion">Iniciar sesión</a>
+          <a href="registro.html" class="btn-registro">Registrarse</a>
+        </nav>
+        {% if sistema_activo %}
+        <p class="caja-turno-actual">Turno actual: <strong>{{ turno_actual }}</strong></p>
+        {% else %}
+        <p class="caja-turno-actual caja-turno-cerrado">INACTIVO</p>
+        {% endif %}
+      </div>
     </div>
   </header>
 
@@ -47,6 +54,16 @@
       <a href="turno.html" class="guia-paso">4. Turno</a>
     </div>
 
+    {% if not sistema_activo %}
+    <div class="aviso-panel">
+      {{ mensaje_cerrado }}
+    </div>
+    {% endif %}
+
+    {% if aviso %}
+    <div class="aviso-panel">{{ aviso }}</div>
+    {% endif %}
+
     <div class="aviso-panel">
       El buscador y los filtros los aplica Python. Los datos son de ejemplo. Más adelante vendrán de MySQL.
     </div>
@@ -58,7 +75,7 @@
 
       <div class="destacados-grid">
         {% for producto in destacados %}
-        <article class="producto-card">
+        <article class="producto-card{% if not producto.disponible %} producto-agotado{% endif %}">
           <img src="../img/productos/{{ producto.imagen }}" alt="{{ producto.nombre }}" class="producto-imagen">
           <div class="producto-info">
             <span class="tarjeta-etiqueta">Destacado</span>
@@ -71,10 +88,15 @@
               <span class="estado-badge estado-agotado">Agotado</span>
               {% endif %}
             </div>
-            {% if producto.disponible %}
-            <a href="carrito.html" class="btn btn-verde">Agregar al carrito</a>
+            {% if sistema_activo and producto.disponible %}
+            <form action="/agregar-al-carrito" method="post" class="form-agregar-carrito">
+              <input type="hidden" name="id" value="{{ producto.id }}">
+              <button type="submit" class="btn btn-verde">Agregar al carrito</button>
+            </form>
+            {% elif not sistema_activo %}
+            <button type="button" class="btn btn-agotado" disabled>Pedidos cerrados</button>
             {% else %}
-            <button type="button" class="btn btn-agotado" disabled>Agregar al carrito</button>
+            <button type="button" class="btn btn-agotado" disabled>Agotado</button>
             {% endif %}
           </div>
         </article>
@@ -129,10 +151,15 @@
                   {% endif %}
                   <span class="producto-stock">{{ producto.categoria_nombre }}</span>
                 </div>
-                {% if producto.disponible %}
-                <a href="carrito.html" class="btn btn-verde">Agregar al carrito</a>
+                {% if sistema_activo and producto.disponible %}
+                <form action="/agregar-al-carrito" method="post" class="form-agregar-carrito">
+                  <input type="hidden" name="id" value="{{ producto.id }}">
+                  <button type="submit" class="btn btn-verde">Agregar al carrito</button>
+                </form>
+                {% elif not sistema_activo %}
+                <button type="button" class="btn btn-agotado" disabled>Pedidos cerrados</button>
                 {% else %}
-                <button type="button" class="btn btn-agotado" disabled>Agregar al carrito</button>
+                <button type="button" class="btn btn-agotado" disabled>Agotado</button>
                 {% endif %}
               </div>
             </article>

@@ -21,14 +21,21 @@
           <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
-      <nav class="nav">
-        <a href="catalogo.html">Catálogo</a>
-        <a href="carrito.html" class="activo">Carrito</a>
-        <a href="turno.html">Mi turno</a>
-        <a href="pqr.html">PQR</a>
-        <a href="encuesta.html">Encuesta</a>
-        <a href="index.html" class="btn-registro">Cerrar sesión</a>
-      </nav>
+      <div class="header-derecha">
+        <nav class="nav">
+          <a href="catalogo.html">Catálogo</a>
+          <a href="carrito.html" class="activo">Carrito</a>
+          <a href="turno.html">Mi turno</a>
+          <a href="pqr.html">PQR</a>
+          <a href="encuesta.html">Encuesta</a>
+          <a href="index.html" class="btn-registro">Cerrar sesión</a>
+        </nav>
+        {% if sistema_activo %}
+        <p class="caja-turno-actual">Turno actual: <strong>{{ turno_actual }}</strong></p>
+        {% else %}
+        <p class="caja-turno-actual caja-turno-cerrado">INACTIVO</p>
+        {% endif %}
+      </div>
     </div>
   </header>
 
@@ -50,9 +57,26 @@
       <a href="turno.html" class="guia-paso">4. Turno</a>
     </div>
 
+    {% if not sistema_activo %}
     <div class="aviso-panel">
-      Este carrito muestra un pedido de ejemplo. Todavía no se guardan productos reales.
+      {{ mensaje_cerrado }}
     </div>
+    {% endif %}
+
+    {% if aviso %}
+    <div class="aviso-panel">{{ aviso }}</div>
+    {% endif %}
+
+    {% if carrito_vacio %}
+
+    <div class="aviso-panel">
+      Tu carrito está vacío. Agrega productos desde el catálogo.
+    </div>
+    <div class="pedido-acciones">
+      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+    </div>
+
+    {% else %}
 
     <div class="pedido-tabla-contenedor">
       <table class="pedido-tabla">
@@ -60,42 +84,51 @@
           <tr>
             <th>Producto</th>
             <th>Cantidad</th>
-            <th>Precio</th>
+            <th>Precio unitario</th>
             <th>Subtotal</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
+          {% for item in items %}
           <tr>
-            <td>Arepa con queso</td>
-            <td>2</td>
-            <td>$3.500</td>
-            <td>$7.000</td>
+            <td>{{ item.nombre }}</td>
+            <td>
+              <form action="/actualizar-carrito" method="post" class="form-cantidad">
+                <input type="hidden" name="id" value="{{ item.id }}">
+                <input type="text" name="cantidad" value="{{ item.cantidad }}" class="input-cantidad" aria-label="Cantidad de {{ item.nombre }}">
+                <button type="submit" class="btn btn-azul btn-pequeno">Cambiar</button>
+              </form>
+            </td>
+            <td>{{ item.precio_texto }}</td>
+            <td>{{ item.subtotal_texto }}</td>
+            <td>
+              <form action="/quitar-del-carrito" method="post">
+                <input type="hidden" name="id" value="{{ item.id }}">
+                <button type="submit" class="btn btn-oscuro btn-pequeno">Quitar</button>
+              </form>
+            </td>
           </tr>
-          <tr>
-            <td>Jugo natural</td>
-            <td>1</td>
-            <td>$2.500</td>
-            <td>$2.500</td>
-          </tr>
-          <tr>
-            <td>Empanada</td>
-            <td>3</td>
-            <td>$2.000</td>
-            <td>$6.000</td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
 
     <div class="pedido-total">
       <p>Total</p>
-      <p class="total-valor">$15.500</p>
+      <p class="total-valor">{{ total_texto }}</p>
     </div>
 
     <div class="pedido-acciones">
       <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+      {% if sistema_activo %}
       <a href="pago.html" class="btn btn-verde btn-grande">Continuar</a>
+      {% else %}
+      <button type="button" class="btn btn-agotado" disabled>Pedidos cerrados</button>
+      {% endif %}
     </div>
+
+    {% endif %}
 
   </main>
 
