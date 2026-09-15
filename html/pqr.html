@@ -21,14 +21,7 @@
           <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
-      <nav class="nav">
-        <a href="catalogo.html">Catálogo</a>
-        <a href="carrito.html">Carrito</a>
-        <a href="turno.html">Mi turno</a>
-        <a href="pqr.html" class="activo">PQR</a>
-        <a href="encuesta.html">Encuesta</a>
-        <a href="index.html" class="btn-registro">Cerrar sesión</a>
-      </nav>
+      {% include "menu.html" %}
     </div>
   </header>
 
@@ -49,22 +42,26 @@
         Este formulario es visual. El mensaje no se guarda todavía.
       </div>
 
+      {% if error %}
+      <div class="aviso-panel">{{ error }}</div>
+      {% endif %}
+
       <!-- Flask recibe el formulario y muestra un mensaje según el tipo. Todavía no se guarda en MySQL. -->
       <form action="pqr-gracias.html" method="post">
         <div class="form-grupo">
           <label for="tipo">Tipo de PQR</label>
-          <select id="tipo" name="tipo">
+          <select id="tipo" name="tipo" required>
             <option value="">Selecciona un tipo</option>
-            <option value="peticion">Petición</option>
-            <option value="queja">Queja</option>
-            <option value="reclamo">Reclamo</option>
-            <option value="felicitacion">Felicitación</option>
+            <option value="peticion"{% if tipo == "peticion" %} selected{% endif %}>Petición</option>
+            <option value="queja"{% if tipo == "queja" %} selected{% endif %}>Queja</option>
+            <option value="reclamo"{% if tipo == "reclamo" %} selected{% endif %}>Reclamo</option>
+            <option value="felicitacion"{% if tipo == "felicitacion" %} selected{% endif %}>Felicitación</option>
           </select>
         </div>
 
         <div class="form-grupo">
           <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre">
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" value="{{ nombre }}" required>
         </div>
 
         <div class="form-grupo">
@@ -79,7 +76,7 @@
 
         <div class="form-grupo">
           <label for="mensaje">Mensaje</label>
-          <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje"></textarea>
+          <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje" required>{{ mensaje_pqr }}</textarea>
         </div>
 
         <button type="submit" class="btn btn-verde form-boton">
@@ -90,17 +87,7 @@
 
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-    <nav class="footer-nav">
-      <a href="catalogo.html">Catálogo</a>
-      <a href="encuesta.html">Encuesta</a>
-    </nav>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

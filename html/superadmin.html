@@ -22,14 +22,7 @@
           <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
-      <nav class="nav">
-        <a href="superadmin.html" class="activo">Inicio</a>
-        <a href="superadmin-productos.html">Productos</a>
-        <a href="superadmin-reportes.html">Reportes</a>
-        <a href="superadmin-usuarios.html">Usuarios</a>
-        <a href="superadmin-pqr.html">PQR</a>
-        <a href="index.html" class="btn-registro">Cerrar sesión</a>
-      </nav>
+      {% include "menu.html" %}
     </div>
   </header>
 
@@ -154,13 +147,7 @@
     </div>
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

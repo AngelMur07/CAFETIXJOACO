@@ -96,7 +96,16 @@ img {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 16px;
+}
+
+.header-marca {
+  flex: 0 1 auto;
+}
+
+.header-contenedor > .nav {
+  flex: 1 1 auto;
+  justify-content: center;
 }
 
 .header-marca {
@@ -157,6 +166,10 @@ img {
   font-size: 0.9rem;
   font-family: 'Poppins', Arial, sans-serif;
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   transition: background-color 0.2s, color 0.2s, transform 0.2s;
 }
 
@@ -213,6 +226,16 @@ img {
   color: var(--azul-oscuro);
 }
 
+.nav a.btn-cerrar {
+  color: var(--blanco);
+  font-weight: 600;
+}
+
+.nav a.btn-cerrar:hover {
+  background-color: var(--rojo);
+  color: var(--blanco);
+}
+
 /* --- Contenido principal --- */
 .main {
   flex: 1;
@@ -229,14 +252,16 @@ img {
   padding: 0 24px;
 }
 
-/* --- Pie de página --- */
+/* --- Pie de página (todas las páginas) --- */
 .footer {
   background-color: var(--azul);
   color: var(--blanco);
-  text-align: center;
-  padding: 20px 24px;
+  width: 100%;
+  text-align: left;
+  padding: 32px 24px 16px;
   font-size: 0.85rem;
   margin-top: auto;
+  border-top: 4px solid var(--verde);
 }
 
 .footer p {
@@ -250,7 +275,43 @@ img {
   font-size: 1rem;
   opacity: 1;
   letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.footer-contenido {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 28px;
+  padding-bottom: 20px;
+}
+
+.footer-columna {
+  flex: 1 1 180px;
+  min-width: 160px;
+}
+
+.footer-columna h3 {
+  color: var(--blanco);
+  font-size: 0.82rem;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.footer-columna p {
   margin-bottom: 4px;
+}
+
+.footer-copy {
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  text-align: center;
+  padding-top: 14px;
+  margin-top: 4px;
+  font-size: 0.8rem;
 }
 
 .footer .acento-linea {
@@ -354,6 +415,15 @@ img {
 .btn-grande {
   padding: 14px 32px;
   font-size: 1.05rem;
+}
+
+.btn:disabled,
+.btn:disabled:hover {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
+  box-shadow: none;
 }
 
 /* --- Tarjetas generales --- */
@@ -468,9 +538,18 @@ img {
 
 .hero-botones {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 14px;
   flex-wrap: wrap;
+}
+
+.hero-botones .btn,
+.nav a.btn-catalogo {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 /* --- Qué es CAFETIX JOACO --- */
@@ -651,8 +730,9 @@ img {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 14px;
-  max-width: 760px;
+  align-items: stretch;
+  gap: 16px;
+  max-width: 780px;
   margin: 0 auto;
 }
 
@@ -660,17 +740,21 @@ img {
   background-color: var(--azul-suave);
   border-radius: var(--radio);
   box-shadow: var(--sombra);
-  padding: 16px 14px 16px 42px;
+  padding: 18px 16px;
   font-size: 0.92rem;
   font-weight: 600;
   color: var(--texto);
-  position: relative;
   border: 1px solid #d5e8f5;
   border-top: 3px solid var(--verde);
   transition: transform 0.2s, box-shadow 0.2s;
-  flex: 0 1 220px;
-  width: 220px;
-  text-align: left;
+  flex: 0 1 230px;
+  width: 230px;
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
 }
 
 .beneficios li:nth-child(even) {
@@ -686,13 +770,13 @@ img {
 
 .beneficios li::before {
   content: "✓";
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
+  position: static;
+  transform: none;
   color: var(--verde);
   font-weight: 700;
   font-size: 0.95rem;
+  flex-shrink: 0;
+  line-height: 1;
 }
 
 /* --- Llamado a la acción --- */
@@ -849,18 +933,19 @@ img {
   padding: 8px 14px;
   border-radius: 20px;
   display: inline-block;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-a.guia-paso:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--sombra);
+  cursor: default;
 }
 
 .guia-paso-activo {
   background-color: var(--verde);
   color: var(--blanco);
   border-color: var(--verde);
+}
+
+.guia-paso-bloqueado {
+  color: var(--texto-suave);
+  background-color: var(--gris-claro);
+  border-color: var(--gris);
 }
 
 .guia-flecha {
@@ -1225,8 +1310,13 @@ a.guia-paso:hover {
   gap: 10px;
 }
 
+.roles-lista form {
+  margin: 0;
+}
+
 .rol-enlace {
   display: block;
+  width: 100%;
   text-align: center;
   padding: 12px 10px;
   border-radius: var(--radio-btn);
@@ -1236,10 +1326,11 @@ a.guia-paso:hover {
   font-family: 'Poppins', Arial, sans-serif;
   font-size: 0.82rem;
   font-weight: 600;
+  cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
 }
 
-.rol-enlace:nth-child(even) {
+.roles-lista form:nth-child(even) .rol-enlace {
   background-color: var(--verde-suave);
   border-color: #d4ead8;
   color: var(--verde-oscuro);
@@ -1248,6 +1339,47 @@ a.guia-paso:hover {
 .rol-enlace:hover {
   transform: translateY(-2px);
   box-shadow: var(--sombra);
+}
+
+.indicador-turno {
+  flex: 0 0 auto;
+  min-width: 140px;
+  text-align: center;
+  background-color: var(--verde);
+  color: var(--blanco);
+  border-radius: var(--radio-btn);
+  padding: 8px 14px;
+}
+
+.indicador-turno-titulo {
+  margin: 0;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+.indicador-turno-numero {
+  margin: 2px 0 0;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.indicador-turno-estado {
+  margin: 2px 0 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.aviso-login {
+  background-color: #fff6d8;
+  border-left: 4px solid #d4a017;
+  color: #5c4a12;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1.05rem;
 }
 
 /* --- Caja de pago simulado (carrito) --- */
@@ -1288,6 +1420,10 @@ a.guia-paso:hover {
 
 .footer-nav a:hover {
   text-decoration: underline;
+}
+
+.footer-inicio {
+  width: 100%;
 }
 
 /* --- Mensaje de demostración (formularios) --- */
@@ -1348,7 +1484,8 @@ a.guia-paso:hover {
   }
 
   .nav a.btn-sesion,
-  .nav a.btn-registro {
+  .nav a.btn-registro,
+  .nav a.btn-cerrar {
     margin-left: 0;
   }
 
@@ -1375,6 +1512,10 @@ a.guia-paso:hover {
 
   .panel-acciones {
     flex-direction: column;
+  }
+
+  .footer-contenido {
+    gap: 22px;
   }
 
   .panel-acciones .btn {
@@ -1448,5 +1589,10 @@ a.guia-paso:hover {
 
   .roles-lista {
     grid-template-columns: 1fr;
+  }
+
+  .footer-contenido {
+    flex-direction: column;
+    gap: 20px;
   }
 }

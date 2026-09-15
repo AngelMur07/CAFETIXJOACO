@@ -21,32 +21,19 @@
           <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
-      <div class="header-derecha">
-        <nav class="nav">
-          <a href="catalogo.html">Catálogo</a>
-          <a href="carrito.html">Carrito</a>
-          <a href="turno.html" class="activo">Mi turno</a>
-          <a href="pqr.html">PQR</a>
-          <a href="encuesta.html">Encuesta</a>
-          <a href="index.html" class="btn-registro">Cerrar sesión</a>
-        </nav>
-        {% if sistema_activo %}
-        <p class="caja-turno-actual">Turno actual: <strong>{{ turno_actual }}</strong></p>
-        {% else %}
-        <p class="caja-turno-actual caja-turno-cerrado">INACTIVO</p>
-        {% endif %}
-      </div>
+      {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
   <main class="main">
 
     <div class="guia-pasos">
-      <a href="catalogo.html" class="guia-paso">1. Catálogo</a>
+      <span class="guia-paso">1. Catálogo</span>
       <span class="guia-flecha">→</span>
-      <a href="carrito.html" class="guia-paso">2. Carrito</a>
+      <span class="guia-paso">2. Carrito</span>
       <span class="guia-flecha">→</span>
-      <a href="pago.html" class="guia-paso">3. Pago</a>
+      <span class="guia-paso">3. Pago</span>
       <span class="guia-flecha">→</span>
       <span class="guia-paso guia-paso-activo">4. Turno</span>
     </div>
@@ -116,17 +103,7 @@
 
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-    <nav class="footer-nav">
-      <a href="pqr.html">PQR</a>
-      <a href="encuesta.html">Encuesta</a>
-    </nav>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

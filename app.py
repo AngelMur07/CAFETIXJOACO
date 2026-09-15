@@ -153,7 +153,21 @@ def guardar_carrito(items):
 
 def vaciar_carrito():
     session["carrito"] = []
+    session.pop("paso_carrito", None)
     session.modified = True
+
+
+def url_catalogo(aviso=""):
+    """Vuelve al catálogo y conserva la búsqueda o el filtro que tenía el usuario."""
+    buscar = request.form.get("buscar", "")
+    categoria = request.form.get("categoria", "todos")
+    orden = request.form.get("orden", "default")
+    url = "/catalogo.html?categoria=" + quote(categoria)
+    url = url + "&buscar=" + quote(buscar)
+    url = url + "&orden=" + quote(orden)
+    if aviso:
+        url = url + "&aviso=" + quote(aviso)
+    return url
 
 
 def armar_lineas_carrito():
@@ -300,7 +314,13 @@ HORARIOS_DESCANSO = [
 extension_hasta = None
 extension_jornada = None
 
+# Control manual del administrador o el vendedor. Vuelve a True al reiniciar Flask.
+sistema_habilitado = True
+
 MENSAJE_CERRADO = "El sistema de pedidos y turnos está disponible únicamente durante los horarios de descanso."
+MENSAJE_DESHABILITADO = "El sistema de pedidos está deshabilitado."
+MENSAJE_PEDIDOS_CERRADOS = "Los pedidos están cerrados en este momento."
+MENSAJE_LOGIN_CARRITO = "Debes iniciar sesion para agregar productos al carrito"
 MENSAJE_TURNOS_CERRADOS = "Los turnos están disponibles durante los horarios de descanso."
 
 # Deja None para usar la hora real. Para probar, escribe por ejemplo time(8, 40) o time(10, 0).
@@ -358,7 +378,7 @@ def limpiar_extension_vencida(minutos_actuales):
     """Si ya pasó la hora de extensión, se cancela sola."""
     global extension_hasta, extension_jornada
     if extension_hasta is None:
-        return
+            return
     if minutos_actuales > a_minutos(extension_hasta):
         extension_hasta = None
         extension_jornada = None
@@ -419,6 +439,32 @@ def armar_estado(jornada, activo, por_extension):
     }
 
 
+def sistema_pedidos_activo():
+    """Activo solo si hay horario de descanso (o extensión) y habilitación manual."""
+    horario_activo = estado_descanso()["activo"]
+    if sistema_habilitado and horario_activo:
+        return True
+    return False
+
+
+def datos_carrito_flotante():
+    """Datos para mostrar el carrito flotante solo si ya hay productos."""
+    cantidad = 0
+    for item in obtener_carrito():
+        cantidad = cantidad + item.get("cantidad", 0)
+    return {
+        "carrito_tiene_productos": cantidad > 0 and rol_actual() == "cliente",
+        "carrito_cantidad": cantidad,
+    }
+
+
+def volver_al_panel():
+    origen = request.form.get("origen", "")
+    if origen == "vendedor":
+        return redirect("/vendedor.html")
+    return redirect("/administrador.html")
+
+
 def datos_pagina_admin(aviso=""):
     """Datos para la sección de horario del administrador."""
     estado = estado_descanso()
@@ -428,7 +474,9 @@ def datos_pagina_admin(aviso=""):
         hora_guardada = f"{extension_hasta.hour:02d}:{extension_hasta.minute:02d}"
         texto_extension = hora_en_texto(extension_hasta)
     return {
-        "sistema_activo": estado["activo"],
+        "horario_activo": estado["activo"],
+        "sistema_activo": sistema_habilitado,
+        "sistema_habilitado": sistema_habilitado,
         "jornada_corta": estado["jornada_corta"] or "Ninguno",
         "cierre_normal": estado["cierre_normal"] or "—",
         "puede_extender": estado["puede_extender"],
@@ -436,6 +484,9 @@ def datos_pagina_admin(aviso=""):
         "hora_extension_valor": hora_guardada,
         "extension_texto": texto_extension,
         "aviso_horario": aviso,
+        "sesion_iniciada": usuario_logueado(),
+        "rol": rol_actual(),
+        "pagina_actual": pagina_menu(),
     }
 
 
@@ -447,20 +498,94 @@ def descanso_en_curso():
     return buscar_jornada(estado["jornada"])
 
 
-def datos_pagina_cliente():
-    """Datos que se envían a las páginas de pedido y turnos."""
-    estado = estado_descanso()
+def usuario_logueado():
+    """Sesión sencilla. Más adelante vendrá de MySQL."""
+    return bool(session.get("sesion_iniciada"))
+
+
+def rol_actual():
+    return session.get("rol", "")
+
+
+def pagina_menu():
+    ruta = request.path.strip("/")
+    if ruta in ("", "index.html"):
+        return "inicio"
+    return ruta.replace(".html", "")
+
+
+def datos_sesion():
     return {
+        "sesion_iniciada": usuario_logueado(),
+        "rol": rol_actual(),
+        "pagina_actual": pagina_menu(),
         "turno_actual": turno_actual,
-        "sistema_activo": estado["activo"],
-        "jornada_activa": estado["jornada"],
-        "horario_texto": estado["horario_texto"],
-        "mensaje_cerrado": MENSAJE_CERRADO,
-        "mensaje_turnos_cerrados": MENSAJE_TURNOS_CERRADOS,
+        "sistema_habilitado": sistema_habilitado,
     }
 
 
+def iniciar_sesion_rol(rol, nombre=""):
+    session["sesion_iniciada"] = True
+    session["rol"] = rol
+    if nombre:
+        session["nombre_usuario"] = nombre
+    else:
+        session["nombre_usuario"] = rol
+
+
+def redirigir_si_no_autorizado(pagina):
+    """Impide que un visitante entre a páginas de un rol escribiendo la dirección."""
+    rol = rol_actual()
+    if pagina in ("index", "catalogo", "login", "registro"):
+        return None
+    if pagina in ("carrito", "pago", "turno", "pqr", "encuesta", "gracias", "pqr-gracias"):
+        if rol != "cliente":
+            return redirect("/login.html")
+        return None
+    if pagina == "vendedor":
+        if rol != "vendedor":
+            return redirect("/login.html")
+        return None
+    if pagina == "administrador" or pagina.startswith("admin-"):
+        if rol not in ("administrador", "superadmin"):
+            return redirect("/login.html")
+        return None
+    if pagina.startswith("superadmin"):
+        if rol != "superadmin":
+            return redirect("/login.html")
+        return None
+    return None
+
+
+def datos_pagina_cliente():
+    """Datos que se envían a las páginas de pedido y turnos."""
+    estado = estado_descanso()
+    horario_activo = estado["activo"]
+    if not sistema_habilitado:
+        mensaje_cerrado = MENSAJE_DESHABILITADO
+    else:
+        mensaje_cerrado = MENSAJE_CERRADO
+    datos = {
+        "turno_actual": turno_actual,
+        "horario_activo": horario_activo,
+        "sistema_habilitado": sistema_habilitado,
+        "sistema_activo": sistema_habilitado,
+        "sistema_pedidos_activo": sistema_pedidos_activo(),
+        "sesion_iniciada": usuario_logueado(),
+        "rol": rol_actual(),
+        "jornada_activa": estado["jornada"],
+        "horario_texto": estado["horario_texto"],
+        "mensaje_cerrado": mensaje_cerrado,
+        "mensaje_turnos_cerrados": MENSAJE_TURNOS_CERRADOS,
+        "hay_turno": session.get("ultimo_pedido") is not None,
+        "pagina_actual": pagina_menu(),
+    }
+    datos.update(datos_carrito_flotante())
+    return datos
+
+
 # Mensajes de confirmación del formulario PQR. Todavía no se guardan en MySQL.
+TIPOS_PQR = ("peticion", "queja", "reclamo", "felicitacion")
 MENSAJES_PQR = {
     "peticion": "Tu petición ha sido enviada, la tomaremos en cuenta. Gracias.",
     "queja": "Tu queja ha sido enviada. La tendremos en cuenta para mejorar nuestro servicio. Gracias.",
@@ -469,8 +594,29 @@ MENSAJES_PQR = {
 }
 
 
+def validar_pqr(tipo, nombre, mensaje):
+    if tipo not in TIPOS_PQR:
+        return "Por favor selecciona un tipo de PQR."
+    if not (nombre or "").strip():
+        return "Por favor escribe tu nombre."
+    if not (mensaje or "").strip():
+        return "Por favor escribe el mensaje."
+    return ""
+
+
+def datos_formulario_pqr(error="", tipo="", nombre="", mensaje=""):
+    datos = datos_pagina_cliente()
+    datos.update({
+        "error": error,
+        "tipo": tipo,
+        "nombre": nombre,
+        "mensaje_pqr": mensaje,
+    })
+    return datos
+
+
 def mostrar_html(nombre_archivo):
-    return send_from_directory(CARPETA_HTML, nombre_archivo)
+    return render_template(nombre_archivo, **datos_pagina_cliente())
 
 
 def mostrar_con_turno(nombre_archivo, extra=None):
@@ -494,7 +640,36 @@ def registro():
 
 @app.route("/login.html", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        nombre = request.form.get("usuario", "").strip()
+        if not nombre:
+            nombre = "Cliente"
+        iniciar_sesion_rol("cliente", nombre)
+        return redirect("/catalogo.html")
     return mostrar_html("login.html")
+
+
+@app.route("/entrar-rol", methods=["POST"])
+def entrar_rol():
+    rol = request.form.get("rol", "")
+    destinos = {
+        "cliente": "/catalogo.html",
+        "vendedor": "/vendedor.html",
+        "administrador": "/administrador.html",
+        "superadmin": "/superadmin.html",
+    }
+    if rol not in destinos:
+        return redirect("/login.html")
+    iniciar_sesion_rol(rol)
+    return redirect(destinos[rol])
+
+
+@app.route("/cerrar-sesion")
+def cerrar_sesion():
+    session.pop("sesion_iniciada", None)
+    session.pop("nombre_usuario", None)
+    session.pop("rol", None)
+    return redirect("/index.html")
 
 
 @app.route("/catalogo.html")
@@ -517,8 +692,10 @@ def catalogo():
 
 @app.route("/agregar-al-carrito", methods=["POST"])
 def agregar_al_carrito():
-    if not estado_descanso()["activo"]:
-        return redirect("/catalogo.html?aviso=" + quote("El sistema de pedidos está cerrado."))
+    if rol_actual() != "cliente":
+        return redirect("/catalogo.html?aviso=" + quote(MENSAJE_LOGIN_CARRITO))
+    if not sistema_pedidos_activo():
+        return redirect("/catalogo.html?aviso=" + quote(MENSAJE_PEDIDOS_CERRADOS))
     try:
         producto_id = int(request.form.get("id", "0"))
     except ValueError:
@@ -543,11 +720,16 @@ def agregar_al_carrito():
     else:
         linea["cantidad"] = nueva
     guardar_carrito(items)
-    return redirect("/carrito.html?aviso=" + quote("El producto se agregó al carrito."))
+    return redirect(url_catalogo("Producto agregado al carrito."))
 
 
 @app.route("/carrito.html")
 def carrito():
+    bloqueo = redirigir_si_no_autorizado("carrito")
+    if bloqueo:
+        return bloqueo
+    session["paso_carrito"] = True
+    session.modified = True
     lineas, total = armar_lineas_carrito()
     return mostrar_con_turno("carrito.html", {
         "items": lineas,
@@ -559,32 +741,53 @@ def carrito():
 
 @app.route("/actualizar-carrito", methods=["POST"])
 def actualizar_carrito():
+    bloqueo = redirigir_si_no_autorizado("carrito")
+    if bloqueo:
+        return bloqueo
+    if not sistema_pedidos_activo():
+        return redirect("/carrito.html?aviso=" + quote(MENSAJE_PEDIDOS_CERRADOS))
     try:
         producto_id = int(request.form.get("id", "0"))
-        cantidad = int(request.form.get("cantidad", ""))
     except ValueError:
         return redirect("/carrito.html?aviso=" + quote("Ingresa una cantidad válida."))
+    items = obtener_carrito()
+    actual = 0
+    linea = None
+    for item in items:
+        if item["id"] == producto_id:
+            linea = item
+            actual = item["cantidad"]
+    if linea is None:
+        return redirect("/carrito.html?aviso=" + quote("No se encontró el producto."))
+    cambio = request.form.get("cambio", "")
+    if cambio == "mas":
+        cantidad = actual + 1
+    elif cambio == "menos":
+        cantidad = actual - 1
+    else:
+        try:
+            cantidad = int(request.form.get("cantidad", ""))
+        except ValueError:
+            return redirect("/carrito.html?aviso=" + quote("Ingresa una cantidad válida."))
     if cantidad < 1:
-        return redirect("/carrito.html?aviso=" + quote("Ingresa una cantidad válida."))
+        return redirect("/carrito.html?aviso=" + quote("La cantidad mínima es 1."))
     producto = buscar_producto(producto_id)
     if producto is None:
         return redirect("/carrito.html?aviso=" + quote("No se encontró el producto."))
     if cantidad > producto["cantidad"]:
         return redirect("/carrito.html?aviso=" + quote("Solo hay " + str(producto["cantidad"]) + " unidades disponibles."))
-    items = obtener_carrito()
-    encontrado = False
-    for item in items:
-        if item["id"] == producto_id:
-            item["cantidad"] = cantidad
-            encontrado = True
-    if not encontrado:
-        return redirect("/carrito.html?aviso=" + quote("No se encontró el producto."))
+    linea["cantidad"] = cantidad
     guardar_carrito(items)
-    return redirect("/carrito.html?aviso=" + quote("La cantidad se actualizó."))
+    return redirect("/carrito.html")
 
 
 @app.route("/quitar-del-carrito", methods=["POST"])
 def quitar_del_carrito():
+    bloqueo = redirigir_si_no_autorizado("carrito")
+    if bloqueo:
+        return bloqueo
+    if not sistema_pedidos_activo():
+        return redirect("/carrito.html?aviso=" + quote(MENSAJE_PEDIDOS_CERRADOS))
     try:
         producto_id = int(request.form.get("id", "0"))
     except ValueError:
@@ -599,7 +802,16 @@ def quitar_del_carrito():
 
 @app.route("/pago.html")
 def pago():
+    bloqueo = redirigir_si_no_autorizado("pago")
+    if bloqueo:
+        return bloqueo
+    if not session.get("paso_carrito"):
+        return redirect("/carrito.html")
     lineas, total = armar_lineas_carrito()
+    if not lineas:
+        return redirect("/carrito.html")
+    if not sistema_pedidos_activo():
+        return redirect("/carrito.html?aviso=" + quote(MENSAJE_PEDIDOS_CERRADOS))
     return mostrar_con_turno("pago.html", {
         "items": lineas,
         "total_texto": precio_en_texto(total),
@@ -610,11 +822,16 @@ def pago():
 
 @app.route("/confirmar-pago", methods=["POST"])
 def confirmar_pago():
-    if not estado_descanso()["activo"]:
-        return redirect("/pago.html?aviso=" + quote("No se puede confirmar la compra porque el sistema está cerrado."))
+    bloqueo = redirigir_si_no_autorizado("pago")
+    if bloqueo:
+        return bloqueo
+    if not session.get("paso_carrito"):
+        return redirect("/carrito.html")
     items = obtener_carrito()
     if not items:
         return redirect("/carrito.html?aviso=" + quote("El carrito está vacío."))
+    if not sistema_pedidos_activo():
+        return redirect("/carrito.html?aviso=" + quote(MENSAJE_PEDIDOS_CERRADOS))
     for item in items:
         producto = buscar_producto(item["id"])
         if producto is None:
@@ -640,19 +857,29 @@ def confirmar_pago():
 
 @app.route("/turno.html")
 def turno():
+    bloqueo = redirigir_si_no_autorizado("turno")
+    if bloqueo:
+        return bloqueo
+    ultimo = session.get("ultimo_pedido")
+    if not ultimo:
+        return redirect("/catalogo.html?aviso=" + quote("Debes completar el pago para consultar tu turno."))
     return mostrar_con_turno("turno.html", {
-        "ultimo_pedido": session.get("ultimo_pedido"),
+        "ultimo_pedido": ultimo,
     })
 
 
 @app.route("/vendedor.html")
 def vendedor():
+    bloqueo = redirigir_si_no_autorizado("vendedor")
+    if bloqueo:
+        return bloqueo
     aviso = request.args.get("turno", "")
     pendientes, entregados = pedidos_para_vendedor()
     return mostrar_con_turno(
         "vendedor.html",
         {
             "aviso_turno_cerrado": aviso == "cerrado",
+            "aviso_sin_turnos": aviso == "sin-turnos",
             "aviso_pedido": request.args.get("aviso", ""),
             "pedidos_pendientes": pendientes,
             "pedidos_entregados": entregados,
@@ -663,6 +890,9 @@ def vendedor():
 
 @app.route("/cambiar-estado-pedido", methods=["POST"])
 def cambiar_estado_pedido():
+    bloqueo = redirigir_si_no_autorizado("vendedor")
+    if bloqueo:
+        return bloqueo
     try:
         pedido_id = int(request.form.get("id", "0"))
     except ValueError:
@@ -680,16 +910,24 @@ def cambiar_estado_pedido():
 
 @app.route("/siguiente-turno", methods=["GET", "POST"])
 def siguiente_turno():
-    """Avanza el turno actual solo si el sistema está en horario de descanso."""
+    """Avanza el turno actual solo si el sistema está realmente activo."""
     global turno_actual
-    if not estado_descanso()["activo"]:
+    bloqueo = redirigir_si_no_autorizado("vendedor")
+    if bloqueo:
+        return bloqueo
+    if not sistema_pedidos_activo():
         return redirect("/vendedor.html?turno=cerrado")
+    if turno_actual >= ultimo_turno_asignado:
+        return redirect("/vendedor.html?turno=sin-turnos")
     turno_actual = turno_actual + 1
     return redirect("/vendedor.html")
 
 
 @app.route("/administrador.html")
 def administrador():
+    bloqueo = redirigir_si_no_autorizado("administrador")
+    if bloqueo:
+        return bloqueo
     aviso = request.args.get("horario", "")
     return render_template("administrador.html", **datos_pagina_admin(aviso))
 
@@ -697,6 +935,9 @@ def administrador():
 @app.route("/extender-horario", methods=["POST"])
 def extender_horario():
     """Guarda una hora extra solo si hay un descanso en curso."""
+    bloqueo = redirigir_si_no_autorizado("administrador")
+    if bloqueo:
+        return bloqueo
     global extension_hasta, extension_jornada
     jornada = descanso_en_curso()
     if jornada is None:
@@ -720,6 +961,9 @@ def extender_horario():
 
 @app.route("/cancelar-extension", methods=["POST"])
 def cancelar_extension():
+    bloqueo = redirigir_si_no_autorizado("administrador")
+    if bloqueo:
+        return bloqueo
     global extension_hasta, extension_jornada
     extension_hasta = None
     extension_jornada = None
@@ -728,6 +972,9 @@ def cancelar_extension():
 
 @app.route("/admin-productos.html")
 def admin_productos():
+    bloqueo = redirigir_si_no_autorizado("admin-productos")
+    if bloqueo:
+        return bloqueo
     aviso = request.args.get("aviso", "")
     editar_id = request.args.get("editar", "")
     producto_editar = None
@@ -743,6 +990,7 @@ def admin_productos():
         imagenes=imagenes_disponibles(),
         producto_editar=producto_editar,
         aviso=aviso,
+        **datos_sesion(),
     )
 
 
@@ -801,13 +1049,16 @@ def editar_producto():
 
 @app.route("/admin-eliminar.html")
 def admin_eliminar():
+    bloqueo = redirigir_si_no_autorizado("admin-eliminar")
+    if bloqueo:
+        return bloqueo
     try:
         producto = buscar_producto(int(request.args.get("id", "0")))
     except ValueError:
         producto = None
     if producto is None:
         return redirect("/admin-productos.html?aviso=" + quote("No se encontró el producto."))
-    return render_template("admin-eliminar.html", producto=preparar(producto))
+    return render_template("admin-eliminar.html", producto=preparar(producto), **datos_sesion())
 
 
 @app.route("/eliminar-producto", methods=["POST"])
@@ -825,32 +1076,72 @@ def eliminar_producto():
 
 @app.route("/admin-inventarios.html")
 def admin_inventarios():
+    bloqueo = redirigir_si_no_autorizado("admin-inventarios")
+    if bloqueo:
+        return bloqueo
     return render_template(
         "admin-inventarios.html",
         productos=[preparar(p) for p in PRODUCTOS],
+        **datos_sesion(),
     )
 
 
 @app.route("/encuesta.html")
 def encuesta():
+    bloqueo = redirigir_si_no_autorizado("encuesta")
+    if bloqueo:
+        return bloqueo
     return mostrar_html("encuesta.html")
 
 
 @app.route("/gracias.html", methods=["GET", "POST"])
 def gracias():
+    bloqueo = redirigir_si_no_autorizado("gracias")
+    if bloqueo:
+        return bloqueo
     return mostrar_html("gracias.html")
 
 
 @app.route("/pqr.html")
 def pqr():
-    return mostrar_html("pqr.html")
+    bloqueo = redirigir_si_no_autorizado("pqr")
+    if bloqueo:
+        return bloqueo
+    return render_template("pqr.html", **datos_formulario_pqr())
 
 
 @app.route("/pqr-gracias.html", methods=["GET", "POST"])
 def pqr_gracias():
+    if request.method != "POST":
+        return redirect("/pqr.html")
     tipo = request.form.get("tipo", "")
-    mensaje = MENSAJES_PQR.get(tipo, "Tu mensaje ha sido enviado. Gracias.")
-    return render_template("pqr-gracias.html", mensaje=mensaje)
+    nombre = request.form.get("nombre", "")
+    mensaje = request.form.get("mensaje", "")
+    error = validar_pqr(tipo, nombre, mensaje)
+    if error:
+        return render_template(
+            "pqr.html",
+            **datos_formulario_pqr(error, tipo, nombre.strip(), mensaje),
+        )
+    return render_template("pqr-gracias.html", mensaje=MENSAJES_PQR[tipo], **datos_pagina_cliente())
+
+
+@app.route("/habilitar-sistema", methods=["POST"])
+def habilitar_sistema():
+    global sistema_habilitado
+    if rol_actual() not in ("vendedor", "administrador", "superadmin"):
+        return redirect("/login.html")
+    sistema_habilitado = True
+    return volver_al_panel()
+
+
+@app.route("/deshabilitar-sistema", methods=["POST"])
+def deshabilitar_sistema():
+    global sistema_habilitado
+    if rol_actual() not in ("vendedor", "administrador", "superadmin"):
+        return redirect("/login.html")
+    sistema_habilitado = False
+    return volver_al_panel()
 
 
 @app.route("/css/<path:archivo>")
@@ -865,8 +1156,13 @@ def imagenes(archivo):
 
 @app.route("/<nombre>.html")
 def otras_paginas(nombre):
+    bloqueo = redirigir_si_no_autorizado(nombre)
+    if bloqueo:
+        return bloqueo
     if nombre == "catalogo":
         return catalogo()
+    if nombre == "pqr":
+        return pqr()
     if nombre == "pqr-gracias":
         return pqr_gracias()
     if nombre == "carrito":

@@ -43,6 +43,21 @@
   color: var(--rojo);
 }
 
+.acciones-sistema {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.acciones-sistema form {
+  margin: 0;
+}
+
+.acciones-sistema .btn {
+  min-width: 140px;
+}
+
 /* Caja principal: se ve rápido en el computador de la cafetería */
 .turno-actual {
   background-color: var(--azul);

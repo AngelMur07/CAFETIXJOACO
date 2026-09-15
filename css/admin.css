@@ -48,6 +48,21 @@
   margin-top: 12px;
 }
 
+.acciones-sistema {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.acciones-sistema form {
+  margin: 0;
+}
+
+.acciones-sistema .btn {
+  min-width: 140px;
+}
+
 /* Acciones del CRUD en la tabla */
 .crud-acciones {
   display: flex;
