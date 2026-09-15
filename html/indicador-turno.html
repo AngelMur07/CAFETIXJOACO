@@ -1,0 +1,8 @@
+    <div class="indicador-turno">
+      <p class="indicador-turno-titulo">¿En qué turno van?</p>
+      {% if sistema_pedidos_activo %}
+      <p class="indicador-turno-numero">Turno actual: {{ turno_actual }}</p>
+      {% else %}
+      <p class="indicador-turno-estado">INACTIVO</p>
+      {% endif %}
+    </div>

@@ -1,0 +1,37 @@
+      <nav class="nav">
+        {% if not sesion_iniciada %}
+        <a href="index.html"{% if pagina_actual == "inicio" %} class="activo"{% endif %}>Inicio</a>
+        <a href="catalogo.html"{% if pagina_actual == "catalogo" %} class="activo"{% endif %}>Catálogo</a>
+        <a href="login.html" class="btn-sesion{% if pagina_actual == "login" %} activo{% endif %}">Iniciar sesión</a>
+        <a href="registro.html" class="btn-registro{% if pagina_actual == "registro" %} activo{% endif %}">Registrarse</a>
+
+        {% elif rol == "cliente" %}
+        <a href="index.html"{% if pagina_actual == "inicio" %} class="activo"{% endif %}>Inicio</a>
+        <a href="catalogo.html"{% if pagina_actual == "catalogo" %} class="activo"{% endif %}>Catálogo</a>
+        {% if hay_turno %}<a href="turno.html"{% if pagina_actual == "turno" %} class="activo"{% endif %}>Mi turno</a>{% else %}<span class="nav-inactivo">Mi turno</span>{% endif %}
+        <a href="pqr.html"{% if pagina_actual == "pqr" %} class="activo"{% endif %}>PQR</a>
+        <a href="encuesta.html"{% if pagina_actual == "encuesta" %} class="activo"{% endif %}>Encuesta</a>
+        <a href="/cerrar-sesion" class="btn-cerrar">Cerrar sesión</a>
+
+        {% elif rol == "vendedor" %}
+        <a href="vendedor.html"{% if pagina_actual == "vendedor" %} class="activo"{% endif %}>Turnos</a>
+        <a href="/cerrar-sesion" class="btn-cerrar">Cerrar sesión</a>
+
+        {% elif rol == "administrador" %}
+        <a href="administrador.html"{% if pagina_actual == "administrador" %} class="activo"{% endif %}>Inicio</a>
+        <a href="admin-productos.html"{% if pagina_actual == "admin-productos" %} class="activo"{% endif %}>Productos</a>
+        <a href="admin-inventarios.html"{% if pagina_actual == "admin-inventarios" %} class="activo"{% endif %}>Inventarios</a>
+        <a href="admin-pedidos.html"{% if pagina_actual == "admin-pedidos" %} class="activo"{% endif %}>Pedidos</a>
+        <a href="admin-pqr.html"{% if pagina_actual == "admin-pqr" %} class="activo"{% endif %}>PQR</a>
+        <a href="admin-reportes.html"{% if pagina_actual == "admin-reportes" %} class="activo"{% endif %}>Reportes</a>
+        <a href="/cerrar-sesion" class="btn-cerrar">Cerrar sesión</a>
+
+        {% elif rol == "superadmin" %}
+        <a href="superadmin.html"{% if pagina_actual == "superadmin" %} class="activo"{% endif %}>Inicio</a>
+        <a href="superadmin-productos.html"{% if pagina_actual == "superadmin-productos" %} class="activo"{% endif %}>Productos</a>
+        <a href="superadmin-reportes.html"{% if pagina_actual == "superadmin-reportes" %} class="activo"{% endif %}>Reportes</a>
+        <a href="superadmin-usuarios.html"{% if pagina_actual == "superadmin-usuarios" %} class="activo"{% endif %}>Usuarios</a>
+        <a href="superadmin-pqr.html"{% if pagina_actual == "superadmin-pqr" %} class="activo"{% endif %}>PQR</a>
+        <a href="/cerrar-sesion" class="btn-cerrar">Cerrar sesión</a>
+        {% endif %}
+      </nav>

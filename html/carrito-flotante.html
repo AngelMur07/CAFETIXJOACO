@@ -1,0 +1,7 @@
+  {% if carrito_tiene_productos %}
+  <a href="carrito.html" class="carrito-flotante" title="Ir al carrito">
+    <span class="carrito-flotante-icono" aria-hidden="true">🛒</span>
+    <span class="carrito-flotante-texto">Carrito</span>
+    <span class="carrito-flotante-cantidad">{{ carrito_cantidad }}</span>
+  </a>
+  {% endif %}
