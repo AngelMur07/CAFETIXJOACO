@@ -302,3 +302,5 @@ ALTER TABLE `tbl_ventas`
   REFERENCES `tbl_usuarios` (`Usu_Id_Usuario`);
 
 COMMIT;
+
+-- BD-3: actualización de base de datos
