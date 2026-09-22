@@ -4,5 +4,5 @@
   <rect x="145" y="110" width="90" height="90" rx="12" fill="#ffffff" stroke="#2b78c5" stroke-width="3"/>
   <rect x="152" y="118" width="76" height="50" rx="8" fill="#c68642"/>
   <path d="M235 130 q30 20 0 50" fill="none" stroke="#2b78c5" stroke-width="6"/>
-  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="22" fill="#2b78c5" font-weight="bold">Café con leche</text>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="22" fill="#2b78c5" font-weight="bold">Cafï¿½ con leche</text>
 </svg>

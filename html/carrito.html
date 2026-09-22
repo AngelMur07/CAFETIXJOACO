@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Carrito</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,24 +19,10 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO <span class="rol-etiqueta">Cliente</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
-        </div>
+</div>
       </a>
-      <div class="header-derecha">
-        <nav class="nav">
-          <a href="catalogo.html">Catálogo</a>
-          <a href="carrito.html" class="activo">Carrito</a>
-          <a href="turno.html">Mi turno</a>
-          <a href="pqr.html">PQR</a>
-          <a href="encuesta.html">Encuesta</a>
-          <a href="index.html" class="btn-registro">Cerrar sesión</a>
-        </nav>
-        {% if sistema_activo %}
-        <p class="caja-turno-actual">Turno actual: <strong>{{ turno_actual }}</strong></p>
-        {% else %}
-        <p class="caja-turno-actual caja-turno-cerrado">INACTIVO</p>
-        {% endif %}
-      </div>
+      {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -48,16 +35,16 @@
     </div>
 
     <div class="guia-pasos">
-      <a href="catalogo.html" class="guia-paso">1. Catálogo</a>
+      <span class="guia-paso">1. Catálogo</span>
       <span class="guia-flecha">→</span>
       <span class="guia-paso guia-paso-activo">2. Carrito</span>
       <span class="guia-flecha">→</span>
-      <a href="pago.html" class="guia-paso">3. Pago</a>
+      <span class="guia-paso guia-paso-bloqueado">3. Pago</span>
       <span class="guia-flecha">→</span>
-      <a href="turno.html" class="guia-paso">4. Turno</a>
+      <span class="guia-paso guia-paso-bloqueado">4. Turno</span>
     </div>
 
-    {% if not sistema_activo %}
+    {% if not sistema_pedidos_activo %}
     <div class="aviso-panel">
       {{ mensaje_cerrado }}
     </div>
@@ -94,19 +81,35 @@
           <tr>
             <td>{{ item.nombre }}</td>
             <td>
-              <form action="/actualizar-carrito" method="post" class="form-cantidad">
-                <input type="hidden" name="id" value="{{ item.id }}">
-                <input type="text" name="cantidad" value="{{ item.cantidad }}" class="input-cantidad" aria-label="Cantidad de {{ item.nombre }}">
-                <button type="submit" class="btn btn-azul btn-pequeno">Cambiar</button>
-              </form>
+              {% if sistema_pedidos_activo %}
+              <div class="cantidad-control">
+                <form action="/actualizar-carrito" method="post">
+                  <input type="hidden" name="id" value="{{ item.id }}">
+                  <input type="hidden" name="cambio" value="menos">
+                  <button type="submit" class="btn-cantidad"{% if item.cantidad <= 1 %} disabled{% endif %} aria-label="Quitar una unidad">−</button>
+                </form>
+                <span class="cantidad-numero">{{ item.cantidad }}</span>
+                <form action="/actualizar-carrito" method="post">
+                  <input type="hidden" name="id" value="{{ item.id }}">
+                  <input type="hidden" name="cambio" value="mas">
+                  <button type="submit" class="btn-cantidad" aria-label="Agregar una unidad">+</button>
+                </form>
+              </div>
+              {% else %}
+              {{ item.cantidad }}
+              {% endif %}
             </td>
             <td>{{ item.precio_texto }}</td>
             <td>{{ item.subtotal_texto }}</td>
             <td>
+              {% if sistema_pedidos_activo %}
               <form action="/quitar-del-carrito" method="post">
                 <input type="hidden" name="id" value="{{ item.id }}">
                 <button type="submit" class="btn btn-oscuro btn-pequeno">Quitar</button>
               </form>
+              {% else %}
+              —
+              {% endif %}
             </td>
           </tr>
           {% endfor %}
@@ -121,7 +124,7 @@
 
     <div class="pedido-acciones">
       <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
-      {% if sistema_activo %}
+      {% if sistema_pedidos_activo %}
       <a href="pago.html" class="btn btn-verde btn-grande">Continuar</a>
       {% else %}
       <button type="button" class="btn btn-agotado" disabled>Pedidos cerrados</button>
@@ -132,17 +135,7 @@
 
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-    <nav class="footer-nav">
-      <a href="catalogo.html">Catálogo</a>
-      <a href="pago.html">Pago</a>
-    </nav>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

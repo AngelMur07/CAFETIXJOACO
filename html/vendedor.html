@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Vendedor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,13 +19,9 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO <span class="rol-etiqueta">Vendedor</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
-        </div>
+</div>
       </a>
-      <nav class="nav">
-        <a href="vendedor.html" class="activo">Turnos</a>
-        <a href="index.html" class="btn-registro">Cerrar sesión</a>
-      </nav>
+      {% include "menu.html" %}
     </div>
   </header>
 
@@ -33,19 +30,32 @@
     <div class="vendedor-pagina">
 
       <section class="estado-sistema">
-        <h3>Estado del sistema</h3>
-        {% if sistema_activo %}
-        <p class="estado-etiqueta activo">ACTIVO — Horario de descanso</p>
+        <h3>Estado de los turnos</h3>
+        <p><strong>ESTADO DE LOS TURNOS: {% if sistema_habilitado %}ACTIVOS{% else %}INACTIVOS{% endif %}</strong></p>
+        {% if jornada_activa %}
         <p>{{ jornada_activa }}: {{ horario_texto }}</p>
-        {% else %}
-        <p class="estado-etiqueta inactivo">INACTIVO — Fuera del horario de descanso</p>
-        <p>El sistema se encuentra fuera del horario de descanso.</p>
         {% endif %}
+        <div class="acciones-sistema">
+          <form action="/habilitar-sistema" method="post">
+            <input type="hidden" name="origen" value="vendedor">
+            <button type="submit" class="btn btn-verde"{% if sistema_habilitado %} disabled{% endif %}>Habilitar turnos</button>
+          </form>
+          <form action="/deshabilitar-sistema" method="post">
+            <input type="hidden" name="origen" value="vendedor">
+            <button type="submit" class="btn btn-outline"{% if not sistema_habilitado %} disabled{% endif %}>Deshabilitar turnos</button>
+          </form>
+        </div>
       </section>
 
       {% if aviso_turno_cerrado %}
       <div class="aviso-panel">
         No se pueden avanzar turnos porque el sistema está cerrado.
+      </div>
+      {% endif %}
+
+      {% if aviso_sin_turnos %}
+      <div class="aviso-panel">
+        No hay más turnos pendientes.
       </div>
       {% endif %}
 
@@ -60,7 +70,11 @@
 
       <div class="vendedor-acciones">
         <form action="/siguiente-turno" method="post">
+          {% if sistema_pedidos_activo %}
           <button type="submit" class="btn btn-azul">Siguiente turno</button>
+          {% else %}
+          <button type="button" class="btn btn-agotado" disabled>Turnos inactivos</button>
+          {% endif %}
         </form>
       </div>
 
@@ -122,13 +136,7 @@
 
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

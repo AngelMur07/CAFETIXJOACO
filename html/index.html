@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Inicio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body class="home-page">
 
   <!-- Encabezado del visitante -->
   <header class="header">
@@ -18,15 +19,10 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO</h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
-      <nav class="nav">
-        <a href="index.html" class="activo">Inicio</a>
-        <a href="catalogo.html">Catálogo</a>
-        <a href="login.html" class="btn-sesion">Iniciar sesión</a>
-        <a href="registro.html" class="btn-registro">Registrarse</a>
-      </nav>
+      {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -34,26 +30,30 @@
 
     <!-- Hero: presentación principal -->
     <section class="hero">
-      <div class="hero-contenedor">
-        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="hero-logo">
-        <p class="hero-etiqueta">Cafetería Institucional JJFH</p>
-        <h2>CAFETIX JOACO</h2>
-        <p class="hero-frase">Consulta, pide y reclama tu pedido con turno.</p>
-        <p class="hero-descripcion">
-          Sistema web de la cafetería de la Institución Educativa
-          José Joaquín Flórez Hernández. Permite consultar productos,
-          realizar pedidos y obtener un turno para reclamarlos,
-          con el fin de reducir aglomeraciones en los descansos.
-        </p>
-        <div class="hero-botones">
-          <a href="catalogo.html" class="btn btn-verde btn-grande">Ver catálogo</a>
-          <a href="login.html" class="btn btn-outline-blanco btn-grande">Iniciar sesión</a>
+      <div class="hero-layout">
+        <div class="hero-content">
+          <p class="hero-etiqueta">Cafetería Institucional JJFH</p>
+          <h2>CAFETIX JOACO</h2>
+          <p class="hero-frase">Consulta, pide y reclama tu pedido con turno.</p>
+          <p class="hero-descripcion">
+            Sistema web de la cafetería de la Institución Educativa
+            José Joaquín Flórez Hernández. Permite consultar productos,
+            realizar pedidos y obtener un turno para reclamarlos,
+            con el fin de reducir aglomeraciones en los descansos.
+          </p>
+        </div>
+        <div class="hero-media">
+          <img
+            src="../img/cafeteria-institucional.jpg"
+            alt="Fachada de la cafetería institucional JJFH"
+            class="hero-image"
+          >
         </div>
       </div>
     </section>
 
     <!-- Características principales -->
-    <section class="seccion seccion-gris">
+    <section class="seccion seccion-gris section-divider">
       <div class="contenedor">
         <h2 class="seccion-titulo">Características principales</h2>
         <div class="seccion-linea"></div>
@@ -159,18 +159,7 @@
 
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-    <nav class="footer-nav">
-      <a href="index.html">Inicio</a>
-      <a href="catalogo.html">Catálogo</a>
-      <a href="pqr.html">PQR</a>
-    </nav>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

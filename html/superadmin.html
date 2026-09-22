@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Superadministrador</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,17 +20,9 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO <span class="rol-etiqueta">Superadmin</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
-        </div>
+</div>
       </a>
-      <nav class="nav">
-        <a href="superadmin.html" class="activo">Inicio</a>
-        <a href="superadmin-productos.html">Productos</a>
-        <a href="superadmin-reportes.html">Reportes</a>
-        <a href="superadmin-usuarios.html">Usuarios</a>
-        <a href="superadmin-pqr.html">PQR</a>
-        <a href="index.html" class="btn-registro">Cerrar sesión</a>
-      </nav>
+      {% include "menu.html" %}
     </div>
   </header>
 
@@ -38,11 +31,7 @@
 
       <div class="panel-titulo">
         <h2>Panel del superadministrador</h2>
-        <p>Vista general del negocio. Los números son de ejemplo.</p>
-      </div>
-
-      <div class="aviso-panel">
-        Esta pantalla es visual. Más adelante se conectará con MySQL.
+        <p>Vista general del negocio.</p>
       </div>
 
       <!-- Dashboard: números principales del día -->
@@ -154,13 +143,7 @@
     </div>
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Pago</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,43 +19,29 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO <span class="rol-etiqueta">Cliente</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
-        </div>
+</div>
       </a>
-      <div class="header-derecha">
-        <nav class="nav">
-          <a href="catalogo.html">Catálogo</a>
-          <a href="carrito.html">Carrito</a>
-          <a href="turno.html">Mi turno</a>
-          <a href="pqr.html">PQR</a>
-          <a href="encuesta.html">Encuesta</a>
-          <a href="index.html" class="btn-registro">Cerrar sesión</a>
-        </nav>
-        {% if sistema_activo %}
-        <p class="caja-turno-actual">Turno actual: <strong>{{ turno_actual }}</strong></p>
-        {% else %}
-        <p class="caja-turno-actual caja-turno-cerrado">INACTIVO</p>
-        {% endif %}
-      </div>
+      {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
   <main class="main">
 
     <div class="guia-pasos">
-      <a href="catalogo.html" class="guia-paso">1. Catálogo</a>
+      <span class="guia-paso">1. Catálogo</span>
       <span class="guia-flecha">→</span>
-      <a href="carrito.html" class="guia-paso">2. Carrito</a>
+      <span class="guia-paso">2. Carrito</span>
       <span class="guia-flecha">→</span>
       <span class="guia-paso guia-paso-activo">3. Pago</span>
       <span class="guia-flecha">→</span>
-      <a href="turno.html" class="guia-paso">4. Turno</a>
+      <span class="guia-paso guia-paso-bloqueado">4. Turno</span>
     </div>
 
     {% if not sistema_activo %}
 
     <div class="aviso-panel">
-      {{ mensaje_cerrado }}
+      {% if aviso %}{{ aviso }}{% else %}{{ mensaje_cerrado }}{% endif %}
     </div>
     <div class="pedido-acciones">
       <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
@@ -78,14 +65,14 @@
     <div class="pago-pagina">
 
       <div class="qr-caja">
-        <h2>Pago mediante QR</h2>
+        <h2>Pago con Nequi</h2>
+        <p class="qr-metodo">Nequi</p>
         <p class="qr-ayuda">
-          Esta es una pantalla de prueba. Más adelante se colocará el QR real.
-          No se realiza ningún cobro.
+          Escanea el código QR para realizar el pago.
         </p>
 
         <div class="qr-marco">
-          <img src="../img/qr-demo.svg" alt="Código QR de prueba para el pago">
+          <img src="../img/qr-nequi-pago.jpg" alt="QR de pago Nequi">
         </div>
 
         <p>Total a pagar</p>
@@ -122,7 +109,8 @@
       </div>
 
       <div class="aviso-panel">
-        Simulación académica: si el QR fuera real, aquí se validaría el pago.
+        Simulación académica: CAFETIX no verifica automáticamente la transacción de Nequi.
+        Después de realizar el pago, utiliza el botón de confirmación para continuar con la simulación académica.
       </div>
 
       <div class="pedido-acciones">
@@ -138,17 +126,7 @@
 
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-    <nav class="footer-nav">
-      <a href="carrito.html">Carrito</a>
-      <a href="turno.html">Mi turno</a>
-    </nav>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

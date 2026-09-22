@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Administrador</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,18 +20,9 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
-        </div>
+</div>
       </a>
-      <nav class="nav">
-        <a href="administrador.html" class="activo">Inicio</a>
-        <a href="admin-productos.html">Productos</a>
-        <a href="admin-inventarios.html">Inventarios</a>
-        <a href="admin-pedidos.html">Pedidos</a>
-        <a href="admin-pqr.html">PQR</a>
-        <a href="admin-reportes.html">Reportes</a>
-        <a href="index.html" class="btn-registro">Cerrar sesión</a>
-      </nav>
+      {% include "menu.html" %}
     </div>
   </header>
 
@@ -39,11 +31,7 @@
 
       <div class="panel-titulo">
         <h2>Panel de administración</h2>
-        <p>Resumen del día. Los números son de ejemplo.</p>
-      </div>
-
-      <div class="aviso-panel">
-        Este panel es visual. Más adelante se conectará con MySQL.
+        <p>Resumen del día.</p>
       </div>
 
       <!-- Dashboard -->
@@ -77,11 +65,27 @@
       </section>
 
       <section class="bloque-panel">
+        <h3>Control de turnos</h3>
+        <p class="bloque-ayuda">Este estado vale para todo el sistema, no solo para esta página.</p>
+        <p><strong>ESTADO DE LOS TURNOS: {% if sistema_habilitado %}ACTIVOS{% else %}INACTIVOS{% endif %}</strong></p>
+        <div class="acciones-sistema">
+          <form action="/habilitar-sistema" method="post">
+            <input type="hidden" name="origen" value="administrador">
+            <button type="submit" class="btn btn-verde"{% if sistema_habilitado %} disabled{% endif %}>Habilitar turnos</button>
+          </form>
+          <form action="/deshabilitar-sistema" method="post">
+            <input type="hidden" name="origen" value="administrador">
+            <button type="submit" class="btn btn-outline"{% if not sistema_habilitado %} disabled{% endif %}>Deshabilitar turnos</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="bloque-panel">
         <h3>Control de horario</h3>
         <p class="bloque-ayuda">Extiende el descanso que está ocurriendo ahora. No se puede extender un horario que aún no empieza o que ya terminó.</p>
 
         <p><strong>Estado actual:</strong>
-          {% if sistema_activo %}ACTIVO{% else %}INACTIVO{% endif %}
+          {% if horario_activo %}ACTIVO{% else %}INACTIVO{% endif %}
         </p>
         <p><strong>Horario actual:</strong> {{ jornada_corta }}</p>
         <p><strong>Hora normal de cierre:</strong> {{ cierre_normal }}</p>
@@ -117,13 +121,7 @@
     </div>
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

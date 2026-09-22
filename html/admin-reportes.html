@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Reportes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,18 +20,9 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
-        </div>
+</div>
       </a>
-      <nav class="nav">
-        <a href="administrador.html">Inicio</a>
-        <a href="admin-productos.html">Productos</a>
-        <a href="admin-inventarios.html">Inventarios</a>
-        <a href="admin-pedidos.html">Pedidos</a>
-        <a href="admin-pqr.html">PQR</a>
-        <a href="admin-reportes.html" class="activo">Reportes</a>
-        <a href="index.html" class="btn-registro">Cerrar sesión</a>
-      </nav>
+      {% include "menu.html" %}
     </div>
   </header>
 
@@ -97,13 +89,7 @@
     </div>
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

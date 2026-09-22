@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Registro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body class="auth-page auth-page--login auth-page--register">
 
   <header class="header">
     <div class="header-contenedor">
@@ -17,86 +18,90 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO</h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
-      <nav class="nav">
-        <a href="index.html">Inicio</a>
-        <a href="catalogo.html">Catálogo</a>
-        <a href="login.html" class="btn-sesion">Iniciar sesión</a>
-        <a href="registro.html" class="btn-registro activo">Registrarse</a>
-      </nav>
+      {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
-  <main class="main">
+  <main class="main auth-shell">
+    <div class="auth-card login-panel">
 
-    <div class="formulario-contenedor tarjeta">
-      <div class="form-icono" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="8" r="4"></circle>
-          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
-          <path d="M19 8v6"></path>
-          <path d="M16 11h6"></path>
-        </svg>
-      </div>
-      <h2>Crear cuenta</h2>
-      <p class="subtitulo-form">Regístrate para usar el sistema de la cafetería</p>
+      <aside class="auth-brand" aria-label="Presentación CAFETIX JOACO">
+        <div class="auth-brand-inner">
+          <img src="../img/logo-jjfh-transparente.png" alt="Escudo Institución Educativa JJFH" class="auth-brand-logo">
+          <p class="auth-brand-name">CAFETIX JOACO</p>
+          <h2 class="auth-brand-title">Tu descanso<br>empieza sin filas.</h2>
+          <p class="auth-brand-text">
+            Consulta, compra y recibe tu turno de<br>
+            forma rápida desde la cafetería<br>
+            institucional.
+          </p>
+          <ul class="auth-benefits">
+            <li><span class="auth-benefit-dot" aria-hidden="true"></span>Compra más rápido</li>
+            <li><span class="auth-benefit-dot" aria-hidden="true"></span>Recibe tu turno</li>
+            <li><span class="auth-benefit-dot" aria-hidden="true"></span>Evita filas innecesarias</li>
+          </ul>
+        </div>
+      </aside>
 
-      <!-- Formulario solo visual. Los datos no se guardan todavía. -->
-      <form action="#" method="post">
-        <div class="form-grupo">
-          <label for="nombre">Nombre completo</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez">
+      <section class="auth-form-panel">
+        <div class="auth-header login-header">
+          <p class="auth-eyebrow">Únete a CAFETIX</p>
+          <h2>Crear cuenta</h2>
+          <p class="auth-lead">Regístrate para realizar tus pedidos y recibir tu turno.</p>
         </div>
 
-        <div class="form-grupo">
-          <label for="documento">Documento</label>
-          <input type="text" id="documento" name="documento" placeholder="Ej: 1234567890">
-        </div>
+        {% if aviso %}
+        <div class="auth-message auth-message--error" role="alert">{{ aviso }}</div>
+        {% endif %}
 
-        <div class="form-grupo">
-          <label for="correo">Correo electrónico</label>
-          <input type="email" id="correo" name="correo" placeholder="Ej: estudiante@jjfh.edu.co">
-        </div>
+        <form class="auth-form login-form auth-form--register" action="/registro.html" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-        <div class="form-grupo">
-          <label for="usuario">Usuario</label>
-          <input type="text" id="usuario" name="usuario" placeholder="Elige un nombre de usuario">
-        </div>
+          <div class="auth-form-grid">
+            <div class="auth-field">
+              <label for="nombre">Nombre completo</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required maxlength="140" autocomplete="name" value="{{ valor_nombre|default('') }}">
+            </div>
 
-        <div class="form-grupo">
-          <label for="contrasena">Contraseña</label>
-          <input type="password" id="contrasena" name="contrasena" placeholder="Crea una contraseña">
-        </div>
+            <div class="auth-field">
+              <label for="documento">Documento</label>
+              <input type="text" id="documento" name="documento" placeholder="Ej: 1234567890" required maxlength="15" inputmode="numeric" autocomplete="off" value="{{ valor_documento|default('') }}">
+            </div>
 
-        <button type="button" class="btn btn-verde form-boton">
-          Registrarse
-        </button>
-      </form>
+            <div class="auth-field">
+              <label for="correo">Correo electrónico</label>
+              <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com" required maxlength="100" autocomplete="email" value="{{ valor_correo|default('') }}">
+            </div>
 
-      <p id="mensaje-demo" class="mensaje-demo">
-        Registro de demostración. Más adelante esta información se guardará en la base de datos.
-      </p>
+            <div class="auth-field">
+              <label for="usuario">Usuario</label>
+              <input type="text" id="usuario" name="usuario" placeholder="Elige tu usuario" required minlength="3" maxlength="70" autocomplete="username" value="{{ valor_usuario|default('') }}">
+            </div>
 
-      <p class="form-enlace">
-        ¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a>
-      </p>
+            <div class="auth-field auth-field--full">
+              <label for="contrasena">Contraseña</label>
+              <input type="password" id="contrasena" name="contrasena" placeholder="Mínimo 8 caracteres" required minlength="8" autocomplete="new-password">
+            </div>
+          </div>
+
+          <div class="auth-actions login-actions">
+            <button type="submit" class="auth-submit">Crear cuenta</button>
+          </div>
+        </form>
+
+        <p class="auth-register">
+          ¿Ya tienes una cuenta?
+          <a href="login.html">Inicia sesión</a>
+        </p>
+      </section>
+
     </div>
-
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-    <nav class="footer-nav">
-      <a href="index.html">Inicio</a>
-      <a href="pqr.html">PQR</a>
-    </nav>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

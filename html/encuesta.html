@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Encuesta</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,17 +19,9 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO <span class="rol-etiqueta">Cliente</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
-        </div>
+</div>
       </a>
-      <nav class="nav">
-        <a href="catalogo.html">Catálogo</a>
-        <a href="carrito.html">Carrito</a>
-        <a href="turno.html">Mi turno</a>
-        <a href="pqr.html">PQR</a>
-        <a href="encuesta.html" class="activo">Encuesta</a>
-        <a href="index.html" class="btn-registro">Cerrar sesión</a>
-      </nav>
+      {% include "menu.html" %}
     </div>
   </header>
 
@@ -98,17 +91,7 @@
 
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-    <nav class="footer-nav">
-      <a href="turno.html">Mi turno</a>
-      <a href="pqr.html">PQR</a>
-    </nav>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

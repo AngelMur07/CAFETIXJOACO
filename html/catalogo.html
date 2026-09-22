@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Catálogo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,22 +19,10 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO</h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
-      <div class="header-derecha">
-        <nav class="nav">
-          <a href="index.html">Inicio</a>
-          <a href="catalogo.html" class="activo">Catálogo</a>
-          <a href="login.html" class="btn-sesion">Iniciar sesión</a>
-          <a href="registro.html" class="btn-registro">Registrarse</a>
-        </nav>
-        {% if sistema_activo %}
-        <p class="caja-turno-actual">Turno actual: <strong>{{ turno_actual }}</strong></p>
-        {% else %}
-        <p class="caja-turno-actual caja-turno-cerrado">INACTIVO</p>
-        {% endif %}
-      </div>
+      {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -47,26 +36,22 @@
     <div class="guia-pasos">
       <span class="guia-paso guia-paso-activo">1. Catálogo</span>
       <span class="guia-flecha">→</span>
-      <a href="carrito.html" class="guia-paso">2. Carrito</a>
+      <span class="guia-paso guia-paso-bloqueado">2. Carrito</span>
       <span class="guia-flecha">→</span>
-      <a href="pago.html" class="guia-paso">3. Pago</a>
+      <span class="guia-paso guia-paso-bloqueado">3. Pago</span>
       <span class="guia-flecha">→</span>
-      <a href="turno.html" class="guia-paso">4. Turno</a>
+      <span class="guia-paso guia-paso-bloqueado">4. Turno</span>
     </div>
 
-    {% if not sistema_activo %}
+    {% if not sistema_pedidos_activo %}
     <div class="aviso-panel">
       {{ mensaje_cerrado }}
     </div>
     {% endif %}
 
     {% if aviso %}
-    <div class="aviso-panel">{{ aviso }}</div>
+    <div class="aviso-panel{% if aviso == 'Debes iniciar sesion para agregar productos al carrito' %} aviso-login{% endif %}">{{ aviso }}</div>
     {% endif %}
-
-    <div class="aviso-panel">
-      El buscador y los filtros los aplica Python. Los datos son de ejemplo. Más adelante vendrán de MySQL.
-    </div>
 
     {% if destacados %}
     <section id="destacados" class="destacados">
@@ -88,15 +73,20 @@
               <span class="estado-badge estado-agotado">Agotado</span>
               {% endif %}
             </div>
-            {% if sistema_activo and producto.disponible %}
+            {% if not producto.disponible %}
+            <button type="button" class="btn btn-agotado" disabled>Agotado</button>
+            {% elif not sesion_iniciada %}
+            <button type="button" class="btn btn-agotado" disabled>Inicia sesión para comprar</button>
+            {% elif rol == "cliente" and sistema_pedidos_activo %}
             <form action="/agregar-al-carrito" method="post" class="form-agregar-carrito">
               <input type="hidden" name="id" value="{{ producto.id }}">
+              <input type="hidden" name="buscar" value="{{ buscar }}">
+              <input type="hidden" name="categoria" value="{{ categoria }}">
+              <input type="hidden" name="orden" value="{{ orden }}">
               <button type="submit" class="btn btn-verde">Agregar al carrito</button>
             </form>
-            {% elif not sistema_activo %}
+            {% elif rol == "cliente" %}
             <button type="button" class="btn btn-agotado" disabled>Pedidos cerrados</button>
-            {% else %}
-            <button type="button" class="btn btn-agotado" disabled>Agotado</button>
             {% endif %}
           </div>
         </article>
@@ -151,15 +141,20 @@
                   {% endif %}
                   <span class="producto-stock">{{ producto.categoria_nombre }}</span>
                 </div>
-                {% if sistema_activo and producto.disponible %}
+                {% if not producto.disponible %}
+                <button type="button" class="btn btn-agotado" disabled>Agotado</button>
+                {% elif not sesion_iniciada %}
+                <button type="button" class="btn btn-agotado" disabled>Inicia sesión para comprar</button>
+                {% elif rol == "cliente" and sistema_pedidos_activo %}
                 <form action="/agregar-al-carrito" method="post" class="form-agregar-carrito">
                   <input type="hidden" name="id" value="{{ producto.id }}">
+                  <input type="hidden" name="buscar" value="{{ buscar }}">
+                  <input type="hidden" name="categoria" value="{{ categoria }}">
+                  <input type="hidden" name="orden" value="{{ orden }}">
                   <button type="submit" class="btn btn-verde">Agregar al carrito</button>
                 </form>
-                {% elif not sistema_activo %}
+                {% elif rol == "cliente" %}
                 <button type="button" class="btn btn-agotado" disabled>Pedidos cerrados</button>
-                {% else %}
-                <button type="button" class="btn btn-agotado" disabled>Agotado</button>
                 {% endif %}
               </div>
             </article>
@@ -177,23 +172,9 @@
 
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-    <nav class="footer-nav">
-      <a href="index.html">Inicio</a>
-      <a href="carrito.html">Carrito</a>
-      <a href="pqr.html">PQR</a>
-    </nav>
-  </footer>
+{% include "pie.html" %}
 
-  <a href="carrito.html" class="carrito-flotante" title="Ir al carrito">
-    <span class="carrito-flotante-icono" aria-hidden="true">🛒</span>
-    <span class="carrito-flotante-texto">Carrito</span>
-  </a>
+{% include "carrito-flotante.html" %}
 
 </body>
 </html>
