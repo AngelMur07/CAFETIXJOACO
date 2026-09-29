@@ -22,15 +22,7 @@
           <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
-      <nav class="nav">
-        <a href="administrador.html" class="activo">Inicio</a>
-        <a href="admin-productos.html">Productos</a>
-        <a href="admin-inventarios.html">Inventarios</a>
-        <a href="admin-pedidos.html">Pedidos</a>
-        <a href="admin-pqr.html">PQR</a>
-        <a href="admin-reportes.html">Reportes</a>
-        <a href="index.html" class="btn-registro">Cerrar sesión</a>
-      </nav>
+      {% include "menu.html" %}
     </div>
   </header>
 
@@ -76,16 +68,64 @@
         </ul>
       </section>
 
+      <section class="bloque-panel">
+        <h3>Control de turnos</h3>
+        <p class="bloque-ayuda">Este estado vale para todo el sistema, no solo para esta página.</p>
+        <p><strong>ESTADO DE LOS TURNOS: {% if sistema_habilitado %}ACTIVOS{% else %}INACTIVOS{% endif %}</strong></p>
+        <div class="acciones-sistema">
+          <form action="/habilitar-sistema" method="post">
+            <input type="hidden" name="origen" value="administrador">
+            <button type="submit" class="btn btn-verde"{% if sistema_habilitado %} disabled{% endif %}>Habilitar turnos</button>
+          </form>
+          <form action="/deshabilitar-sistema" method="post">
+            <input type="hidden" name="origen" value="administrador">
+            <button type="submit" class="btn btn-outline"{% if not sistema_habilitado %} disabled{% endif %}>Deshabilitar turnos</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="bloque-panel">
+        <h3>Control de horario</h3>
+        <p class="bloque-ayuda">Extiende el descanso que está ocurriendo ahora. No se puede extender un horario que aún no empieza o que ya terminó.</p>
+
+        <p><strong>Estado actual:</strong>
+          {% if horario_activo %}ACTIVO{% else %}INACTIVO{% endif %}
+        </p>
+        <p><strong>Horario actual:</strong> {{ jornada_corta }}</p>
+        <p><strong>Hora normal de cierre:</strong> {{ cierre_normal }}</p>
+        {% if por_extension %}
+        <p><strong>Extensión activa hasta:</strong> {{ extension_texto }}</p>
+        {% endif %}
+
+        {% if aviso_horario == "ok" %}
+        <div class="aviso-panel">El horario fue extendido.</div>
+        {% elif aviso_horario == "cancelada" %}
+        <div class="aviso-panel">La extensión fue cancelada.</div>
+        {% elif aviso_horario == "no-activo" %}
+        <div class="aviso-panel">Solo se puede extender el descanso que está ocurriendo ahora.</div>
+        {% elif aviso_horario == "invalida" %}
+        <div class="aviso-panel">La hora no es válida. Debe ser después del cierre normal y todavía no haber pasado.</div>
+        {% endif %}
+
+        <form action="/extender-horario" method="post">
+          <div class="form-grupo">
+            <label for="hora_extension">Extender hasta:</label>
+            <input type="time" id="hora_extension" name="hora_extension" value="{{ hora_extension_valor }}">
+          </div>
+          <div class="form-acciones">
+            <button type="submit" class="btn btn-verde">Extender horario</button>
+          </div>
+        </form>
+
+        <form action="/cancelar-extension" method="post" class="form-cancelar-extension">
+          <button type="submit" class="btn btn-outline">Cancelar extensión</button>
+        </form>
+      </section>
+
     </div>
   </main>
 
-  <footer class="footer">
-    <div class="acento-linea"></div>
-    <p class="footer-nombre">CAFETIX JOACO</p>
-    <p>Cafetería Institucional JJFH</p>
-    <p>Institución Educativa José Joaquín Flórez Hernández</p>
-    <p>Ibagué - Tolima</p>
-  </footer>
+{% include "pie.html" %}
 
 </body>
 </html>

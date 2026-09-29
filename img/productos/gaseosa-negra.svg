@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f5f7fa"/>
+  <rect x="170" y="70" width="60" height="150" rx="10" fill="#1a1a1a"/>
+  <rect x="175" y="90" width="50" height="40" fill="#fff" opacity="0.25" rx="4"/>
+  <rect x="185" y="55" width="30" height="20" fill="#555555"/>
+  <rect x="182" y="130" width="36" height="8" rx="2" fill="#2b78c5"/>
+  <text x="200" y="260" text-anchor="middle" font-family="Arial" font-size="20" fill="#2b78c5" font-weight="bold">Gaseosa negra</text>
+</svg>

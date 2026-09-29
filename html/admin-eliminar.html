@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAFETIX JOACO - Eliminar producto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/paneles.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+  <header class="header panel-header">
+    <div class="header-contenedor">
+      <a href="administrador.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
+          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+        </div>
+      </a>
+      {% include "menu.html" %}
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="admin-pagina">
+
+      <div class="panel-titulo">
+        <h2>Eliminar producto</h2>
+        <p>Confirma si quieres quitar este producto de la lista.</p>
+      </div>
+
+      <section class="bloque-panel form-admin">
+        <h3>{{ producto.nombre }}</h3>
+        <p class="bloque-ayuda">Esta acción lo saca de la lista actual. No borra la imagen de la carpeta.</p>
+        <p>Categoría: {{ producto.categoria_nombre }}</p>
+        <p>Cantidad: {{ producto.cantidad }}</p>
+
+        <form action="/eliminar-producto" method="post">
+          <input type="hidden" name="id" value="{{ producto.id }}">
+          <div class="form-acciones">
+            <button type="submit" class="btn btn-oscuro">Eliminar</button>
+            <a href="admin-productos.html" class="btn btn-outline">Cancelar</a>
+          </div>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+{% include "pie.html" %}
+
+</body>
+</html>
