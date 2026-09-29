@@ -1,0 +1,4 @@
+{% if texto %}
+{% set _tipo = estilo|default(tipo_aviso(texto), true) %}
+<div class="aviso-panel aviso-panel--{{ _tipo }}"{% if _tipo == "error" %} role="alert"{% else %} role="status"{% endif %}>{{ texto }}{% if enlace_href %} <a href="{{ enlace_href }}">{{ enlace_texto|default("Ver todos") }}</a>{% endif %}</div>
+{% endif %}

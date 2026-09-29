@@ -1,0 +1,4 @@
+.cafetix/
+.cafetix_secret_key
+__pycache__/
+*.pyc

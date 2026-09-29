@@ -1,0 +1,9 @@
+{% set _tamano = tamano|default("tarjeta") %}
+{% set _src = "../img/iconos/" ~ nombre ~ ".svg" %}
+{% if circulo|default(true) %}
+<span class="icono-circulo{% if variante %} icono-circulo--{{ variante }}{% endif %}" aria-hidden="true">
+  <span class="icono icono-{{ _tamano }} icono-tinta" style="-webkit-mask-image:url('{{ _src }}');mask-image:url('{{ _src }}')"></span>
+</span>
+{% else %}
+<span class="icono icono-{{ _tamano }} icono-tinta{% if variante %} icono-tinta--{{ variante }}{% endif %}" style="-webkit-mask-image:url('{{ _src }}');mask-image:url('{{ _src }}')" aria-hidden="true"></span>
+{% endif %}

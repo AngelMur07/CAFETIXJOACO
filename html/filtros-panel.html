@@ -1,0 +1,46 @@
+<form class="panel-filtros" method="get" action="{{ filtro_accion }}">
+  {% if filtros_campos %}
+  {% for campo in filtros_campos %}
+  <div class="panel-filtros-campo">
+    <label for="filtro-{{ campo.name }}">{{ campo.label }}</label>
+    <select id="filtro-{{ campo.name }}" name="{{ campo.name }}">
+      {% for opcion in campo.opciones %}
+      <option value="{{ opcion.id }}"{% if campo.valor == opcion.id %} selected{% endif %}>{{ opcion.nombre }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  {% endfor %}
+  <div class="panel-filtros-campo panel-filtros-campo--buscar">
+    <label for="filtro-q">{{ filtro_buscar_label or "Buscar" }}</label>
+    <input type="search" id="filtro-q" name="q" placeholder="{{ filtro_buscar_placeholder or '' }}" value="{{ filtro_q }}">
+  </div>
+  {% else %}
+  <div class="panel-filtros-campo">
+    <label for="filtro-categoria">Categoría</label>
+    <select id="filtro-categoria" name="categoria">
+      <option value="todas"{% if filtro_categoria == "todas" %} selected{% endif %}>Todas</option>
+      {% for item in categorias_form %}
+      <option value="{{ item.id }}"{% if filtro_categoria == item.id %} selected{% endif %}>{{ item.nombre }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="panel-filtros-campo">
+    <label for="filtro-estado">Estado</label>
+    <select id="filtro-estado" name="estado">
+      <option value="todos"{% if filtro_estado == "todos" %} selected{% endif %}>Todos</option>
+      <option value="disponible"{% if filtro_estado == "disponible" %} selected{% endif %}>Disponible</option>
+      <option value="agotado"{% if filtro_estado == "agotado" %} selected{% endif %}>Agotado</option>
+    </select>
+  </div>
+  <div class="panel-filtros-campo panel-filtros-campo--buscar">
+    <label for="filtro-q">Buscar producto</label>
+    <input type="search" id="filtro-q" name="q" placeholder="Nombre del producto" value="{{ filtro_q }}">
+  </div>
+  {% endif %}
+  <div class="panel-filtros-acciones">
+    <button type="submit" class="btn btn-azul btn-pequeno">Aplicar filtros</button>
+    {% if hay_filtros %}
+    <a href="{{ filtro_accion }}" class="btn btn-outline btn-pequeno">Limpiar</a>
+    {% endif %}
+  </div>
+</form>
