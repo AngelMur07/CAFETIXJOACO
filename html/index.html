@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Inicio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cliente.css">
 </head>
-<body>
+<body class="home-page">
 
   <!-- Encabezado del visitante -->
   <header class="header">
@@ -18,8 +20,11 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO</h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
       {% include "indicador-turno.html" %}
@@ -30,28 +35,30 @@
 
     <!-- Hero: presentación principal -->
     <section class="hero">
-      <div class="hero-contenedor">
-        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="hero-logo">
-        <p class="hero-etiqueta">Cafetería Institucional JJFH</p>
-        <h2>CAFETIX JOACO</h2>
-        <p class="hero-frase">Consulta, pide y reclama tu pedido con turno.</p>
-        <p class="hero-descripcion">
-          Sistema web de la cafetería de la Institución Educativa
-          José Joaquín Flórez Hernández. Permite consultar productos,
-          realizar pedidos y obtener un turno para reclamarlos,
-          con el fin de reducir aglomeraciones en los descansos.
-        </p>
-        <div class="hero-botones">
-          <a href="catalogo.html" class="btn btn-verde btn-grande btn-catalogo">Ver catálogo</a>
-          {% if not sesion_iniciada %}
-          <a href="login.html" class="btn btn-outline-blanco btn-grande">Iniciar sesión</a>
-          {% endif %}
+      <div class="hero-layout">
+        <div class="hero-content">
+          <p class="hero-etiqueta">Cafetería Institucional JJFH</p>
+          <h2>CAFETIX JOACO</h2>
+          <p class="hero-frase">Consulta, pide y reclama tu pedido con turno.</p>
+          <p class="hero-descripcion">
+            Sistema web de la cafetería de la Institución Educativa
+            José Joaquín Flórez Hernández. Permite consultar productos,
+            realizar pedidos y obtener un turno para reclamarlos,
+            con el fin de reducir aglomeraciones en los descansos.
+          </p>
+        </div>
+        <div class="hero-media">
+          <img
+            src="../img/cafeteria-institucional.jpg"
+            alt="Fachada de la cafetería institucional JJFH"
+            class="hero-image"
+          >
         </div>
       </div>
     </section>
 
     <!-- Características principales -->
-    <section class="seccion seccion-gris">
+    <section class="seccion seccion-gris section-divider">
       <div class="contenedor">
         <h2 class="seccion-titulo">Características principales</h2>
         <div class="seccion-linea"></div>
@@ -60,23 +67,15 @@
 
           <article class="tarjeta-caracteristica">
             <div class="tarjeta-icono" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-              </svg>
+              <img src="../img/iconos/productos.svg" alt="" class="icono icono-tarjeta">
             </div>
-            <h3>Catálogo digital</h3>
+            <h3>Compras en línea</h3>
             <p>Consulta los productos disponibles y sus precios antes de pedir.</p>
           </article>
 
           <article class="tarjeta-caracteristica">
             <div class="tarjeta-icono" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 7h12v13H6z"></path>
-                <path d="M9 7V5a3 3 0 0 1 6 0v2"></path>
-              </svg>
+              <img src="../img/iconos/pedidos.svg" alt="" class="icono icono-tarjeta">
             </div>
             <h3>Pedidos rápidos</h3>
             <p>Arma tu pedido desde el celular o un computador, de forma clara.</p>
@@ -84,10 +83,7 @@
 
           <article class="tarjeta-caracteristica">
             <div class="tarjeta-icono" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="9"></circle>
-                <path d="M12 7v5l3 2"></path>
-              </svg>
+              <img src="../img/iconos/turnos.svg" alt="" class="icono icono-tarjeta">
             </div>
             <h3>Turnos organizados</h3>
             <p>Recibe un turno para reclamar tu pedido y evitar filas desordenadas.</p>
@@ -108,7 +104,7 @@
           <article class="paso">
             <p class="paso-numero">01</p>
             <h3>Consultar productos</h3>
-            <p>Revisa el catálogo y los precios de la cafetería.</p>
+            <p>Revisa la sección de Compras y los precios de la cafetería.</p>
           </article>
 
           <article class="paso">
@@ -154,6 +150,33 @@
         </ul>
       </div>
     </section>
+
+    {% if aviso %}
+    <section class="seccion">
+      <div class="contenedor">
+        {% with texto=aviso %}{% include "aviso.html" %}{% endwith %}
+      </div>
+    </section>
+    {% endif %}
+
+    {% if mostrar_invitacion_encuesta %}
+    <section class="seccion invitacion-encuesta-seccion">
+      <div class="contenedor">
+        <div class="invitacion-encuesta">
+          <h3>¿Quieres calificar nuestro servicio?</h3>
+          <p>Tu opinión nos ayuda a seguir mejorando CAFETIX JOACO.</p>
+          <div class="invitacion-encuesta-acciones">
+            <a href="encuesta.html" class="btn btn-verde">Responder encuesta</a>
+            <form action="/posponer-encuesta" method="post">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <input type="hidden" name="origen" value="inicio">
+              <button type="submit" class="btn btn-outline">Ahora no</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
 
   </main>
 

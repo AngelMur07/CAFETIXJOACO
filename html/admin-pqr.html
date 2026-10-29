@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - PQR</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,18 +12,22 @@
   <link rel="stylesheet" href="../css/paneles.css">
   <link rel="stylesheet" href="../css/admin.css">
 </head>
-<body>
+<body class="{{ rol }}-page">
 
   <header class="header panel-header">
     <div class="header-contenedor">
-      <a href="administrador.html" class="header-marca">
+      <a href="{% if rol == 'superadmin' %}superadmin.html{% else %}administrador.html{% endif %}" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -30,52 +35,82 @@
     <div class="admin-pagina">
 
       <div class="panel-titulo">
-        <h2>PQR recibidas</h2>
-        <p>Peticiones, quejas, reclamos y felicitaciones de ejemplo.</p>
+        <div class="panel-titulo-lectura">
+          {% with nombre="pqr", tamano="titulo" %}{% include "icono.html" %}{% endwith %}
+          <div class="panel-titulo-copy">
+            <h2>PQR recibidas</h2>
+            <p>Peticiones, quejas, reclamos y felicitaciones enviadas por los estudiantes.</p>
+          </div>
+        </div>
       </div>
+
+      {% if aviso_pqr %}
+      {% with texto=aviso_pqr %}{% include "aviso.html" %}{% endwith %}
+      {% endif %}
 
       <section class="bloque-panel">
         <h3>Mensajes</h3>
-        <p class="bloque-ayuda">Más adelante se leerán desde la base de datos.</p>
 
+        {% include "filtros-panel.html" %}
+
+        {% if pqrs %}
         <div class="panel-tabla-contenedor">
-          <table class="panel-tabla">
+          <table class="panel-tabla panel-tabla--pqr">
             <thead>
               <tr>
+                <th>ID</th>
+                <th>Fecha</th>
                 <th>Tipo</th>
+                <th>Estudiante</th>
+                <th>Documento</th>
                 <th>Asunto</th>
-                <th>Usuario</th>
+                <th>Mensaje</th>
                 <th>Estado</th>
               </tr>
             </thead>
             <tbody>
+              {% for pqr in pqrs %}
               <tr>
-                <td><span class="tipo-pqr">Petición</span></td>
-                <td>Agregar jugo de mango</td>
-                <td>Sofía Díaz</td>
-                <td><span class="estado-badge estado-pendiente">Pendiente</span></td>
+                <td><strong class="pqr-id">#{{ pqr.id }}</strong></td>
+                <td><span class="pqr-fecha">{{ pqr.fecha }}</span></td>
+                <td><span class="tipo-pqr {{ pqr.tipo }}">{{ pqr.tipo_texto }}</span></td>
+                <td>
+                  <strong class="pqr-estudiante">{{ pqr.estudiante }}</strong>
+                </td>
+                <td>
+                  <span class="pqr-documento">{{ pqr.documento }}</span>
+                </td>
+                <td><strong class="pqr-asunto-texto">{{ pqr.asunto }}</strong></td>
+                <td>
+                  <div class="pqr-mensaje-caja">{{ pqr.mensaje }}</div>
+                </td>
+                <td>
+                  <div class="pqr-estado-contenedor">
+                    <span class="estado-badge {{ pqr.estado_clase }}">{{ pqr.estado }}</span>
+                    <form action="/actualizar-estado-pqr" method="post" class="form-estado-pqr">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                      <input type="hidden" name="id" value="{{ pqr.id }}">
+                      <div class="form-estado-controles">
+                        <select id="estado-{{ pqr.id }}" name="estado" aria-label="Estado de la PQR" class="select-estado-pqr">
+                          {% for estado in estados_pqr %}
+                          <option value="{{ estado }}"{% if pqr.estado == estado %} selected{% endif %}>{{ estado }}</option>
+                          {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-azul btn-pequeno">Guardar</button>
+                      </div>
+                    </form>
+                  </div>
+                </td>
               </tr>
-              <tr>
-                <td><span class="tipo-pqr queja">Queja</span></td>
-                <td>Tiempo de espera</td>
-                <td>Andrés López</td>
-                <td><span class="estado-badge estado-preparando">En revisión</span></td>
-              </tr>
-              <tr>
-                <td><span class="tipo-pqr reclamo">Reclamo</span></td>
-                <td>Producto incompleto</td>
-                <td>Camilo Pérez</td>
-                <td><span class="estado-badge estado-pendiente">Pendiente</span></td>
-              </tr>
-              <tr>
-                <td><span class="tipo-pqr felicitacion">Felicitación</span></td>
-                <td>Atención amable</td>
-                <td>Camila Rojas</td>
-                <td><span class="estado-badge estado-listo">Cerrada</span></td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
+        {% elif hay_filtros %}
+        <p class="tabla-vacia">No se encontraron solicitudes PQR con los filtros seleccionados.</p>
+        {% else %}
+        <p class="tabla-vacia">No hay PQR registradas.</p>
+        {% endif %}
       </section>
 
     </div>

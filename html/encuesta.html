@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Encuesta</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,18 +11,22 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/cliente.css">
 </head>
-<body>
+<body class="encuesta-page">
 
   <header class="header">
     <div class="header-contenedor">
       <a href="index.html" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Cliente</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -29,64 +34,82 @@
 
     <div class="formulario-contenedor tarjeta">
       <div class="form-icono" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 3l2.2 6.6H21l-5.4 4 2.1 6.4L12 16.8 6.3 20l2.1-6.4L3 9.6h6.8z"></path>
-        </svg>
+        <img src="../img/iconos/encuesta.svg" alt="" class="icono icono-tarjeta">
       </div>
-      <h2>Satisfacción</h2>
-      <p class="subtitulo-form">Cuéntanos cómo te fue con CAFETIX JOACO</p>
+      <h2>Encuesta de Satisfacción</h2>
+      <p class="subtitulo-form">Tu opinión como estudiante nos ayuda a mejorar la cafetería</p>
 
-      <div class="aviso-panel">
-        Esta encuesta es visual. Las respuestas no se guardan todavía.
-      </div>
+      {% if encuesta_respondida %}
+      {% with texto=mensaje_encuesta, estilo="exito" %}{% include "aviso.html" %}{% endwith %}
+      <a href="index.html" class="btn btn-verde form-boton-amplio" style="margin-top: 14px;">Volver al inicio</a>
+      {% else %}
+      {% if error %}
+      {% with texto=error, estilo="error" %}{% include "aviso.html" %}{% endwith %}
+      {% endif %}
 
-      <!-- El formulario envía a la página de agradecimiento. Más adelante se guardará en MySQL. -->
-      <form action="gracias.html" method="post">
-        <div class="form-grupo">
-          <p class="pregunta-encuesta">¿Cómo fue tu experiencia con CAFETIX JOACO?</p>
-          <p class="estrellas-ayuda">Elige de 1 a 5 estrellas</p>
-          <!-- El CSS muestra las estrellas de 1 a 5. Los valores quedan listos para la base de datos. -->
-          <div class="estrellas">
-            <input type="radio" id="experiencia-5" name="experiencia" value="5">
-            <label for="experiencia-5" title="5 estrellas">★</label>
-            <input type="radio" id="experiencia-4" name="experiencia" value="4">
-            <label for="experiencia-4" title="4 estrellas">★</label>
-            <input type="radio" id="experiencia-3" name="experiencia" value="3">
-            <label for="experiencia-3" title="3 estrellas">★</label>
-            <input type="radio" id="experiencia-2" name="experiencia" value="2">
-            <label for="experiencia-2" title="2 estrellas">★</label>
-            <input type="radio" id="experiencia-1" name="experiencia" value="1">
-            <label for="experiencia-1" title="1 estrella">★</label>
+      <form action="encuesta.html" method="post" id="form-satisfaccion">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <div class="encuesta-tarjeta-pregunta">
+          <span class="encuesta-paso-numero">1</span>
+          <div class="encuesta-pregunta-contenido">
+            <h3 class="pregunta-encuesta">¿Cómo fue tu experiencia general con CAFETIX JOACO?</h3>
+            <p class="estrellas-ayuda">Selecciona de 1 a 5 estrellas (1: regular, 5: excelente)</p>
+            <div class="estrellas">
+              <input type="radio" id="experiencia-5" name="experiencia" value="5"{% if experiencia == "5" %} checked{% endif %} required>
+              <label for="experiencia-5" title="5 estrellas - Excelente">★</label>
+              <input type="radio" id="experiencia-4" name="experiencia" value="4"{% if experiencia == "4" %} checked{% endif %}>
+              <label for="experiencia-4" title="4 estrellas - Muy buena">★</label>
+              <input type="radio" id="experiencia-3" name="experiencia" value="3"{% if experiencia == "3" %} checked{% endif %}>
+              <label for="experiencia-3" title="3 estrellas - Buena">★</label>
+              <input type="radio" id="experiencia-2" name="experiencia" value="2"{% if experiencia == "2" %} checked{% endif %}>
+              <label for="experiencia-2" title="2 estrellas - Regular">★</label>
+              <input type="radio" id="experiencia-1" name="experiencia" value="1"{% if experiencia == "1" %} checked{% endif %}>
+              <label for="experiencia-1" title="1 estrella - Por mejorar">★</label>
+            </div>
           </div>
         </div>
 
-        <div class="form-grupo">
-          <p class="pregunta-encuesta">¿Qué tan fácil fue realizar tu compra?</p>
-          <p class="estrellas-ayuda">Elige de 1 a 5 estrellas</p>
-          <div class="estrellas">
-            <input type="radio" id="facilidad-5" name="facilidad" value="5">
-            <label for="facilidad-5" title="5 estrellas">★</label>
-            <input type="radio" id="facilidad-4" name="facilidad" value="4">
-            <label for="facilidad-4" title="4 estrellas">★</label>
-            <input type="radio" id="facilidad-3" name="facilidad" value="3">
-            <label for="facilidad-3" title="3 estrellas">★</label>
-            <input type="radio" id="facilidad-2" name="facilidad" value="2">
-            <label for="facilidad-2" title="2 estrellas">★</label>
-            <input type="radio" id="facilidad-1" name="facilidad" value="1">
-            <label for="facilidad-1" title="1 estrella">★</label>
+        <div class="encuesta-tarjeta-pregunta">
+          <span class="encuesta-paso-numero">2</span>
+          <div class="encuesta-pregunta-contenido">
+            <h3 class="pregunta-encuesta">¿Qué tan fácil fue realizar tu pedido o compra?</h3>
+            <p class="estrellas-ayuda">Selecciona de 1 a 5 estrellas (1: difícil, 5: muy fácil)</p>
+            <div class="estrellas">
+              <input type="radio" id="facilidad-5" name="facilidad" value="5"{% if facilidad == "5" %} checked{% endif %} required>
+              <label for="facilidad-5" title="5 estrellas - Muy fácil">★</label>
+              <input type="radio" id="facilidad-4" name="facilidad" value="4"{% if facilidad == "4" %} checked{% endif %}>
+              <label for="facilidad-4" title="4 estrellas - Fácil">★</label>
+              <input type="radio" id="facilidad-3" name="facilidad" value="3"{% if facilidad == "3" %} checked{% endif %}>
+              <label for="facilidad-3" title="3 estrellas - Aceptable">★</label>
+              <input type="radio" id="facilidad-2" name="facilidad" value="2"{% if facilidad == "2" %} checked{% endif %}>
+              <label for="facilidad-2" title="2 estrellas - Regular">★</label>
+              <input type="radio" id="facilidad-1" name="facilidad" value="1"{% if facilidad == "1" %} checked{% endif %}>
+              <label for="facilidad-1" title="1 estrella - Difícil">★</label>
+            </div>
           </div>
         </div>
 
-        <div class="form-grupo">
-          <label for="comentario">Déjanos un comentario</label>
-          <textarea id="comentario" name="comentario" placeholder="Escribe tu opinión"></textarea>
+        <div class="encuesta-tarjeta-pregunta">
+          <span class="encuesta-paso-numero">3</span>
+          <div class="encuesta-pregunta-contenido">
+            <label for="comentario" class="pregunta-encuesta">Déjanos un comentario u opinión (opcional)</label>
+            <p class="estrellas-ayuda">Escribe aquí tu sugerencia o felicitación para el equipo de cafetería:</p>
+            <textarea id="comentario" name="comentario" class="encuesta-textarea" placeholder="Escribe tu mensaje aquí..." maxlength="1000">{{ comentario|default('') }}</textarea>
+          </div>
         </div>
 
-        <div class="pedido-acciones">
-          <button type="submit" class="btn btn-verde">Enviar opinión</button>
-          <a href="gracias.html" class="btn btn-outline">No, gracias</a>
+        <div class="encuesta-acciones-fila">
+          <button type="submit" class="btn btn-verde form-boton-amplio">Enviar opinión</button>
         </div>
       </form>
+
+      <form action="/posponer-encuesta" method="post" class="form-posponer-encuesta">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <input type="hidden" name="origen" value="inicio">
+        <button type="submit" class="btn btn-outline form-boton-amplio">Ahora no, responder después</button>
+      </form>
+      {% endif %}
     </div>
 
   </main>

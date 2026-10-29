@@ -1,4 +1,35 @@
+# Claves secretas y datos locales de sesión
 .cafetix/
 .cafetix_secret_key
+
+# Variables de entorno y credenciales privadas
+.env
+*.env
+.env.*
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache y compilados
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Configuraciones de editores e IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Archivos temporales y de pruebas
+scratch/
+*.log
+
+# Respaldos de base de datos (el archivo cafetix_joaco.sql sí se versiona)
+backup*.sql
+*.bak
+*.dump

@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Iniciar sesión</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="auth-page">
+<body class="auth-page auth-page--login">
 
   <header class="header">
     <div class="header-contenedor">
@@ -17,7 +18,6 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO</h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
       </a>
       {% include "menu.html" %}
@@ -30,11 +30,13 @@
 
       <aside class="auth-brand" aria-label="Presentación CAFETIX JOACO">
         <div class="auth-brand-inner">
-          <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="auth-brand-logo">
+          <img src="../img/logo-jjfh-transparente.png" alt="Escudo Institución Educativa JJFH" class="auth-brand-logo">
           <p class="auth-brand-name">CAFETIX JOACO</p>
-          <h2 class="auth-brand-title">Tu descanso empieza sin filas.</h2>
+          <h2 class="auth-brand-title">Tu descanso<br>empieza sin filas.</h2>
           <p class="auth-brand-text">
-            Consulta, compra y recibe tu turno de forma rápida desde la cafetería institucional.
+            Consulta, compra y recibe tu turno de<br>
+            forma rápida desde la cafetería<br>
+            institucional.
           </p>
           <ul class="auth-benefits">
             <li><span class="auth-benefit-dot" aria-hidden="true"></span>Compra más rápido</li>
@@ -48,11 +50,11 @@
         <div class="auth-header login-header">
           <p class="auth-eyebrow">Bienvenido</p>
           <h2>Iniciar sesión</h2>
-          <p class="auth-lead">Ingresa tus datos para acceder a CAFETIX JOACO.</p>
+          <p class="auth-lead">¡Bienvenido! Inicia sesión para realizar tus compras.</p>
         </div>
 
         {% if aviso %}
-        <div class="auth-message auth-message--error" role="alert">{{ aviso }}</div>
+        <div class="auth-message auth-message--{{ tipo_aviso(aviso) }}"{% if tipo_aviso(aviso) == "error" %} role="alert"{% else %} role="status"{% endif %}>{{ aviso }}</div>
         {% endif %}
 
         <form class="auth-form login-form" action="/login.html" method="post">
@@ -73,8 +75,8 @@
         </form>
 
         <p class="auth-register">
-          ¿Aún no tienes una cuenta?
-          <a href="registro.html">Crear cuenta</a>
+          ¿Aún no tienes cuenta? Puedes crear una aquí:
+          <a href="registro.html">Crear Cliente</a>
         </p>
       </section>
 

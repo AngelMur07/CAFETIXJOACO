@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Vendedor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,18 +11,22 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/vendedor.css">
 </head>
-<body>
+<body class="{{ rol }}-page">
 
   <header class="header panel-header">
     <div class="header-contenedor">
       <a href="index.html" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Vendedor</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -29,79 +34,134 @@
 
     <div class="vendedor-pagina">
 
-      <section class="estado-sistema">
-        <h3>Estado de los turnos</h3>
-        <p><strong>ESTADO DE LOS TURNOS: {% if sistema_habilitado %}ACTIVOS{% else %}INACTIVOS{% endif %}</strong></p>
-        {% if jornada_activa %}
-        <p>{{ jornada_activa }}: {{ horario_texto }}</p>
-        {% endif %}
-        <div class="acciones-sistema">
-          <form action="/habilitar-sistema" method="post">
-            <input type="hidden" name="origen" value="vendedor">
-            <button type="submit" class="btn btn-verde"{% if sistema_habilitado %} disabled{% endif %}>Habilitar turnos</button>
-          </form>
-          <form action="/deshabilitar-sistema" method="post">
-            <input type="hidden" name="origen" value="vendedor">
-            <button type="submit" class="btn btn-outline"{% if not sistema_habilitado %} disabled{% endif %}>Deshabilitar turnos</button>
-          </form>
+      <section class="estado-sistema info-turnos">
+        <div class="info-turnos-cabecera">
+          <span class="info-turnos-icono" aria-hidden="true">
+            <img src="../img/iconos/turnos.svg" alt="">
+          </span>
+          <div class="info-turnos-cabecera-texto">
+            <h3>Información de turnos</h3>
+            <p class="info-turnos-lema">Control de atención de pedidos</p>
+          </div>
+        </div>
+
+        <div class="info-turnos-cuerpo">
+          <div class="info-turnos-estado-fila">
+            <span class="info-turnos-estado-label">Estado de pedidos</span>
+            {% if sistema_pedidos_activo %}
+            <span class="info-turnos-badge info-turnos-badge--activo"><span class="info-turnos-punto" aria-hidden="true"></span>ACTIVO</span>
+            {% else %}
+            <span class="info-turnos-badge info-turnos-badge--inactivo"><span class="info-turnos-punto" aria-hidden="true"></span>INACTIVO</span>
+            {% endif %}
+          </div>
+
+          {% if sistema_pedidos_activo %}
+          {% if turno_actual and turno_actual > 0 %}
+          <div class="info-turnos-principal">
+            <p class="info-turnos-etiqueta">Turno actual</p>
+            <p class="info-turnos-cifra">{{ turno_actual }}</p>
+          </div>
+          {% endif %}
+          {% else %}
+          <p class="info-turnos-aviso">Los pedidos están cerrados. No hay un turno en atención.</p>
+          {% endif %}
+        </div>
+
+        <div class="info-turnos-pie">
+          {% if jornada_activa %}
+          <div class="info-turnos-meta">
+            <p class="info-turnos-meta-label">Jornada actual</p>
+            <p class="info-turnos-meta-valor">{{ jornada_activa }} · {{ horario_texto }}</p>
+          </div>
+          {% endif %}
+          {% if por_extension and apertura_texto %}
+          <div class="info-turnos-meta info-turnos-meta--extra">
+            <p class="info-turnos-meta-label">Apertura extraordinaria</p>
+            <p class="info-turnos-meta-valor">Disponible hasta {{ apertura_texto }}</p>
+          </div>
+          {% endif %}
+
+          {% if aviso_turno_cerrado %}
+          {% with texto="No se pueden avanzar turnos porque el sistema está cerrado.", estilo="aviso" %}{% include "aviso.html" %}{% endwith %}
+          {% endif %}
+
+          {% if aviso_sin_turnos %}
+          {% with texto="No hay más turnos pendientes.", estilo="info" %}{% include "aviso.html" %}{% endwith %}
+          {% endif %}
+
+          <div class="vendedor-acciones">
+            <form action="/siguiente-turno" method="post">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              {% if sistema_pedidos_activo %}
+              <button type="submit" class="btn btn-azul">Siguiente turno</button>
+              {% else %}
+              <button type="button" class="btn btn-agotado" disabled>Turnos inactivos</button>
+              {% endif %}
+            </form>
+          </div>
         </div>
       </section>
 
-      {% if aviso_turno_cerrado %}
-      <div class="aviso-panel">
-        No se pueden avanzar turnos porque el sistema está cerrado.
-      </div>
-      {% endif %}
-
-      {% if aviso_sin_turnos %}
-      <div class="aviso-panel">
-        No hay más turnos pendientes.
-      </div>
-      {% endif %}
-
       {% if aviso_pedido %}
-      <div class="aviso-panel">{{ aviso_pedido }}</div>
+      {% with texto=aviso_pedido %}{% include "aviso.html" %}{% endwith %}
       {% endif %}
 
-      <section class="turno-actual">
-        <h2>Turno actual: {{ turno_actual }}</h2>
-        <p class="turno-actual-numero">{{ turno_actual }}</p>
-      </section>
-
-      <div class="vendedor-acciones">
-        <form action="/siguiente-turno" method="post">
-          {% if sistema_pedidos_activo %}
-          <button type="submit" class="btn btn-azul">Siguiente turno</button>
-          {% else %}
-          <button type="button" class="btn btn-agotado" disabled>Turnos inactivos</button>
-          {% endif %}
-        </form>
-      </div>
-
-      <section class="pedidos-vendedor">
-        <h3>Pedidos pendientes</h3>
+      <section id="pedidos" class="pedidos-vendedor">
+        <h3 class="titulo-con-icono">{% with nombre="pedidos", tamano="seccion", variante="verde" %}{% include "icono.html" %}{% endwith %}Pedidos pendientes</h3>
 
         {% if not hay_pedidos %}
-        <p class="bloque-ayuda">Actualmente no hay pedidos registrados.</p>
+        <p class="tabla-vacia">No hay pedidos registrados.</p>
         {% elif not pedidos_pendientes %}
-        <p class="bloque-ayuda">No hay pedidos pendientes.</p>
+        <p class="tabla-vacia">No hay pedidos pendientes.</p>
         {% else %}
         <div class="pedidos-lista">
           {% for pedido in pedidos_pendientes %}
-          <article class="pedido-card pedido-{{ pedido.estado }}">
-            <h4>PEDIDO #{{ pedido.id }}</h4>
-            <p>Turno: {{ pedido.turno }}</p>
+          <article id="pedido-{{ pedido.id }}" class="pedido-card pedido-pendiente-card pedido-{{ pedido.estado }}">
+            <header class="pedido-card-header">
+              <div class="pedido-card-meta">
+                <h4 class="pedido-codigo-titulo">Pedido {{ pedido.numero }}</h4>
+                <span class="pedido-turno-badge">Turno {{ pedido.turno }}</span>
+              </div>
+              <span class="pedido-id-subtexto">(Registro #{{ pedido.id }})</span>
+            </header>
+            <p class="pedido-tipo">
+              <span class="badge-tipo-productos {{ pedido.tipo_productos_clase }}">{{ pedido.tipo_productos }}</span>
+            </p>
             <ul class="pedido-productos">
               {% for item in pedido.productos %}
-              <li>{{ item.nombre }} x{{ item.cantidad }}</li>
+              <li><strong>{{ item.nombre }}</strong> × {{ item.cantidad }}</li>
               {% endfor %}
             </ul>
-            <p>Total: {{ pedido.total_texto }}</p>
-            <p>Estado: <span class="estado-badge {{ pedido.estado_clase }}">{{ pedido.estado_texto }}</span></p>
+            <div class="pedido-detalles-grid">
+              <p><strong>Total:</strong> <span class="pedido-total-valor">{{ pedido.total_texto }}</span></p>
+              <p><strong>Método de pago:</strong> {{ pedido.metodo_pago_texto or pedido.metodo_pago }}</p>
+              <p><strong>Estado del pago:</strong> <span class="pago-badge {% if pedido.estado_pago == 'Confirmado' %}pago-confirmado{% else %}pago-pendiente{% endif %}">{{ pedido.estado_pago }}</span></p>
+              <p><strong>Estado:</strong> <span class="estado-badge {{ pedido.estado_clase }}">{{ pedido.estado_texto }}</span></p>
+            </div>
+            {% if pedido.puede_confirmar_efectivo %}
+            <form action="/confirmar-pago-efectivo" method="post" class="form-estado-pedido">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <input type="hidden" name="id" value="{{ pedido.id }}">
+              <button type="submit" class="btn btn-azul btn-pequeno">CONFIRMAR PAGO EN EFECTIVO</button>
+            </form>
+            {% endif %}
+            {% if pedido.puede_confirmar_transferencia %}
+            <form action="/confirmar-pago-transferencia" method="post" class="form-estado-pedido">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <input type="hidden" name="id" value="{{ pedido.id }}">
+              <button type="submit" class="btn btn-azul btn-pequeno">CONFIRMAR TRANSFERENCIA QR</button>
+            </form>
+            {% endif %}
+            {% if pedido.aviso_entrega_efectivo %}
+            <p class="aviso-entrega-efectivo">Confirma el pago en efectivo antes de entregar el pedido.</p>
+            {% endif %}
+            {% if pedido.aviso_entrega_transferencia %}
+            <p class="aviso-entrega-efectivo">Verifica el comprobante y confirma la transferencia QR antes de entregar el pedido.</p>
+            {% endif %}
             {% if pedido.siguiente_estado %}
             <form action="/cambiar-estado-pedido" method="post" class="form-estado-pedido">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
               <input type="hidden" name="id" value="{{ pedido.id }}">
-              <input type="hidden" name="estado" value="{{ pedido.siguiente_estado }}">
               <button type="submit" class="btn btn-verde btn-pequeno">{{ pedido.siguiente_texto }}</button>
             </form>
             {% endif %}
@@ -116,19 +176,81 @@
         <h3>Pedidos entregados</h3>
         <div class="pedidos-lista">
           {% for pedido in pedidos_entregados %}
-          <article class="pedido-card pedido-entregado">
-            <h4>PEDIDO #{{ pedido.id }}</h4>
-            <p>Turno: {{ pedido.turno }}</p>
+          <article id="pedido-{{ pedido.id }}" class="pedido-card pedido-entregado-card">
+            <header class="pedido-card-header">
+              <div class="pedido-card-meta">
+                <h4 class="pedido-codigo-titulo">Pedido {{ pedido.numero }}</h4>
+                <span class="pedido-turno-badge pedido-turno-entregado">Turno {{ pedido.turno }}</span>
+              </div>
+              <span class="pedido-id-subtexto">(Registro #{{ pedido.id }})</span>
+            </header>
+            <p class="pedido-tipo">
+              <span class="badge-tipo-productos {{ pedido.tipo_productos_clase }}">{{ pedido.tipo_productos }}</span>
+              <span class="badge-entregado-check">✓ Entregado</span>
+            </p>
             <ul class="pedido-productos">
               {% for item in pedido.productos %}
-              <li>{{ item.nombre }} x{{ item.cantidad }}</li>
+              <li><strong>{{ item.nombre }}</strong> × {{ item.cantidad }}</li>
               {% endfor %}
             </ul>
-            <p>Total: {{ pedido.total_texto }}</p>
-            <p>Estado: <span class="estado-badge {{ pedido.estado_clase }}">{{ pedido.estado_texto }}</span></p>
+            <div class="pedido-detalles-grid">
+              <p><strong>Total:</strong> <span class="pedido-total-valor">{{ pedido.total_texto }}</span></p>
+              <p><strong>Método de pago:</strong> {{ pedido.metodo_pago_texto or pedido.metodo_pago }}</p>
+              <p><strong>Estado del pago:</strong> <span class="pago-badge pago-confirmado">{{ pedido.estado_pago }}</span></p>
+              <p><strong>Estado:</strong> <span class="estado-badge {{ pedido.estado_clase }}">{{ pedido.estado_texto }}</span></p>
+            </div>
           </article>
           {% endfor %}
         </div>
+      </section>
+      {% endif %}
+
+      <section class="estado-sistema control-turnos-vendedor">
+        <h3 class="titulo-con-icono">{% with nombre="turnos", tamano="seccion", variante="verde" %}{% include "icono.html" %}{% endwith %}Control de turnos</h3>
+        {% if bloqueo_administrativo %}
+        {% with texto=mensaje_bloqueo_admin, estilo="aviso" %}{% include "aviso.html" %}{% endwith %}
+        {% endif %}
+
+        <div class="acciones-sistema">
+          <form action="/habilitar-sistema" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="origen" value="vendedor">
+            <button type="submit" class="btn btn-verde"{% if not puede_habilitar %} disabled{% endif %}>Habilitar turnos</button>
+          </form>
+          <form action="/deshabilitar-sistema" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="origen" value="vendedor">
+            <button type="submit" class="btn btn-outline"{% if not puede_deshabilitar %} disabled{% endif %}>Deshabilitar turnos</button>
+          </form>
+        </div>
+
+        {% if apertura_vendedor %}
+        <p>Apertura temporal activa hasta {{ apertura_texto }}.</p>
+        <form action="/cancelar-apertura-temporal" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <div class="acciones-sistema">
+            <button type="submit" class="btn btn-outline">Cancelar apertura temporal</button>
+          </div>
+        </form>
+        {% elif por_extension and apertura_texto %}
+        <p>Apertura vigente hasta {{ apertura_texto }}.</p>
+        {% endif %}
+      </section>
+
+      {% if mostrar_apertura_temporal %}
+      <section class="estado-sistema">
+        <h3>Apertura temporal</h3>
+        <p>Estamos fuera del horario de descanso. Indica hasta qué hora de hoy quieres abrir los turnos. La hora debe ser posterior a la actual y del mismo día.</p>
+        <form action="/abrir-turnos-temporal" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <div class="form-grupo">
+            <label for="hora_extension">Hora límite</label>
+            <input type="time" id="hora_extension" name="hora_extension" required>
+          </div>
+          <div class="acciones-sistema">
+            <button type="submit" class="btn btn-azul">Habilitar turnos temporalmente</button>
+          </div>
+        </form>
       </section>
       {% endif %}
 

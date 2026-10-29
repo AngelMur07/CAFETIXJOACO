@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Administrador</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,18 +12,22 @@
   <link rel="stylesheet" href="../css/paneles.css">
   <link rel="stylesheet" href="../css/admin.css">
 </head>
-<body>
+<body class="{{ rol }}-page">
 
   <header class="header panel-header">
     <div class="header-contenedor">
-      <a href="administrador.html" class="header-marca">
+      <a href="{% if rol == 'superadmin' %}superadmin.html{% else %}administrador.html{% endif %}" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -30,86 +35,122 @@
     <div class="admin-pagina">
 
       <div class="panel-titulo">
-        <h2>Panel de administración</h2>
-        <p>Resumen del día. Los números son de ejemplo.</p>
-      </div>
-
-      <div class="aviso-panel">
-        Este panel es visual. Más adelante se conectará con MySQL.
+        <div class="panel-titulo-lectura">
+          {% with nombre="inicio", tamano="titulo" %}{% include "icono.html" %}{% endwith %}
+          <div class="panel-titulo-copy">
+            <h2>Panel de administración</h2>
+            <p>Resumen del día.</p>
+          </div>
+        </div>
       </div>
 
       <!-- Dashboard -->
       <div class="resumen">
         <article class="resumen-tarjeta">
+          {% with nombre="ventas" %}{% include "icono.html" %}{% endwith %}
           <p>Ventas del día</p>
-          <strong>$186.000</strong>
+          <strong>{{ ventas_dia_texto }}</strong>
         </article>
         <article class="resumen-tarjeta">
+          {% with nombre="productos", variante="verde" %}{% include "icono.html" %}{% endwith %}
           <p>Productos disponibles</p>
-          <strong>8</strong>
+          <strong>{{ productos_disponibles }}</strong>
         </article>
         <article class="resumen-tarjeta">
+          {% with nombre="inventario-bajo" %}{% include "icono.html" %}{% endwith %}
           <p>Productos con bajo inventario</p>
-          <strong>2</strong>
+          <strong>{{ productos_bajo_inventario }}</strong>
         </article>
         <article class="resumen-tarjeta">
+          {% with nombre="pedidos", variante="verde" %}{% include "icono.html" %}{% endwith %}
           <p>Pedidos realizados</p>
-          <strong>12</strong>
+          <strong>{{ pedidos_dia }}</strong>
         </article>
       </div>
 
-      <!-- Alertas: más adelante se generan cuando la cantidad llegue al límite -->
       <section class="bloque-panel">
-        <h3>Alertas de inventario</h3>
-        <p class="bloque-ayuda">Aviso cuando un producto queda con pocas unidades.</p>
+        <h3 class="titulo-con-icono">{% with nombre="alertas", tamano="seccion" %}{% include "icono.html" %}{% endwith %}Alertas de inventario</h3>
+        {% if alertas_inventario %}
         <ul class="alerta-lista">
-          <li class="alerta-item">Alerta: <strong>Gaseosa</strong> — quedan 5 unidades.</li>
-          <li class="alerta-item">Alerta: <strong>Jugo natural</strong> — quedan 3 unidades.</li>
+          {% for alerta in alertas_inventario %}
+          <li class="alerta-item"><strong>{{ alerta.nombre }}</strong> — quedan {{ alerta.cantidad }} unidades.</li>
+          {% endfor %}
         </ul>
+        {% else %}
+        <p class="tabla-vacia">No hay productos con bajo inventario.</p>
+        {% endif %}
       </section>
 
       <section class="bloque-panel">
-        <h3>Control de turnos</h3>
+        <h3 class="titulo-con-icono">{% with nombre="turnos", tamano="seccion", variante="verde" %}{% include "icono.html" %}{% endwith %}Control de turnos</h3>
         <p class="bloque-ayuda">Este estado vale para todo el sistema, no solo para esta página.</p>
-        <p><strong>ESTADO DE LOS TURNOS: {% if sistema_habilitado %}ACTIVOS{% else %}INACTIVOS{% endif %}</strong></p>
-        <div class="acciones-sistema">
-          <form action="/habilitar-sistema" method="post">
-            <input type="hidden" name="origen" value="administrador">
-            <button type="submit" class="btn btn-verde"{% if sistema_habilitado %} disabled{% endif %}>Habilitar turnos</button>
-          </form>
-          <form action="/deshabilitar-sistema" method="post">
-            <input type="hidden" name="origen" value="administrador">
-            <button type="submit" class="btn btn-outline"{% if not sistema_habilitado %} disabled{% endif %}>Deshabilitar turnos</button>
-          </form>
+
+        <div class="control-turnos">
+          <div class="control-bloque">
+            <p class="control-etiqueta">Estado actual de pedidos</p>
+            <p class="control-valor{% if sistema_pedidos_activo %} control-valor--ok{% else %} control-valor--alerta{% endif %}">{{ pedidos_estado_texto }}</p>
+            <p class="bloque-ayuda">{{ pedidos_causa_texto }}</p>
+          </div>
+
+          <div class="control-bloque">
+            <p class="control-etiqueta">Control general</p>
+            <p class="control-valor{% if sistema_habilitado %} control-valor--ok{% else %} control-valor--alerta{% endif %}">{{ control_general_texto }}</p>
+            <p class="bloque-ayuda">{{ control_general_ayuda }}</p>
+            {% if bloqueo_administrativo %}
+            <p class="bloque-ayuda">Cierre administrativo activo: el Vendedor no puede volver a habilitar los turnos.</p>
+            {% endif %}
+            <div class="acciones-sistema">
+              {% if sistema_habilitado %}
+              <form action="/deshabilitar-sistema" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <input type="hidden" name="origen" value="administrador">
+                <button type="submit" class="btn btn-outline"{% if not puede_deshabilitar %} disabled{% endif %}>Deshabilitar turnos</button>
+              </form>
+              {% else %}
+              <form action="/habilitar-sistema" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <input type="hidden" name="origen" value="administrador">
+                <button type="submit" class="btn btn-verde"{% if not puede_habilitar %} disabled{% endif %}>Habilitar turnos</button>
+              </form>
+              {% endif %}
+            </div>
+            {% if sistema_habilitado %}
+            <p class="bloque-ayuda">Deshabilitar el control general sirve también como cierre preventivo: impide que la próxima franja de descanso abra automáticamente.</p>
+            {% endif %}
+          </div>
         </div>
       </section>
 
       <section class="bloque-panel">
-        <h3>Control de horario</h3>
-        <p class="bloque-ayuda">Extiende el descanso que está ocurriendo ahora. No se puede extender un horario que aún no empieza o que ya terminó.</p>
+        <h3>Franja de descanso</h3>
+        <p class="bloque-ayuda">Puedes extender el descanso que está ocurriendo ahora o, si no hay descanso, realizar una apertura extraordinaria hasta una hora de hoy. La hora debe ser posterior a la actual y no puede cruzar medianoche.</p>
 
-        <p><strong>Estado actual:</strong>
-          {% if horario_activo %}ACTIVO{% else %}INACTIVO{% endif %}
+        <p><strong>Estado de la franja:</strong>
+          {% if horario_activo %}ACTIVA{% else %}INACTIVA{% endif %}
         </p>
-        <p><strong>Horario actual:</strong> {{ jornada_corta }}</p>
+        <p><strong>Franja actual:</strong> {{ jornada_corta }}</p>
         <p><strong>Hora normal de cierre:</strong> {{ cierre_normal }}</p>
         {% if por_extension %}
         <p><strong>Extensión activa hasta:</strong> {{ extension_texto }}</p>
         {% endif %}
 
         {% if aviso_horario == "ok" %}
-        <div class="aviso-panel">El horario fue extendido.</div>
+        {% with texto="El horario fue extendido.", estilo="exito" %}{% include "aviso.html" %}{% endwith %}
+        {% elif aviso_horario == "ok-extraordinaria" %}
+        {% with texto="La apertura extraordinaria quedó activa hasta la hora indicada.", estilo="exito" %}{% include "aviso.html" %}{% endwith %}
         {% elif aviso_horario == "cancelada" %}
-        <div class="aviso-panel">La extensión fue cancelada.</div>
+        {% with texto="La extensión fue cancelada.", estilo="exito" %}{% include "aviso.html" %}{% endwith %}
         {% elif aviso_horario == "no-activo" %}
-        <div class="aviso-panel">Solo se puede extender el descanso que está ocurriendo ahora.</div>
+        {% with texto="Solo se puede extender el descanso que está ocurriendo ahora.", estilo="aviso" %}{% include "aviso.html" %}{% endwith %}
         {% elif aviso_horario == "invalida" %}
-        <div class="aviso-panel">La hora no es válida. Debe ser después del cierre normal y todavía no haber pasado.</div>
+        {% with texto="La hora no es válida. Debe ser una hora futura de hoy. Si hay un descanso en curso, también debe ser después del cierre normal.", estilo="error" %}{% include "aviso.html" %}{% endwith %}
         {% endif %}
 
         <form action="/extender-horario" method="post">
-          <div class="form-grupo">
-            <label for="hora_extension">Extender hasta:</label>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <div class="form-grupo campo-hora">
+            <label for="hora_extension">Hora límite</label>
+            <p class="bloque-ayuda campo-hora-guia">Selecciona hasta qué hora estarán habilitados los pedidos. Ejemplo: 03:30 p. m.</p>
             <input type="time" id="hora_extension" name="hora_extension" value="{{ hora_extension_valor }}">
           </div>
           <div class="form-acciones">
@@ -118,6 +159,7 @@
         </form>
 
         <form action="/cancelar-extension" method="post" class="form-cancelar-extension">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
           <button type="submit" class="btn btn-outline">Cancelar extensión</button>
         </form>
       </section>

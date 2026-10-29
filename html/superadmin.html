@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Superadministrador</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,18 +12,22 @@
   <link rel="stylesheet" href="../css/paneles.css">
   <link rel="stylesheet" href="../css/superadmin.css">
 </head>
-<body>
+<body class="{{ rol }}-page">
 
   <header class="header panel-header">
     <div class="header-contenedor">
       <a href="superadmin.html" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Superadmin</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -30,117 +35,101 @@
     <div class="superadmin-pagina">
 
       <div class="panel-titulo">
-        <h2>Panel del superadministrador</h2>
-        <p>Vista general del negocio. Los números son de ejemplo.</p>
+        <div class="panel-titulo-lectura">
+          {% with nombre="inicio", tamano="titulo" %}{% include "icono.html" %}{% endwith %}
+          <div class="panel-titulo-copy">
+            <h2>Panel del superadministrador</h2>
+            <p>Vista general del negocio.</p>
+          </div>
+        </div>
       </div>
 
-      <div class="aviso-panel">
-        Esta pantalla es visual. Más adelante se conectará con MySQL.
-      </div>
-
-      <!-- Dashboard: números principales del día -->
       <div class="resumen">
         <article class="resumen-tarjeta">
+          {% with nombre="ventas" %}{% include "icono.html" %}{% endwith %}
           <p>Ventas del día</p>
-          <strong>$186.000</strong>
+          <strong>{{ ventas_dia_texto }}</strong>
         </article>
         <article class="resumen-tarjeta">
+          {% with nombre="pedidos", variante="verde" %}{% include "icono.html" %}{% endwith %}
           <p>Total de pedidos</p>
-          <strong>24</strong>
+          <strong>{{ total_pedidos }}</strong>
         </article>
         <article class="resumen-tarjeta">
+          {% with nombre="productos", variante="verde" %}{% include "icono.html" %}{% endwith %}
           <p>Producto más vendido</p>
-          <strong class="dato-corto">Gaseosa</strong>
+          <strong class="dato-corto">{{ producto_mas_vendido }}</strong>
         </article>
         <article class="resumen-tarjeta">
+          {% with nombre="productos", variante="verde" %}{% include "icono.html" %}{% endwith %}
           <p>Producto menos vendido</p>
-          <strong class="dato-corto">Galletas</strong>
+          <strong class="dato-corto">{{ producto_menos_vendido }}</strong>
         </article>
         <article class="resumen-tarjeta">
+          {% with nombre="reportes" %}{% include "icono.html" %}{% endwith %}
           <p>Mayor movimiento</p>
-          <strong class="dato-corto">Gaseosa</strong>
+          <strong class="dato-corto">{{ producto_mas_vendido }}</strong>
         </article>
         <article class="resumen-tarjeta">
+          {% with nombre="inventario" %}{% include "icono.html" %}{% endwith %}
           <p>Poca rotación</p>
-          <strong class="dato-corto">Galletas</strong>
+          <strong class="dato-corto">{{ producto_menos_vendido }}</strong>
         </article>
       </div>
 
       <div class="dos-columnas">
         <section class="bloque-panel">
           <h3>Productos con mayor movimiento</h3>
-          <p class="bloque-ayuda">Los que más se piden en el día.</p>
+          <p class="bloque-ayuda">Los que más se venden, según pedidos con venta registrada.</p>
+          {% if ranking_superior %}
           <ul class="lista-simple">
+            {% for producto in ranking_superior %}
             <li>
-              <span>Gaseosa</span>
-              <strong>42</strong>
+              <span>{{ producto.nombre }}</span>
+              <strong>{{ producto.cantidad }}</strong>
             </li>
-            <li>
-              <span>Empanada</span>
-              <strong>31</strong>
-            </li>
-            <li>
-              <span>Jugo natural</span>
-              <strong>24</strong>
-            </li>
+            {% endfor %}
           </ul>
+          {% else %}
+          <p class="tabla-vacia">No hay ventas registradas.</p>
+          {% endif %}
         </section>
 
         <section class="bloque-panel">
           <h3>Productos con poca rotación</h3>
-          <p class="bloque-ayuda">Los que se venden menos.</p>
+          <p class="bloque-ayuda">Los que se venden menos, entre productos con al menos una venta.</p>
+          {% if ranking_inferior %}
           <ul class="lista-simple">
+            {% for producto in ranking_inferior %}
             <li>
-              <span>Galletas</span>
-              <strong>2</strong>
+              <span>{{ producto.nombre }}</span>
+              <strong>{{ producto.cantidad }}</strong>
             </li>
-            <li>
-              <span>Pan con chocolate</span>
-              <strong>5</strong>
-            </li>
-            <li>
-              <span>Café con leche</span>
-              <strong>8</strong>
-            </li>
+            {% endfor %}
           </ul>
+          {% else %}
+          <p class="tabla-vacia">No hay ventas registradas.</p>
+          {% endif %}
         </section>
       </div>
 
-      <!-- Resumen de ventas con barras de CSS -->
       <section class="bloque-panel">
         <h3>Resumen de ventas</h3>
-        <p class="bloque-ayuda">Ventas de la semana. La barra más larga es el día con más ventas.</p>
+        <p class="bloque-ayuda">Ventas de la semana actual, de lunes a viernes. La barra más larga es el día con más ventas.</p>
         <div class="grafico-barras">
+          {% for dia in ventas_semana %}
           <div class="barra-fila">
-            <span class="barra-etiqueta">Lunes</span>
+            <span class="barra-etiqueta">{{ dia.nombre }}</span>
             <div class="barra-pista">
-              <div class="barra-relleno barra-70">$142.000</div>
+              {% if dia.porcentaje > 0 %}
+              <div class="barra-relleno{% if dia.es_maximo %} verde{% endif %}" style="width: {{ dia.porcentaje }}%;">{{ dia.total_texto }}</div>
+              {% endif %}
             </div>
+            {% if dia.porcentaje == 0 %}
+            <span class="barra-cero">{{ dia.total_texto }}</span>
+            {% endif %}
           </div>
-          <div class="barra-fila">
-            <span class="barra-etiqueta">Martes</span>
-            <div class="barra-pista">
-              <div class="barra-relleno barra-80">$168.000</div>
-            </div>
-          </div>
-          <div class="barra-fila">
-            <span class="barra-etiqueta">Miércoles</span>
-            <div class="barra-pista">
-              <div class="barra-relleno barra-90">$186.000</div>
-            </div>
-          </div>
-          <div class="barra-fila">
-            <span class="barra-etiqueta">Jueves</span>
-            <div class="barra-pista">
-              <div class="barra-relleno verde barra-100">$210.000</div>
-            </div>
-          </div>
-          <div class="barra-fila">
-            <span class="barra-etiqueta">Viernes</span>
-            <div class="barra-pista">
-              <div class="barra-relleno barra-95">$206.000</div>
-            </div>
-          </div>
+          {% endfor %}
         </div>
       </section>
 

@@ -1,6 +1,6 @@
 /* =============================================
    CAFETIX JOACO - Estilos del superadministrador
-   Solo HTML y CSS. Los datos son de ejemplo.
+   Solo HTML y CSS. Los datos vienen de MySQL.
    ============================================= */
 
 .superadmin-pagina {
@@ -158,6 +158,14 @@
   background-color: var(--verde);
 }
 
+.barra-cero {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: 'Poppins', Arial, sans-serif;
+  color: var(--texto-suave);
+}
+
 /* Anchos del gráfico (porcentaje de la venta más alta) */
 .barra-65 { width: 65%; }
 .barra-70 { width: 70%; }
@@ -167,7 +175,7 @@
 .barra-95 { width: 95%; }
 .barra-100 { width: 100%; }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .barra-fila {
     flex-direction: column;
     align-items: stretch;
@@ -177,4 +185,95 @@
   .barra-etiqueta {
     width: auto;
   }
+}
+
+
+/* Tarjeta informativa sobre costos de inventario */
+.tarjeta-aviso-costos {
+  background-color: #f8fbfe;
+  border: 1px solid rgba(43, 120, 197, 0.25);
+  border-left: 5px solid var(--azul);
+  border-radius: var(--radio, 12px);
+  padding: 20px 24px;
+  margin: 20px 0 24px;
+  box-shadow: 0 4px 14px rgba(43, 120, 197, 0.08);
+}
+
+.tarjeta-aviso-costos-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.tarjeta-aviso-costos-header .icono-circulo {
+  flex-shrink: 0;
+}
+
+.tarjeta-aviso-costos-header h4 {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--azul);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.tarjeta-aviso-costos-cuerpo p {
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--texto);
+  margin: 0 0 10px;
+}
+
+.tarjeta-aviso-costos .pasos-costos {
+  background-color: var(--blanco);
+  border: 1px solid rgba(220, 226, 235, 0.95);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.tarjeta-aviso-costos .pasos-costos strong {
+  color: var(--azul-oscuro, #1e5a96);
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.tarjeta-aviso-costos .pasos-costos ol {
+  margin: 0;
+  padding-left: 22px;
+  color: var(--texto);
+  font-size: 0.91rem;
+  line-height: 1.65;
+}
+
+.tarjeta-aviso-costos .pasos-costos li {
+  margin-bottom: 5px;
+}
+
+.tarjeta-aviso-costos .pasos-costos li:last-child {
+  margin-bottom: 0;
+}
+
+.tarjeta-aviso-costos .aviso-costos-bd {
+  background-color: #fff9e6;
+  border: 1px solid #ffe082;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  color: #795548;
+  margin: 12px 0;
+  line-height: 1.55;
+}
+
+.tarjeta-aviso-costos .aviso-costos-importante {
+  font-size: 0.88rem;
+  color: var(--texto-suave);
+  margin: 12px 0 0;
+  border-top: 1px dashed rgba(200, 210, 225, 0.85);
+  padding-top: 10px;
+  line-height: 1.5;
 }

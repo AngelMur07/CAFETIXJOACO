@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Pago</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,16 +11,19 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/cliente.css">
 </head>
-<body>
+<body class="pago-page">
 
   <header class="header">
     <div class="header-contenedor">
       <a href="index.html" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Cliente</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
       {% include "indicador-turno.html" %}
@@ -29,7 +33,7 @@
   <main class="main">
 
     <div class="guia-pasos">
-      <span class="guia-paso">1. Catálogo</span>
+      <span class="guia-paso">1. Compras</span>
       <span class="guia-flecha">→</span>
       <span class="guia-paso">2. Carrito</span>
       <span class="guia-flecha">→</span>
@@ -38,86 +42,111 @@
       <span class="guia-paso guia-paso-bloqueado">4. Turno</span>
     </div>
 
-    {% if not sistema_activo %}
+    {% if not sistema_pedidos_activo %}
 
-    <div class="aviso-panel">
-      {% if aviso %}{{ aviso }}{% else %}{{ mensaje_cerrado }}{% endif %}
-    </div>
+    {% with texto=aviso if aviso else mensaje_cerrado, estilo="aviso" %}{% include "aviso.html" %}{% endwith %}
     <div class="pedido-acciones">
-      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+      <a href="catalogo.html" class="btn btn-outline">Volver a Compras</a>
     </div>
 
     {% elif carrito_vacio %}
 
-    <div class="aviso-panel">
-      El carrito está vacío. Agrega productos antes de pagar.
-    </div>
+    <p class="tabla-vacia">El carrito está vacío. Agrega productos antes de pagar.</p>
     <div class="pedido-acciones">
-      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+      <a href="catalogo.html" class="btn btn-outline">Ir a Compras</a>
     </div>
 
     {% else %}
 
     {% if aviso %}
-    <div class="aviso-panel">{{ aviso }}</div>
+    {% with texto=aviso %}{% include "aviso.html" %}{% endwith %}
     {% endif %}
 
     <div class="pago-pagina">
 
-      <div class="qr-caja">
-        <h2>Pago mediante QR</h2>
-        <p class="qr-ayuda">
-          Esta es una pantalla de prueba. Más adelante se colocará el QR real.
-          No se realiza ningún cobro.
-        </p>
+      <form action="/confirmar-pago" method="post" class="form-pago">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <input type="hidden" name="token_compra" value="{{ token_compra }}">
 
-        <div class="qr-marco">
-          <img src="../img/qr-demo.svg" alt="Código QR de prueba para el pago">
+        <p class="pago-instruccion">Elige cómo deseas pagar y sigue las instrucciones.</p>
+
+        <div class="metodos-pago">
+          <label class="metodo-opcion">
+            <input type="radio" name="metodo_pago" value="Nequi" checked>
+            <span class="metodo-nombre">Transferencia con QR</span>
+            <span class="metodo-ayuda">Escanea el código QR para pagar</span>
+          </label>
+          <label class="metodo-opcion">
+            <input type="radio" name="metodo_pago" value="Efectivo">
+            <span class="metodo-nombre">Efectivo</span>
+            <span class="metodo-ayuda">Pago presencial en cafetería</span>
+          </label>
         </div>
 
-        <p>Total a pagar</p>
-        <p class="qr-total">{{ total_texto }}</p>
-      </div>
-
-      <div class="detalle-pedido">
-        <h3>Resumen de compra</h3>
-        <div class="pedido-tabla-contenedor">
-          <table class="pedido-tabla">
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Subtotal</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for item in items %}
-              <tr>
-                <td>{{ item.nombre }}</td>
-                <td>{{ item.cantidad }}</td>
-                <td>{{ item.subtotal_texto }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+        <div class="pago-nequi-bloque qr-caja">
+          <h2>Pago con transferencia QR</h2>
+          <p class="qr-ayuda">Escanea el código QR para realizar el pago. El vendedor verificará el comprobante y confirmará la transferencia. Tu pedido se confirmará cuando se verifique el pago.</p>
+          <div class="qr-marco">
+            <img src="../img/qr-nequi-pago.jpg" alt="Código QR para transferencia">
+          </div>
         </div>
-        <div class="detalle-fila">
-          <span>Total a pagar</span>
-          <strong>{{ total_texto }}</strong>
+
+        <div class="pago-efectivo-bloque">
+          <h2>Pago en efectivo</h2>
+          <div class="efectivo-visual" aria-hidden="true">
+            <img src="../img/iconos/pago.svg" alt="">
+          </div>
+          <p class="efectivo-ayuda">
+            Realiza tu pedido y paga en efectivo directamente en la cafetería
+            cuando llegue tu turno. El pago quedará pendiente hasta que el Vendedor lo confirme.
+          </p>
         </div>
-        <p>Cuando confirmes el pago, el sistema descontará el inventario y te asignará un turno.</p>
-      </div>
 
-      <div class="aviso-panel">
-        Simulación académica: si el QR fuera real, aquí se validaría el pago.
-      </div>
+        <div class="detalle-pedido">
+          <h3>Resumen de compra</h3>
+          <div class="pedido-tabla-contenedor">
+            <table class="pedido-tabla">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Precio unitario</th>
+                  <th>Cantidad</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in items %}
+                <tr>
+                  <td><strong>{{ item.nombre }}</strong></td>
+                  <td>{{ item.precio_texto }}</td>
+                  <td>{{ item.cantidad }}</td>
+                  <td><strong>{{ item.subtotal_texto }}</strong></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="detalle-fila detalle-fila--total">
+            <span class="resumen-total-label">Total a pagar</span>
+            <strong class="resumen-total-valor">{{ total_texto }}</strong>
+          </div>
+          <p class="resumen-aviso-final">Cuando confirmes, el sistema descontará el inventario y te asignará un turno.</p>
+        </div>
 
-      <div class="pedido-acciones">
-        <a href="carrito.html" class="btn btn-outline">Volver al carrito</a>
-        <form action="/confirmar-pago" method="post">
-          <button type="submit" class="btn btn-verde btn-grande">CONFIRMAR PAGO</button>
-        </form>
-      </div>
+        <div class="aviso-panel aviso-panel--info aviso-nequi">
+          Después de transferir con el código QR, pulsa CONFIRMAR PAGO.
+        </div>
+        <div class="aviso-panel aviso-panel--aviso aviso-efectivo">
+          El pedido se registra ahora. El pago queda PENDIENTE hasta que el Vendedor lo confirme.
+        </div>
+
+        <div class="pedido-acciones">
+          <a href="carrito.html" class="btn btn-outline">Volver al carrito</a>
+          <button type="submit" class="btn btn-verde btn-grande btn-confirmar-nequi">CONFIRMAR PAGO</button>
+          <button type="submit" class="btn btn-verde btn-grande btn-confirmar-efectivo">CONFIRMAR PEDIDO</button>
+        </div>
+
+      </form>
 
     </div>
 

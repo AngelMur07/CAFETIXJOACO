@@ -1,0 +1,66 @@
+================================================================================
+                    AVISO DE DERECHOS DE AUTOR Y CONDICIONES
+                         DE LA COPIA DE ENTREGA ACADÉMICA
+================================================================================
+
+PROYECTO:
+CAFETIX JOACO — Sistema Digital de Gestión de Ventas para la Cafetería Institucional
+
+INSTITUCIÓN EDUCATIVA:
+Institución Educativa José Joaquín Flórez Hernández (JJFH)
+Ibagué, Tolima — Colombia
+
+NIVEL ACADÉMICO:
+Grado 11 — Año lectivo 2026
+
+AUTORES Y TITULARES DE DERECHOS DE AUTOR:
+- Angel Mur
+- Anais Fierro
+- Tatiana Rodriguez
+- David Saavedra
+
+© 2026 CAFETIX JOACO. Todos los derechos reservados.
+
+--------------------------------------------------------------------------------
+1. PROPÓSITO Y ALCANCE DE ESTA COPIA
+--------------------------------------------------------------------------------
+La presente copia del software CAFETIX JOACO, que incluye su código fuente
+(Python/Flask), plantillas de presentación (HTML), hojas de estilo (CSS),
+recursos gráficos (SVG/PNG/JPG), esquema de base de datos relacional (SQL) y
+documentación técnica, ha sido preparada y entregada EXCLUSIVAMENTE para fines
+académicos de revisión, sustentación y evaluación curricular por parte del
+cuerpo docente del área técnica / informática de Grado 11.
+
+--------------------------------------------------------------------------------
+2. RESERVA DE PROPIEDAD INTELECTUAL Y TITULARIDAD
+--------------------------------------------------------------------------------
+Los derechos morales y patrimoniales de autor sobre la arquitectura, diseño,
+algoritmos, código fuente y elementos creativos de CAFETIX JOACO pertenecen en
+su totalidad y de manera exclusiva a sus autores: Angel Mur, Anais Fierro,
+Tatiana Rodriguez y David Saavedra, de conformidad con la legislación nacional
+e internacional en materia de Propiedad Intelectual y Derechos de Autor
+(Ley 23 de 1982 y Decisión 351 de la Comunidad Andina).
+
+--------------------------------------------------------------------------------
+3. CONDICIONES DE LA ENTREGA ACADÉMICA (NO CESIÓN DE DERECHOS)
+--------------------------------------------------------------------------------
+- La entrega de esta copia al docente evaluador NO constituye venta, enajenación,
+  donación, cesión ni transferencia de la titularidad de los derechos de autor
+  ni de la propiedad intelectual de la obra.
+- El receptor (docente o institución) adquiere únicamente el derecho de examinar,
+  ejecutar localmente y evaluar el sistema en el marco estricto del proceso
+  educativo y calificativo.
+- No se autoriza el uso comercial, la explotación económica, la distribución
+  pública, la republicación en repositorios abiertos ni la apropiación de código
+  o diseños por parte de terceros o instituciones sin la autorización expresa,
+  previa y por escrito de los cuatro autores.
+
+--------------------------------------------------------------------------------
+4. INTEGRIDAD TÉCNICA
+--------------------------------------------------------------------------------
+Esta entrega representa una copia fiel y funcional del sistema, estructurada bajo
+el estándar de 0 % JavaScript (arquitectura server-side en Python y Flask con
+formularios HTML nativos y estilos CSS puros) y base de datos relacional MySQL.
+
+Ibagué, Tolima, Colombia — 2026.
+================================================================================

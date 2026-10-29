@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Carrito</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,16 +11,19 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/cliente.css">
 </head>
-<body>
+<body class="carrito-page">
 
   <header class="header">
     <div class="header-contenedor">
       <a href="index.html" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Cliente</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
       {% include "indicador-turno.html" %}
@@ -29,13 +33,12 @@
   <main class="main">
 
     <div class="pedido-titulo">
-      <h2>Revisar el pedido</h2>
-      <p>Confirma los productos antes de continuar con el pago</p>
-      <p class="usuario-tipo">Usuario de ejemplo: Estudiante</p>
+      <h2 class="titulo-con-icono">{% with nombre="pedidos", tamano="titulo", variante="verde" %}{% include "icono.html" %}{% endwith %}Tu carrito</h2>
+      <p>Aquí encontrarás los productos que elegiste. Revisa las cantidades y el total antes de continuar.</p>
     </div>
 
     <div class="guia-pasos">
-      <span class="guia-paso">1. Catálogo</span>
+      <span class="guia-paso">1. Compras</span>
       <span class="guia-flecha">→</span>
       <span class="guia-paso guia-paso-activo">2. Carrito</span>
       <span class="guia-flecha">→</span>
@@ -45,33 +48,33 @@
     </div>
 
     {% if not sistema_pedidos_activo %}
-    <div class="aviso-panel">
-      {{ mensaje_cerrado }}
-    </div>
+    {% with texto=mensaje_cerrado, estilo="aviso" %}{% include "aviso.html" %}{% endwith %}
     {% endif %}
 
-    {% if aviso %}
-    <div class="aviso-panel">{{ aviso }}</div>
+    {% if aviso and aviso != mensaje_cerrado and aviso != mensaje_pedidos_cerrados %}
+    {% with texto=aviso %}{% include "aviso.html" %}{% endwith %}
     {% endif %}
 
     {% if carrito_vacio %}
 
-    <div class="aviso-panel">
-      Tu carrito está vacío. Agrega productos desde el catálogo.
-    </div>
-    <div class="pedido-acciones">
-      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+    <div class="carrito-vacio-bloque">
+      <p class="tabla-vacia">Todavía no tienes productos. ¡Ve a Compras y elige tus favoritos!</p>
+      <div class="pedido-acciones">
+        <a href="catalogo.html" class="btn btn-verde">Ir a Compras</a>
+      </div>
     </div>
 
     {% else %}
 
+    <p class="carrito-ayuda-top">Revisa tu pedido y confirma que todo esté correcto antes de pagar.</p>
+
     <div class="pedido-tabla-contenedor">
-      <table class="pedido-tabla">
+      <table class="pedido-tabla pedido-tabla--carrito">
         <thead>
           <tr>
             <th>Producto</th>
-            <th>Cantidad</th>
             <th>Precio unitario</th>
+            <th>Cantidad</th>
             <th>Subtotal</th>
             <th>Acciones</th>
           </tr>
@@ -79,33 +82,36 @@
         <tbody>
           {% for item in items %}
           <tr>
-            <td>{{ item.nombre }}</td>
-            <td>
+            <td data-label="Producto"><strong>{{ item.nombre }}</strong></td>
+            <td data-label="Precio unitario">{{ item.precio_texto }}</td>
+            <td data-label="Cantidad">
               {% if sistema_pedidos_activo %}
               <div class="cantidad-control">
                 <form action="/actualizar-carrito" method="post">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                   <input type="hidden" name="id" value="{{ item.id }}">
                   <input type="hidden" name="cambio" value="menos">
-                  <button type="submit" class="btn-cantidad"{% if item.cantidad <= 1 %} disabled{% endif %} aria-label="Quitar una unidad">−</button>
+                  <button type="submit" class="btn-cantidad"{% if item.cantidad <= 1 %} disabled{% endif %} aria-label="Quitar una unidad de {{ item.nombre }}">−</button>
                 </form>
                 <span class="cantidad-numero">{{ item.cantidad }}</span>
                 <form action="/actualizar-carrito" method="post">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                   <input type="hidden" name="id" value="{{ item.id }}">
                   <input type="hidden" name="cambio" value="mas">
-                  <button type="submit" class="btn-cantidad" aria-label="Agregar una unidad">+</button>
+                  <button type="submit" class="btn-cantidad" aria-label="Agregar una unidad de {{ item.nombre }}">+</button>
                 </form>
               </div>
               {% else %}
               {{ item.cantidad }}
               {% endif %}
             </td>
-            <td>{{ item.precio_texto }}</td>
-            <td>{{ item.subtotal_texto }}</td>
-            <td>
+            <td data-label="Subtotal"><strong>{{ item.subtotal_texto }}</strong></td>
+            <td data-label="Acciones">
               {% if sistema_pedidos_activo %}
               <form action="/quitar-del-carrito" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                 <input type="hidden" name="id" value="{{ item.id }}">
-                <button type="submit" class="btn btn-oscuro btn-pequeno">Quitar</button>
+                <button type="submit" class="btn btn-oscuro btn-pequeno" aria-label="Eliminar {{ item.nombre }} del carrito">Eliminar</button>
               </form>
               {% else %}
               —
@@ -117,15 +123,15 @@
       </table>
     </div>
 
-    <div class="pedido-total">
-      <p>Total</p>
+    <div class="pedido-total pedido-total--destacado">
+      <p class="total-etiqueta">Total de su compra</p>
       <p class="total-valor">{{ total_texto }}</p>
     </div>
 
     <div class="pedido-acciones">
-      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+      <a href="catalogo.html" class="btn btn-outline">← Volver a Compras</a>
       {% if sistema_pedidos_activo %}
-      <a href="pago.html" class="btn btn-verde btn-grande">Continuar</a>
+      <a href="pago.html" class="btn btn-verde btn-grande">Continuar al pago →</a>
       {% else %}
       <button type="button" class="btn btn-agotado" disabled>Pedidos cerrados</button>
       {% endif %}

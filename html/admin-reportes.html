@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Reportes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,18 +12,22 @@
   <link rel="stylesheet" href="../css/paneles.css">
   <link rel="stylesheet" href="../css/admin.css">
 </head>
-<body>
+<body class="{{ rol }}-page">
 
   <header class="header panel-header">
     <div class="header-contenedor">
-      <a href="administrador.html" class="header-marca">
+      <a href="{% if rol == 'superadmin' %}superadmin.html{% else %}administrador.html{% endif %}" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -30,60 +35,279 @@
     <div class="admin-pagina">
 
       <div class="panel-titulo">
-        <h2>Reportes</h2>
-        <p>Resumen de ejemplo. Los cálculos reales se harán después.</p>
+        <div class="panel-titulo-lectura">
+          {% with nombre="reportes", tamano="titulo" %}{% include "icono.html" %}{% endwith %}
+          <div class="panel-titulo-copy">
+            <h2>Reportes</h2>
+            <p>Resumen real de ventas, pedidos, PQR y encuesta.</p>
+          </div>
+        </div>
       </div>
 
       <div class="resumen">
         <article class="resumen-tarjeta">
+          {% with nombre="ventas" %}{% include "icono.html" %}{% endwith %}
           <p>Ventas del día</p>
-          <strong>$186.000</strong>
+          <strong>{{ ventas_dia_texto }}</strong>
         </article>
         <article class="resumen-tarjeta">
+          {% with nombre="pedidos", variante="verde" %}{% include "icono.html" %}{% endwith %}
           <p>Pedidos del día</p>
-          <strong>12</strong>
+          <strong>{{ pedidos_dia }}</strong>
         </article>
         <article class="resumen-tarjeta">
+          {% with nombre="productos", variante="verde" %}{% include "icono.html" %}{% endwith %}
           <p>Producto más pedido</p>
-          <strong>Empanada</strong>
+          <strong{% if producto_mas_pedido == "Sin datos" %} class="dato-texto"{% endif %}>{{ producto_mas_pedido }}</strong>
         </article>
         <article class="resumen-tarjeta">
+          {% with nombre="pqr" %}{% include "icono.html" %}{% endwith %}
           <p>PQR del día</p>
-          <strong>4</strong>
+          <strong>{{ pqr_dia }}</strong>
         </article>
       </div>
 
       <section class="bloque-panel">
         <h3>Ventas por categoría</h3>
-        <p class="bloque-ayuda">Tabla de demostración para un reporte sencillo.</p>
+        <p class="bloque-ayuda">Cantidad y total según el detalle de pedidos con venta registrada.</p>
+        {% if not ventas_categoria %}
+        <p class="tabla-vacia">No hay ventas registradas.</p>
+        {% else %}
         <div class="panel-tabla-contenedor">
           <table class="panel-tabla">
             <thead>
               <tr>
                 <th>Categoría</th>
-                <th>Pedidos</th>
-                <th>Total</th>
+                <th class="celda-numero">Cantidad</th>
+                <th class="celda-numero">Total</th>
               </tr>
             </thead>
             <tbody>
+              {% for fila in ventas_categoria %}
               <tr>
-                <td>Cafetería</td>
-                <td>4</td>
-                <td>$42.000</td>
+                <td>{{ fila.categoria }}</td>
+                <td class="celda-numero">{{ fila.cantidad }}</td>
+                <td class="celda-numero">{{ fila.total_texto }}</td>
               </tr>
-              <tr>
-                <td>Productos preparados</td>
-                <td>5</td>
-                <td>$68.000</td>
-              </tr>
-              <tr>
-                <td>Bebidas</td>
-                <td>3</td>
-                <td>$76.000</td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
+        {% endif %}
+      </section>
+
+      <!-- INFORME DE UTILIDAD DEL INVENTARIO -->
+      <section class="bloque-panel" id="informe-utilidad">
+        <h3 class="titulo-con-icono">{% with nombre="reportes", tamano="seccion" %}{% include "icono.html" %}{% endwith %}Informe de utilidad del inventario</h3>
+        <p class="bloque-ayuda">
+          Cálculo de ingresos, costo de adquisición o producción, utilidad estimada y porcentaje de margen por día, mes o año.
+        </p>
+
+        <!-- Filtros por período (Día, Mes o Año) sin JavaScript -->
+        <form action="admin-reportes.html" method="get" class="filtro-utilidad-form">
+          <div class="filtro-utilidad-fila">
+            <div class="campo-utilidad">
+              <label for="periodo_utilidad">Consultar por:</label>
+              <select name="periodo_utilidad" id="periodo_utilidad" class="select-utilidad">
+                <option value="dia"{% if informe_utilidad.tipo_periodo == 'dia' %} selected{% endif %}>Día específico</option>
+                <option value="mes"{% if informe_utilidad.tipo_periodo == 'mes' %} selected{% endif %}>Mes determinado</option>
+                <option value="anio"{% if informe_utilidad.tipo_periodo == 'anio' %} selected{% endif %}>Año determinado</option>
+              </select>
+            </div>
+
+            <div class="campo-utilidad">
+              <label for="fecha_utilidad">Fecha (para Día):</label>
+              <input type="date" id="fecha_utilidad" name="fecha_utilidad" value="{{ informe_utilidad.fecha_filtro }}">
+            </div>
+
+            <div class="campo-utilidad">
+              <label for="mes_utilidad">Mes (para Mes):</label>
+              <select name="mes_utilidad" id="mes_utilidad" class="select-utilidad">
+                {% for m in informe_utilidad.meses_opciones %}
+                <option value="{{ m.numero }}"{% if m.numero == informe_utilidad.mes_filtro %} selected{% endif %}>{{ m.nombre }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="campo-utilidad">
+              <label for="anio_utilidad">Año (para Mes/Año):</label>
+              <select name="anio_utilidad" id="anio_utilidad" class="select-utilidad">
+                {% for a in informe_utilidad.anios_opciones %}
+                <option value="{{ a }}"{% if a == informe_utilidad.anio_filtro %} selected{% endif %}>{{ a }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="campo-utilidad-boton">
+              <button type="submit" class="btn btn-verde">Consultar utilidad</button>
+            </div>
+          </div>
+        </form>
+
+        <p class="utilidad-periodo-etiqueta">
+          Resultados para: <strong>{{ informe_utilidad.texto_periodo }}</strong>
+        </p>
+
+        <!-- Resumen de indicadores de utilidad -->
+        <div class="resumen resumen-utilidad">
+          <article class="resumen-tarjeta">
+            {% with nombre="ventas", variante="verde" %}{% include "icono.html" %}{% endwith %}
+            <p>Ingresos por ventas</p>
+            <strong>{{ informe_utilidad.ingresos_texto }}</strong>
+          </article>
+          <article class="resumen-tarjeta">
+            {% with nombre="inventario" %}{% include "icono.html" %}{% endwith %}
+            <p>Costo productos vendidos</p>
+            <strong>{{ informe_utilidad.costo_total_texto }}</strong>
+          </article>
+          <article class="resumen-tarjeta">
+            {% with nombre="pedidos", variante="verde" %}{% include "icono.html" %}{% endwith %}
+            <p>Utilidad total</p>
+            <strong>{{ informe_utilidad.utilidad_total_texto }}</strong>
+          </article>
+          <article class="resumen-tarjeta">
+            {% with nombre="reportes" %}{% include "icono.html" %}{% endwith %}
+            <p>Margen de utilidad (%)</p>
+            <strong>{{ informe_utilidad.margen_utilidad_texto }}</strong>
+          </article>
+        </div>
+
+        <!-- Tarjeta informativa sobre costos de inventario -->
+        {% if not informe_utilidad.tiene_columna_costo or informe_utilidad.costos_incompletos or not informe_utilidad.costos_disponibles %}
+        <div class="tarjeta-aviso-costos">
+          <div class="tarjeta-aviso-costos-header">
+            {% with nombre="alertas", tamano="seccion" %}{% include "icono.html" %}{% endwith %}
+            <h4>¿Por qué faltan los costos de algunos productos?</h4>
+          </div>
+          <div class="tarjeta-aviso-costos-cuerpo">
+            <p>Para calcular la utilidad de la cafetería, no basta con conocer el precio de venta: también es necesario registrar cuánto costó comprar cada producto al proveedor.</p>
+
+            <p>Actualmente, hay productos con ventas registradas que todavía no tienen su costo de adquisición registrado: <strong>{% if informe_utilidad.productos_sin_costo %}{{ informe_utilidad.productos_sin_costo | join(', ') }}{% else %}Coca-Cola personal, Gatorade, Cubano y Manzana Postobón{% endif %}</strong>. Por este motivo, el sistema puede calcular los ingresos por ventas, pero no la utilidad exacta de esos productos.</p>
+
+            <div class="pasos-costos">
+              <strong>¿Qué debes hacer?</strong>
+              <ol>
+                <li>Consulta cuánto cuesta comprar cada producto al proveedor.</li>
+                <li>Registra su costo unitario en el campo <strong>Costo de adquisición</strong> del catálogo, cuando esté habilitado.</li>
+                <li>Guarda el cambio y verifica los reportes de utilidad.</li>
+              </ol>
+            </div>
+
+            {% if not informe_utilidad.tiene_columna_costo %}
+            <div class="aviso-costos-bd">
+              <strong>Estado en la base de datos:</strong> El campo <strong>Costo de adquisición</strong> no está habilitado actualmente en la base de datos utilizada (columna <code>Prod_Costo</code> no presente). Por seguridad y transparencia, el formulario de productos no muestra un campo que no pueda guardar información.
+            </div>
+            {% endif %}
+
+            <p class="aviso-costos-importante">
+              <strong>Importante:</strong> Registra únicamente costos reales. No uses el precio de venta como costo ni inventes valores. Mientras falte algún costo, la utilidad total puede aparecer como no disponible para evitar mostrar resultados incorrectos.
+            </p>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Desglose por producto -->
+        <h4 style="margin: 20px 0 10px; font-size: 1.05rem; color: var(--azul);">Desglose por producto</h4>
+        {% if not informe_utilidad.hay_ventas %}
+        <p class="tabla-vacia">No hay ventas confirmadas registradas en el período seleccionado.</p>
+        {% else %}
+        <div class="panel-tabla-contenedor">
+          <table class="panel-tabla">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th class="celda-numero">Cant.</th>
+                <th class="celda-numero">Precio venta</th>
+                <th class="celda-numero">Costo unitario</th>
+                <th class="celda-numero">Utilidad unitaria</th>
+                <th class="celda-numero">Ingresos ventas</th>
+                <th class="celda-numero">Costo total</th>
+                <th class="celda-numero">Utilidad total</th>
+                <th class="celda-numero">Margen (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in informe_utilidad.productos %}
+              <tr>
+                <td><strong>{{ p.nombre }}</strong></td>
+                <td class="celda-numero">{{ p.cantidad }}</td>
+                <td class="celda-numero">{{ p.precio_texto }}</td>
+                <td class="celda-numero">{{ p.costo_unitario_texto }}</td>
+                <td class="celda-numero">{{ p.utilidad_unitaria_texto }}</td>
+                <td class="celda-numero"><strong>{{ p.ingresos_texto }}</strong></td>
+                <td class="celda-numero">{{ p.costo_total_texto }}</td>
+                <td class="celda-numero"><strong>{{ p.utilidad_total_texto }}</strong></td>
+                <td class="celda-numero">{{ p.margen_texto }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
+
+        <div style="margin-top: 18px; padding: 12px 16px; background-color: #f8fbff; border: 1px solid #d0e2ff; border-radius: 8px; font-size: 0.86rem; color: #1c3d73;">
+          <p style="margin: 0 0 4px; font-weight: 700;">Fórmulas aplicadas según lineamiento:</p>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li><strong>Utilidad unitaria:</strong> Precio de venta − Costo unitario</li>
+            <li><strong>Utilidad total:</strong> Ingresos por ventas − Costo de los productos vendidos</li>
+            <li><strong>Porcentaje de margen de utilidad:</strong> (Utilidad total ÷ Ingresos por ventas) × 100</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="bloque-panel">
+        <h3 class="titulo-con-icono">{% with nombre="encuesta", tamano="seccion" %}{% include "icono.html" %}{% endwith %}Encuesta de satisfacción</h3>
+        <p class="bloque-ayuda">Resultados reales enviados por los estudiantes.</p>
+
+        <div class="resumen resumen-encuesta">
+          <article class="resumen-tarjeta">
+            <p>Total de respuestas</p>
+            <strong>{{ resumen_encuesta.total }}</strong>
+          </article>
+          <article class="resumen-tarjeta">
+            <p>Promedio de experiencia</p>
+            <strong{% if resumen_encuesta.total == 0 %} class="dato-texto"{% endif %}>{{ resumen_encuesta.promedio_experiencia }}</strong>
+          </article>
+          <article class="resumen-tarjeta">
+            <p>Promedio de facilidad</p>
+            <strong{% if resumen_encuesta.total == 0 %} class="dato-texto"{% endif %}>{{ resumen_encuesta.promedio_facilidad }}</strong>
+          </article>
+        </div>
+
+        {% if not encuestas %}
+        <p class="tabla-vacia">No hay encuestas registradas.</p>
+        {% else %}
+        <div class="panel-tabla-contenedor">
+          <table class="panel-tabla panel-tabla--encuestas">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Estudiante</th>
+                <th>Experiencia</th>
+                <th>Facilidad</th>
+                <th>Comentario</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for encuesta in encuestas %}
+              <tr>
+                <td><span class="celda-fecha">{{ encuesta.fecha }}</span></td>
+                <td><strong>{{ encuesta.estudiante }}</strong></td>
+                <td><span class="calificacion-badge">★ {{ encuesta.experiencia }}/5</span></td>
+                <td><span class="calificacion-badge">★ {{ encuesta.facilidad }}/5</span></td>
+                <td class="celda-comentario">
+                  {% if encuesta.comentario %}
+                  <div class="comentario-burbuja">"{{ encuesta.comentario }}"</div>
+                  {% else %}
+                  <span class="comentario-vacio">Sin comentario adicional</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
       </section>
 
     </div>

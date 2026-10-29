@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
+  <title>CAFETIX JOACO - Mis compras</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cliente.css">
+</head>
+<body class="mis-compras-page">
+
+  <header class="header">
+    <div class="header-contenedor">
+      <a href="index.html" class="header-marca">
+        <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
+        <div class="header-texto">
+          <h1>CAFETIX JOACO</h1>
+        </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
+      </a>
+      {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div class="pedido-titulo">
+      <h2 class="titulo-con-icono">{% with nombre="pedidos", tamano="titulo", variante="verde" %}{% include "icono.html" %}{% endwith %}Mis compras</h2>
+      <p>Historial exclusivo de los pedidos que has realizado en la cafetería institucional.</p>
+    </div>
+
+    {% if aviso %}
+    {% with texto=aviso %}{% include "aviso.html" %}{% endwith %}
+    {% endif %}
+
+    {% if not compras %}
+
+    <div class="carrito-vacio-bloque">
+      <p class="tabla-vacia">Todavía no tienes compras registradas. ¡Ve a Compras y elige tus favoritos!</p>
+      <div class="pedido-acciones">
+        <a href="catalogo.html" class="btn btn-verde">Ir a Compras</a>
+      </div>
+    </div>
+
+    {% else %}
+
+    <div class="historial-lista">
+      {% for compra in compras %}
+      <article class="historial-card">
+        <header class="historial-card-header">
+          <div class="historial-card-meta">
+            <span class="historial-pedido-numero">{{ compra.numero }}</span>
+            <span class="historial-fecha">{{ compra.fecha }}</span>
+          </div>
+          <div class="historial-card-badges">
+            <span class="historial-turno-badge">Turno {{ compra.turno }}</span>
+            <span class="estado-badge {{ compra.estado_clase }}">{{ compra.estado_texto }}</span>
+            <span class="estado-badge {% if compra.estado_pago == 'Confirmado' %}estado-listo{% else %}estado-pendiente{% endif %}">Pago: {{ compra.estado_pago }}</span>
+          </div>
+        </header>
+
+        <div class="historial-card-body">
+          <div class="historial-tabla-contenedor">
+            <table class="historial-tabla">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th class="celda-numero">Cant.</th>
+                  <th class="celda-numero">Precio unitario</th>
+                  <th class="celda-numero">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for prod in compra.productos %}
+                <tr>
+                  <td><strong>{{ prod.nombre }}</strong></td>
+                  <td class="celda-numero">{{ prod.cantidad }}</td>
+                  <td class="celda-numero">{{ prod.precio_texto }}</td>
+                  <td class="celda-numero"><strong>{{ prod.subtotal_texto }}</strong></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <footer class="historial-card-footer">
+          <div class="historial-pago-info">
+            <span class="historial-metodo-etiqueta">Método de pago:</span>
+            <strong>{{ compra.metodo_pago }}</strong>
+          </div>
+          <div class="historial-total-info">
+            <span>Total:</span>
+            <strong class="historial-total-valor">{{ compra.total_texto }}</strong>
+          </div>
+        </footer>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div class="pedido-acciones" style="margin-top: 28px;">
+      <a href="catalogo.html" class="btn btn-verde">Volver a Compras</a>
+      <a href="index.html" class="btn btn-outline">Ir al inicio</a>
+    </div>
+
+    {% endif %}
+
+  </main>
+
+{% include "pie.html" %}
+
+{% include "carrito-flotante.html" %}
+
+</body>
+</html>

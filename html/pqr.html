@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - PQR</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,18 +11,22 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/cliente.css">
 </head>
-<body>
+<body class="pqr-page">
 
   <header class="header">
     <div class="header-contenedor">
       <a href="index.html" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Cliente</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -29,29 +34,43 @@
 
     <div class="formulario-contenedor tarjeta">
       <div class="form-icono" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M4 5h16v14H4z"></path>
-          <path d="M8 9h8"></path>
-          <path d="M8 13h5"></path>
-        </svg>
+        <img src="../img/iconos/pqr.svg" alt="" class="icono icono-tarjeta">
       </div>
-      <h2>PQR</h2>
-      <p class="subtitulo-form">Peticiones, quejas, reclamos y felicitaciones</p>
+      <h2>PQR Institucional</h2>
+      <p class="subtitulo-form">Peticiones, quejas, reclamos y felicitaciones de la comunidad estudiantil</p>
+      {% if nombre_usuario %}
+      <p class="bloque-ayuda">Estudiante: <strong>{{ nombre_usuario }}</strong></p>
+      {% endif %}
 
-      <div class="aviso-panel">
-        Este formulario es visual. El mensaje no se guarda todavía.
+      <div class="pqr-guia-tipos">
+        <div class="pqr-tipo-item pqr-tipo-item--peticion">
+          <strong>Petición</strong>
+          <span>Solicitud de servicio o consulta.</span>
+        </div>
+        <div class="pqr-tipo-item pqr-tipo-item--queja">
+          <strong>Queja</strong>
+          <span>Inconformidad con la atención.</span>
+        </div>
+        <div class="pqr-tipo-item pqr-tipo-item--reclamo">
+          <strong>Reclamo</strong>
+          <span>Disconformidad con un producto o cobro.</span>
+        </div>
+        <div class="pqr-tipo-item pqr-tipo-item--felicitacion">
+          <strong>Felicitación</strong>
+          <span>Reconocimiento por el buen servicio.</span>
+        </div>
       </div>
 
       {% if error %}
-      <div class="aviso-panel">{{ error }}</div>
+      {% with texto=error, estilo="error" %}{% include "aviso.html" %}{% endwith %}
       {% endif %}
 
-      <!-- Flask recibe el formulario y muestra un mensaje según el tipo. Todavía no se guarda en MySQL. -->
       <form action="pqr-gracias.html" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <div class="form-grupo">
-          <label for="tipo">Tipo de PQR</label>
+          <label for="tipo">Tipo de solicitud</label>
           <select id="tipo" name="tipo" required>
-            <option value="">Selecciona un tipo</option>
+            <option value="">Selecciona el tipo de solicitud</option>
             <option value="peticion"{% if tipo == "peticion" %} selected{% endif %}>Petición</option>
             <option value="queja"{% if tipo == "queja" %} selected{% endif %}>Queja</option>
             <option value="reclamo"{% if tipo == "reclamo" %} selected{% endif %}>Reclamo</option>
@@ -60,27 +79,17 @@
         </div>
 
         <div class="form-grupo">
-          <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" value="{{ nombre }}" required>
-        </div>
-
-        <div class="form-grupo">
-          <label for="correo">Correo</label>
-          <input type="email" id="correo" name="correo" placeholder="Tu correo">
-        </div>
-
-        <div class="form-grupo">
           <label for="asunto">Asunto</label>
-          <input type="text" id="asunto" name="asunto" placeholder="Ej: Tiempo de espera">
+          <input type="text" id="asunto" name="asunto" placeholder="Ej: Variedad de frutas, tiempo de atención" required maxlength="100" value="{{ asunto|default('') }}">
         </div>
 
         <div class="form-grupo">
-          <label for="mensaje">Mensaje</label>
-          <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje" required>{{ mensaje_pqr }}</textarea>
+          <label for="mensaje">Mensaje detallado</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Describe tu solicitud de forma clara y respetuosa..." required maxlength="1000">{{ mensaje_pqr }}</textarea>
         </div>
 
         <button type="submit" class="btn btn-verde form-boton">
-          Enviar
+          Enviar solicitud PQR
         </button>
       </form>
     </div>
@@ -88,6 +97,8 @@
   </main>
 
 {% include "pie.html" %}
+
+{% include "carrito-flotante.html" %}
 
 </body>
 </html>

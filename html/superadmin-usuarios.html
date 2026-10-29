@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Usuarios</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,18 +12,22 @@
   <link rel="stylesheet" href="../css/paneles.css">
   <link rel="stylesheet" href="../css/superadmin.css">
 </head>
-<body>
+<body class="{{ rol }}-page">
 
   <header class="header panel-header">
     <div class="header-contenedor">
       <a href="superadmin.html" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Superadmin</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -30,76 +35,99 @@
     <div class="superadmin-pagina">
 
       <div class="panel-titulo">
-        <h2>Usuarios registrados</h2>
-        <p>Resumen de las personas que usan el sistema.</p>
+        <div class="panel-titulo-lectura">
+          {% with nombre="usuarios", tamano="titulo" %}{% include "icono.html" %}{% endwith %}
+          <div class="panel-titulo-copy">
+            <h2>Usuarios registrados</h2>
+            <p>Resumen de las personas que usan el sistema.</p>
+          </div>
+        </div>
       </div>
+
+      {% if aviso %}
+      {% with texto=aviso %}{% include "aviso.html" %}{% endwith %}
+      {% endif %}
 
       <div class="resumen">
         <article class="resumen-tarjeta">
+          {% with nombre="usuarios" %}{% include "icono.html" %}{% endwith %}
+          <p>Total usuarios</p>
+          <strong>{{ conteos_usuarios.total }}</strong>
+        </article>
+        <article class="resumen-tarjeta">
           <p>Clientes</p>
-          <strong>41</strong>
+          <strong>{{ conteos_usuarios.cliente }}</strong>
         </article>
         <article class="resumen-tarjeta">
           <p>Vendedores</p>
-          <strong>3</strong>
+          <strong>{{ conteos_usuarios.vendedor }}</strong>
         </article>
         <article class="resumen-tarjeta">
           <p>Administradores</p>
-          <strong>2</strong>
+          <strong>{{ conteos_usuarios.administrador }}</strong>
         </article>
         <article class="resumen-tarjeta">
-          <p>Superadministrador</p>
-          <strong>1</strong>
+          <p>Superadministradores</p>
+          <strong>{{ conteos_usuarios.superadmin }}</strong>
         </article>
       </div>
 
       <section class="bloque-panel">
-        <h3>Listado de ejemplo</h3>
-        <p class="bloque-ayuda">Total: 47 usuarios. Nombres de demostración. Más adelante se leerán de la base de datos.</p>
+        <h3>Listado de usuarios</h3>
+
+        {% include "filtros-panel.html" %}
+
+        {% if usuarios %}
         <div class="panel-tabla-contenedor">
-          <table class="panel-tabla">
+          <table class="panel-tabla panel-tabla--usuarios">
             <thead>
               <tr>
                 <th>Nombre</th>
                 <th>Usuario</th>
+                <th>Documento</th>
                 <th>Rol</th>
                 <th>Estado</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
+              {% for usuario in usuarios %}
               <tr>
-                <td>Director de sede</td>
-                <td>superadmin</td>
-                <td>Superadministrador</td>
-                <td><span class="estado-badge estado-listo">Activo</span></td>
+                <td><strong>{{ usuario.nombre }}</strong></td>
+                <td><span class="usuario-login-badge">{{ usuario.usuario }}</span></td>
+                <td><span class="pqr-documento">{{ usuario.documento }}</span></td>
+                <td><span class="rol-badge rol-badge--{{ usuario.rol }}">{{ usuario.rol }}</span></td>
+                <td>
+                  <span class="estado-badge{% if usuario.estado == 'Activo' %} estado-listo{% elif usuario.estado == 'Inactivo' %} estado-agotado{% endif %}">{{ usuario.estado }}</span>
+                </td>
+                <td class="celda-acciones">
+                  {% if usuario.rol == "cliente" and usuario.estado in ("Activo", "Inactivo") %}
+                  <form action="/cambiar-estado-cliente" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <input type="hidden" name="id" value="{{ usuario.id }}">
+                    <input type="hidden" name="volver_rol" value="{{ filtro_rol }}">
+                    <input type="hidden" name="volver_estado" value="{{ filtro_estado }}">
+                    <input type="hidden" name="volver_q" value="{{ filtro_q }}">
+                    {% if usuario.estado == "Activo" %}
+                    <button type="submit" class="btn btn-oscuro btn-pequeno">Desactivar</button>
+                    {% else %}
+                    <button type="submit" class="btn btn-verde btn-pequeno">Activar</button>
+                    {% endif %}
+                  </form>
+                  {% else %}
+                  <span style="color: #94a3b8;">—</span>
+                  {% endif %}
+                </td>
               </tr>
-              <tr>
-                <td>Coordinación</td>
-                <td>admin.jjfh</td>
-                <td>Administrador</td>
-                <td><span class="estado-badge estado-listo">Activo</span></td>
-              </tr>
-              <tr>
-                <td>Personal de cafetería</td>
-                <td>vendedor01</td>
-                <td>Vendedor</td>
-                <td><span class="estado-badge estado-listo">Activo</span></td>
-              </tr>
-              <tr>
-                <td>Juan Pérez</td>
-                <td>juanp</td>
-                <td>Cliente</td>
-                <td><span class="estado-badge estado-listo">Activo</span></td>
-              </tr>
-              <tr>
-                <td>Sofía Díaz</td>
-                <td>sofiad</td>
-                <td>Cliente</td>
-                <td><span class="estado-badge estado-listo">Activo</span></td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
+        {% elif hay_filtros %}
+        <p class="tabla-vacia">No se encontraron usuarios con los filtros seleccionados.</p>
+        {% else %}
+        <p class="tabla-vacia">No hay usuarios registrados.</p>
+        {% endif %}
       </section>
 
     </div>

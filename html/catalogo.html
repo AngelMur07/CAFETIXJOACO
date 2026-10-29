@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAFETIX JOACO - Catálogo</title>
+  <link rel="icon" type="image/png" href="../img/favicon.png">
+  <title>CAFETIX JOACO - Compras</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/cliente.css">
 </head>
-<body>
+<body class="catalogo-page">
 
   <header class="header">
     <div class="header-contenedor">
@@ -18,8 +19,11 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO</h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
       {% include "indicador-turno.html" %}
@@ -29,12 +33,12 @@
   <main class="main">
 
     <div class="catalogo-titulo">
-      <h2>Catálogo de productos</h2>
-      <p>Consulta productos, precios y disponibilidad. Estudiante, docente o administrativo puede pedir después de iniciar sesión.</p>
+      <h2>Compras</h2>
+      <p>¡Bienvenido a Compras! Explora los productos, consulta sus precios y elige lo que quieras pedir. {% if not sesion_iniciada %}Inicia sesión para realizar tu pedido.{% endif %}</p>
     </div>
 
     <div class="guia-pasos">
-      <span class="guia-paso guia-paso-activo">1. Catálogo</span>
+      <span class="guia-paso guia-paso-activo">1. Compras</span>
       <span class="guia-flecha">→</span>
       <span class="guia-paso guia-paso-bloqueado">2. Carrito</span>
       <span class="guia-flecha">→</span>
@@ -43,31 +47,37 @@
       <span class="guia-paso guia-paso-bloqueado">4. Turno</span>
     </div>
 
+    {% if not carrito_cantidad or carrito_cantidad == 0 %}
+    <div class="catalogo-invitacion-compra" role="status">
+      <span class="invitacion-icono" aria-hidden="true">🛍️</span>
+      <p class="invitacion-texto">¡Empieza tu compra! Selecciona los productos que quieras y agrégalos al carrito para continuar.</p>
+    </div>
+    {% endif %}
+
     {% if not sistema_pedidos_activo %}
-    <div class="aviso-panel">
-      {{ mensaje_cerrado }}
-    </div>
+    {% with texto=mensaje_cerrado, estilo="aviso" %}{% include "aviso.html" %}{% endwith %}
     {% endif %}
 
-    {% if aviso %}
-    <div class="aviso-panel{% if aviso == 'Debes iniciar sesion para agregar productos al carrito' %} aviso-login{% endif %}">{{ aviso }}</div>
+    {% if aviso and aviso != mensaje_cerrado and aviso != mensaje_pedidos_cerrados %}
+    {% with texto=aviso %}{% include "aviso.html" %}{% endwith %}
     {% endif %}
 
-    <div class="aviso-panel">
-      El buscador y los filtros los aplica Python. Los datos son de ejemplo. Más adelante vendrán de MySQL.
-    </div>
-
-    {% if destacados %}
     <section id="destacados" class="destacados">
-      <h3 class="destacados-titulo">Productos destacados</h3>
-      <p class="destacados-ayuda">Una selección especial de la cafetería.</p>
+      <h3 class="destacados-titulo">Los más vendidos</h3>
+      <p class="destacados-ayuda">Ranking oficial de los productos con mayores ventas confirmadas.</p>
 
+      {% if destacados %}
       <div class="destacados-grid">
         {% for producto in destacados %}
-        <article class="producto-card{% if not producto.disponible %} producto-agotado{% endif %}">
-          <img src="../img/productos/{{ producto.imagen }}" alt="{{ producto.nombre }}" class="producto-imagen">
+        <article id="{{ producto.ancla }}" class="producto-card top-card top-card-{{ loop.index }}{% if not producto.disponible %} producto-agotado{% endif %}">
+          {% set ruta = src_imagen_producto(producto.imagen) %}
+          {% if ruta %}
+          <img src="{{ ruta }}" alt="{{ producto.nombre }}" class="producto-imagen">
+          {% else %}
+          <div class="producto-imagen"></div>
+          {% endif %}
           <div class="producto-info">
-            <span class="tarjeta-etiqueta">Destacado</span>
+            <span class="tarjeta-etiqueta top-badge top-badge-{{ loop.index }}">TOP {{ loop.index }}</span>
             <h3>{{ producto.nombre }}</h3>
             <p class="producto-precio">{{ producto.precio_texto }}</p>
             <div class="producto-meta">
@@ -80,15 +90,27 @@
             {% if not producto.disponible %}
             <button type="button" class="btn btn-agotado" disabled>Agotado</button>
             {% elif not sesion_iniciada %}
-            <button type="button" class="btn btn-agotado" disabled>Inicia sesión para comprar</button>
+            <a href="login.html" class="btn btn-outline btn-pedir-login">Inicia sesión para pedir</a>
             {% elif rol == "cliente" and sistema_pedidos_activo %}
-            <form action="/agregar-al-carrito" method="post" class="form-agregar-carrito">
-              <input type="hidden" name="id" value="{{ producto.id }}">
-              <input type="hidden" name="buscar" value="{{ buscar }}">
-              <input type="hidden" name="categoria" value="{{ categoria }}">
-              <input type="hidden" name="orden" value="{{ orden }}">
-              <button type="submit" class="btn btn-verde">Agregar al carrito</button>
-            </form>
+            <details class="confirmacion-agregar" name="confirmar-carrito">
+              <summary class="confirmacion-resumen" aria-label="Agregar {{ producto.nombre }} al carrito">
+                <span class="confirmacion-btn-cerrado btn btn-verde">Agregar al carrito</span>
+                <span class="confirmacion-btn-cancelar btn btn-cancelar">Cancelar</span>
+              </summary>
+              <div class="confirmacion-cuerpo">
+                <p class="confirmacion-pregunta">¿Seguro que quieres agregar este producto?</p>
+                <p class="confirmacion-producto">{{ producto.nombre }}</p>
+              </div>
+              <form action="/agregar-al-carrito" method="post" class="form-agregar-carrito confirmacion-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <input type="hidden" name="id" value="{{ producto.id }}">
+                <input type="hidden" name="ancla" value="{{ producto.ancla }}">
+                <input type="hidden" name="buscar" value="{{ buscar }}">
+                <input type="hidden" name="categoria" value="{{ categoria }}">
+                <input type="hidden" name="orden" value="{{ orden }}">
+                <button type="submit" class="btn btn-verde confirmacion-btn-si">Sí, agregar</button>
+              </form>
+            </details>
             {% elif rol == "cliente" %}
             <button type="button" class="btn btn-agotado" disabled>Pedidos cerrados</button>
             {% endif %}
@@ -96,8 +118,12 @@
         </article>
         {% endfor %}
       </div>
+      {% else %}
+      <div class="destacados-vacio">
+        <p class="destacados-vacio-texto">El ranking TOP 1, TOP 2 y TOP 3 aparecerá cuando se registren ventas confirmadas en la cafetería.</p>
+      </div>
+      {% endif %}
     </section>
-    {% endif %}
 
     <div class="catalogo-cuerpo">
 
@@ -114,14 +140,16 @@
 
         <form class="barra-catalogo" method="get" action="catalogo.html">
           <div class="form-buscar">
-            <input type="search" name="buscar" class="filtro-buscar" placeholder="Buscar productos..." value="{{ buscar }}">
+            <input type="search" name="buscar" class="filtro-buscar" placeholder="Buscar productos..." maxlength="80" value="{{ buscar }}">
             <button type="submit" class="btn btn-azul">Buscar</button>
           </div>
           <input type="hidden" name="categoria" value="{{ categoria }}">
           <select name="orden" class="filtro-orden">
-            <option value="default"{% if orden == "default" %} selected{% endif %}>Predeterminado</option>
-            <option value="precio-asc"{% if orden == "precio-asc" %} selected{% endif %}>Precio: bajo a alto</option>
-            <option value="precio-desc"{% if orden == "precio-desc" %} selected{% endif %}>Precio: alto a bajo</option>
+            <option value="default"{% if orden == "default" %} selected{% endif %}>Orden predeterminado</option>
+            <option value="precio-asc"{% if orden == "precio-asc" %} selected{% endif %}>Precio: menor a mayor</option>
+            <option value="precio-desc"{% if orden == "precio-desc" %} selected{% endif %}>Precio: mayor a menor</option>
+            <option value="nombre-asc"{% if orden == "nombre-asc" %} selected{% endif %}>Nombre: A-Z</option>
+            <option value="nombre-desc"{% if orden == "nombre-desc" %} selected{% endif %}>Nombre: Z-A</option>
           </select>
           <button type="submit" class="btn btn-outline">Aplicar orden</button>
         </form>
@@ -132,8 +160,13 @@
           {% if productos %}
           <div class="productos-grid">
             {% for producto in productos %}
-            <article class="producto-card{% if not producto.disponible %} producto-agotado{% endif %}">
-              <img src="../img/productos/{{ producto.imagen }}" alt="{{ producto.nombre }}" class="producto-imagen">
+            <article id="{{ producto.ancla }}" class="producto-card{% if not producto.disponible %} producto-agotado{% endif %}">
+              {% set ruta = src_imagen_producto(producto.imagen) %}
+              {% if ruta %}
+              <img src="{{ ruta }}" alt="{{ producto.nombre }}" class="producto-imagen">
+              {% else %}
+              <div class="producto-imagen"></div>
+              {% endif %}
               <div class="producto-info">
                 <h3>{{ producto.nombre }}</h3>
                 <p class="producto-precio">{{ producto.precio_texto }}</p>
@@ -148,15 +181,27 @@
                 {% if not producto.disponible %}
                 <button type="button" class="btn btn-agotado" disabled>Agotado</button>
                 {% elif not sesion_iniciada %}
-                <button type="button" class="btn btn-agotado" disabled>Inicia sesión para comprar</button>
+                <a href="login.html" class="btn btn-outline btn-pedir-login">Inicia sesión para pedir</a>
                 {% elif rol == "cliente" and sistema_pedidos_activo %}
-                <form action="/agregar-al-carrito" method="post" class="form-agregar-carrito">
-                  <input type="hidden" name="id" value="{{ producto.id }}">
-                  <input type="hidden" name="buscar" value="{{ buscar }}">
-                  <input type="hidden" name="categoria" value="{{ categoria }}">
-                  <input type="hidden" name="orden" value="{{ orden }}">
-                  <button type="submit" class="btn btn-verde">Agregar al carrito</button>
-                </form>
+                <details class="confirmacion-agregar" name="confirmar-carrito">
+                  <summary class="confirmacion-resumen" aria-label="Agregar {{ producto.nombre }} al carrito">
+                    <span class="confirmacion-btn-cerrado btn btn-verde">Agregar al carrito</span>
+                    <span class="confirmacion-btn-cancelar btn btn-cancelar">Cancelar</span>
+                  </summary>
+                  <div class="confirmacion-cuerpo">
+                    <p class="confirmacion-pregunta">¿Seguro que quieres agregar este producto?</p>
+                    <p class="confirmacion-producto">{{ producto.nombre }}</p>
+                  </div>
+                  <form action="/agregar-al-carrito" method="post" class="form-agregar-carrito confirmacion-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <input type="hidden" name="id" value="{{ producto.id }}">
+                    <input type="hidden" name="ancla" value="{{ producto.ancla }}">
+                    <input type="hidden" name="buscar" value="{{ buscar }}">
+                    <input type="hidden" name="categoria" value="{{ categoria }}">
+                    <input type="hidden" name="orden" value="{{ orden }}">
+                    <button type="submit" class="btn btn-verde confirmacion-btn-si">Sí, agregar</button>
+                  </form>
+                </details>
                 {% elif rol == "cliente" %}
                 <button type="button" class="btn btn-agotado" disabled>Pedidos cerrados</button>
                 {% endif %}
@@ -165,10 +210,7 @@
             {% endfor %}
           </div>
           {% else %}
-          <div class="aviso-panel">
-            No encontramos productos que coincidan con tu búsqueda.
-            <a href="catalogo.html">Ver todos los productos</a>
-          </div>
+          {% with texto="No encontramos productos que coincidan con tu búsqueda.", estilo="info", enlace_href="catalogo.html", enlace_texto="Ver todos los productos" %}{% include "aviso.html" %}{% endwith %}
           {% endif %}
         </div>
       </div>

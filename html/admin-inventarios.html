@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Inventarios</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,18 +12,22 @@
   <link rel="stylesheet" href="../css/paneles.css">
   <link rel="stylesheet" href="../css/admin.css">
 </head>
-<body>
+<body class="{{ rol }}-page">
 
   <header class="header panel-header">
     <div class="header-contenedor">
-      <a href="administrador.html" class="header-marca">
+      <a href="{% if rol == 'superadmin' %}superadmin.html{% else %}administrador.html{% endif %}" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -30,38 +35,41 @@
     <div class="admin-pagina">
 
       <div class="panel-titulo">
-        <h2>Inventarios</h2>
-        <p>Consulta la cantidad y el estado de cada producto.</p>
-      </div>
-
-      <div class="aviso-panel">
-        Si la cantidad es 0, el producto aparece como Agotado. Para cambiar cantidades, usa Productos.
+        <div class="panel-titulo-lectura">
+          {% with nombre="inventario", tamano="titulo" %}{% include "icono.html" %}{% endwith %}
+          <div class="panel-titulo-copy">
+            <h2>Inventarios</h2>
+            <p>Consulta la cantidad y el estado de cada producto.</p>
+          </div>
+        </div>
       </div>
 
       <section class="bloque-panel">
         <h3>Listado de productos</h3>
-        <p class="bloque-ayuda">Disponible cuando hay unidades. Agotado cuando la cantidad es 0.</p>
+
+        {% include "filtros-panel.html" %}
 
         <div class="acciones-rapidas">
           <a href="admin-productos.html" class="btn btn-verde btn-pequeno">Agregar</a>
         </div>
 
+        {% if productos %}
         <div class="panel-tabla-contenedor">
           <table class="panel-tabla">
             <thead>
               <tr>
                 <th>Producto</th>
                 <th>Categoría</th>
-                <th>Cantidad</th>
+                <th class="celda-numero">Stock disponible</th>
                 <th>Estado</th>
               </tr>
             </thead>
             <tbody>
               {% for producto in productos %}
               <tr>
-                <td>{{ producto.nombre }}</td>
-                <td>{{ producto.categoria_nombre }}</td>
-                <td>{{ producto.cantidad }}</td>
+                <td><strong>{{ producto.nombre }}</strong></td>
+                <td><span class="categoria-badge">{{ producto.categoria_nombre }}</span></td>
+                <td class="celda-numero"><strong>{{ producto.cantidad }}</strong></td>
                 <td>
                   {% if producto.disponible %}
                   <span class="estado-badge estado-listo">Disponible</span>
@@ -74,6 +82,9 @@
             </tbody>
           </table>
         </div>
+        {% else %}
+        <p class="tabla-vacia">No se encontraron productos con los filtros seleccionados.</p>
+        {% endif %}
       </section>
 
     </div>

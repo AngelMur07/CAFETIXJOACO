@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Productos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,18 +12,22 @@
   <link rel="stylesheet" href="../css/paneles.css">
   <link rel="stylesheet" href="../css/admin.css">
 </head>
-<body>
+<body class="{{ rol }}-page">
 
   <header class="header panel-header">
     <div class="header-contenedor">
-      <a href="administrador.html" class="header-marca">
+      <a href="{% if rol == 'superadmin' %}superadmin.html{% else %}administrador.html{% endif %}" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -30,26 +35,33 @@
     <div class="admin-pagina">
 
       <div class="panel-titulo">
-        <h2>Productos</h2>
-        <p>Agrega, edita o elimina productos. Los datos se guardan en Flask mientras el servidor esté encendido.</p>
+        <div class="panel-titulo-lectura">
+          {% with nombre="productos", tamano="titulo" %}{% include "icono.html" %}{% endwith %}
+          <div class="panel-titulo-copy">
+            <h2>Productos</h2>
+            <p>Agrega, edita o elimina productos del catálogo.</p>
+          </div>
+        </div>
       </div>
 
       {% if aviso %}
-      <div class="aviso-panel">{{ aviso }}</div>
+      {% with texto=aviso %}{% include "aviso.html" %}{% endwith %}
       {% endif %}
 
       <section class="bloque-panel">
         <h3>Lista de productos</h3>
-        <p class="bloque-ayuda">La disponibilidad sale de la cantidad: más de 0 es Disponible, 0 es Agotado.</p>
 
+        {% include "filtros-panel.html" %}
+
+        {% if productos %}
         <div class="panel-tabla-contenedor">
           <table class="panel-tabla">
             <thead>
               <tr>
                 <th>Producto</th>
                 <th>Categoría</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
+                <th class="celda-numero">Precio</th>
+                <th class="celda-numero">Cantidad</th>
                 <th>Estado</th>
                 <th>Acciones</th>
               </tr>
@@ -57,10 +69,10 @@
             <tbody>
               {% for producto in productos %}
               <tr>
-                <td>{{ producto.nombre }}</td>
-                <td>{{ producto.categoria_nombre }}</td>
-                <td>{{ producto.precio_texto }}</td>
-                <td>{{ producto.cantidad }}</td>
+                <td><strong>{{ producto.nombre }}</strong></td>
+                <td><span class="categoria-badge">{{ producto.categoria_nombre }}</span></td>
+                <td class="celda-numero"><strong class="precio-destacado">{{ producto.precio_texto }}</strong></td>
+                <td class="celda-numero">{{ producto.cantidad }}</td>
                 <td>
                   {% if producto.disponible %}
                   <span class="estado-badge estado-listo">Disponible</span>
@@ -68,9 +80,9 @@
                   <span class="estado-badge estado-agotado">Agotado</span>
                   {% endif %}
                 </td>
-                <td>
+                <td class="celda-acciones">
                   <div class="crud-acciones">
-                    <a href="admin-productos.html?editar={{ producto.id }}" class="btn btn-azul btn-pequeno">Editar</a>
+                    <a href="admin-productos.html?editar={{ producto.id }}#formulario-producto" class="btn btn-azul btn-pequeno">Editar</a>
                     <a href="admin-eliminar.html?id={{ producto.id }}" class="btn btn-oscuro btn-pequeno">Eliminar</a>
                   </div>
                 </td>
@@ -79,23 +91,28 @@
             </tbody>
           </table>
         </div>
+        {% else %}
+        <p class="tabla-vacia">No se encontraron productos con los filtros seleccionados.</p>
+        {% endif %}
       </section>
 
-      <section class="bloque-panel form-admin">
+      <section class="bloque-panel form-admin" id="formulario-producto">
         {% if producto_editar %}
         <h3>Editar producto</h3>
         <p class="bloque-ayuda">Cambia los datos y guarda. La cantidad no puede ser negativa.</p>
         <form action="/editar-producto" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
           <input type="hidden" name="id" value="{{ producto_editar.id }}">
         {% else %}
         <h3>Agregar producto</h3>
-        <p class="bloque-ayuda">Completa los campos. La imagen se elige entre las que ya están en img/productos/.</p>
+        <p class="bloque-ayuda">Completa los campos. Puedes elegir una fotografía existente o dejar el producto sin imagen.</p>
         <form action="/agregar-producto" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         {% endif %}
 
           <div class="form-grupo">
             <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Ej: Empanada" value="{% if producto_editar %}{{ producto_editar.nombre }}{% endif %}">
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Empanada" required maxlength="100" value="{% if producto_editar %}{{ producto_editar.nombre }}{% endif %}">
           </div>
 
           <div class="form-grupo">
@@ -108,9 +125,23 @@
           </div>
 
           <div class="form-grupo">
-            <label for="precio">Precio</label>
+            <label for="precio">Precio de venta ($)</label>
             <input type="text" id="precio" name="precio" placeholder="Ej: 2000" value="{% if producto_editar %}{{ producto_editar.precio }}{% endif %}">
           </div>
+
+          {% if tiene_columna_costo %}
+          <div class="form-grupo">
+            <label for="costo">Costo de adquisición ($) <small style="font-weight: normal; color: var(--texto-suave);">(opcional)</small></label>
+            <input type="text" id="costo" name="costo" placeholder="Ej: 1400" value="{% if producto_editar and producto_editar.costo is defined and producto_editar.costo is not none %}{{ producto_editar.costo }}{% endif %}">
+          </div>
+          {% else %}
+          <div class="form-grupo">
+            <label>Costo de adquisición ($)</label>
+            <p class="bloque-ayuda" style="margin-top: 4px; font-size: 0.85rem; color: var(--texto-suave); background: #f5f7fa; padding: 8px 12px; border-radius: 6px; border-left: 3px solid var(--azul);">
+              <em>No habilitado en esta base de datos. Para registrar costos y calcular utilidades contables exactas, la base de datos debe contar con la columna <code>Prod_Costo</code>.</em>
+            </p>
+          </div>
+          {% endif %}
 
           <div class="form-grupo">
             <label for="cantidad">Cantidad</label>
@@ -120,8 +151,9 @@
           <div class="form-grupo">
             <label for="imagen">Imagen</label>
             <select id="imagen" name="imagen">
+              <option value=""{% if producto_editar and not producto_editar.imagen %} selected{% endif %}>Sin imagen</option>
               {% for archivo in imagenes %}
-              <option value="{{ archivo }}"{% if producto_editar and producto_editar.imagen == archivo %} selected{% endif %}>{{ archivo }}</option>
+              <option value="{{ archivo }}"{% if producto_editar and producto_editar.imagen == archivo %} selected{% endif %}>{{ archivo[3:] if archivo.startswith("../") else archivo }}</option>
               {% endfor %}
             </select>
           </div>

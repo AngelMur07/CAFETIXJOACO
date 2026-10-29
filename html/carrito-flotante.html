@@ -1,7 +1,18 @@
-  {% if carrito_tiene_productos %}
-  <a href="carrito.html" class="carrito-flotante" title="Ir al carrito">
-    <span class="carrito-flotante-icono" aria-hidden="true">🛒</span>
-    <span class="carrito-flotante-texto">Carrito</span>
-    <span class="carrito-flotante-cantidad">{{ carrito_cantidad }}</span>
-  </a>
+  {% if carrito_cantidad and carrito_cantidad > 0 and pagina_actual in ("catalogo", "pqr", "mis-compras", "turno") %}
+  <div class="carrito-flotante-contenedor" role="region" aria-label="Carrito de compras con productos">
+    <div class="carrito-globo-aviso" role="status">
+      <span class="carrito-globo-icono" aria-hidden="true">🛒</span>
+      <span class="carrito-globo-texto">
+        Tienes <strong>{{ carrito_cantidad }}</strong> producto{% if carrito_cantidad != 1 %}s{% endif %} en el carrito. ¡Toca aquí para terminar tu compra!
+      </span>
+      <span class="carrito-globo-flecha" aria-hidden="true"></span>
+    </div>
+    <a href="carrito.html" class="carrito-flotante" title="Ver carrito ({{ carrito_cantidad }} producto{% if carrito_cantidad != 1 %}s{% endif %})" aria-label="Ver carrito de compras">
+      <span class="carrito-flotante-icono" aria-hidden="true">
+        <img src="../img/iconos/pedidos.svg" alt="">
+      </span>
+      <span class="carrito-flotante-texto">Carrito</span>
+      <span class="carrito-flotante-cantidad">{{ carrito_cantidad }}</span>
+    </a>
+  </div>
   {% endif %}

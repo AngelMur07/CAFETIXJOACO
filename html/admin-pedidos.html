@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Pedidos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,18 +12,22 @@
   <link rel="stylesheet" href="../css/paneles.css">
   <link rel="stylesheet" href="../css/admin.css">
 </head>
-<body>
+<body class="{{ rol }}-page">
 
   <header class="header panel-header">
     <div class="header-contenedor">
-      <a href="administrador.html" class="header-marca">
+      <a href="{% if rol == 'superadmin' %}superadmin.html{% else %}administrador.html{% endif %}" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -30,58 +35,63 @@
     <div class="admin-pagina">
 
       <div class="panel-titulo">
-        <h2>Pedidos</h2>
-        <p>Consulta de pedidos del día. Datos de ejemplo.</p>
+        <div class="panel-titulo-lectura">
+          {% with nombre="pedidos", tamano="titulo" %}{% include "icono.html" %}{% endwith %}
+          <div class="panel-titulo-copy">
+            <h2>Pedidos</h2>
+            <p>Consulta de pedidos registrados en el sistema.</p>
+          </div>
+        </div>
       </div>
 
       <section class="bloque-panel">
         <h3>Pedidos registrados</h3>
         <p class="bloque-ayuda">El administrador revisa; el vendedor es quien entrega.</p>
 
+        {% include "filtros-panel.html" %}
+
+        {% if pedidos %}
         <div class="panel-tabla-contenedor">
-          <table class="panel-tabla">
+          <table class="panel-tabla panel-tabla--pedidos">
             <thead>
               <tr>
                 <th>Pedido</th>
+                <th>Fecha</th>
                 <th>Turno</th>
-                <th>Cliente</th>
+                <th>Estudiante</th>
                 <th>Productos</th>
-                <th>Total</th>
-                <th>Pago</th>
+                <th class="celda-numero">Total</th>
+                <th>Método de pago</th>
+                <th>Estado del pago</th>
                 <th>Estado</th>
               </tr>
             </thead>
             <tbody>
+              {% for pedido in pedidos %}
               <tr>
-                <td>CJ-014</td>
-                <td>18</td>
-                <td>Camilo Pérez</td>
-                <td>2 empanadas, 1 gaseosa</td>
-                <td>$7.000</td>
-                <td>Realizado</td>
-                <td><span class="estado-badge estado-preparando">En preparación</span></td>
+                <td><strong class="pedido-codigo-badge">{{ pedido.numero }}</strong></td>
+                <td><span class="celda-fecha">{{ pedido.fecha }}</span></td>
+                <td><span class="turno-pill">Turno {{ pedido.turno }}</span></td>
+                <td><strong>{{ pedido.estudiante }}</strong></td>
+                <td><div class="celda-productos">{{ pedido.productos_texto }}</div></td>
+                <td class="celda-numero"><strong class="precio-destacado">{{ pedido.total_texto }}</strong></td>
+                <td><span class="metodo-badge">{{ pedido.metodo_pago }}</span></td>
+                <td>
+                  <span class="estado-badge {% if pedido.estado_pago == 'Confirmado' %}estado-listo{% else %}estado-pendiente{% endif %}">
+                    {{ pedido.estado_pago }}
+                  </span>
+                </td>
+                <td><span class="estado-badge {{ pedido.estado_clase }}">{{ pedido.estado_texto }}</span></td>
               </tr>
-              <tr>
-                <td>CJ-015</td>
-                <td>19</td>
-                <td>Ana Torres</td>
-                <td>1 almuerzo del día</td>
-                <td>$8.000</td>
-                <td>Realizado</td>
-                <td><span class="estado-badge estado-pendiente">Pendiente</span></td>
-              </tr>
-              <tr>
-                <td>CJ-016</td>
-                <td>20</td>
-                <td>Luis Gómez</td>
-                <td>1 desayuno completo</td>
-                <td>$6.500</td>
-                <td>Realizado</td>
-                <td><span class="estado-badge estado-listo">Entregado</span></td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
+        {% elif hay_filtros %}
+        <p class="tabla-vacia">No se encontraron pedidos con los filtros seleccionados.</p>
+        {% else %}
+        <p class="tabla-vacia">No hay pedidos registrados.</p>
+        {% endif %}
       </section>
 
     </div>

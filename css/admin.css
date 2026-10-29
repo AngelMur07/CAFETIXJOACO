@@ -31,6 +31,7 @@
 /* Formulario de producto */
 .form-admin {
   max-width: 560px;
+  scroll-margin-top: calc(var(--header-offset, 70px) + 16px);
 }
 
 .form-acciones {
@@ -63,6 +64,65 @@
   min-width: 140px;
 }
 
+.control-turnos {
+  display: grid;
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.control-bloque {
+  padding: 14px 16px;
+  border: 1px solid var(--gris);
+  border-radius: var(--radio);
+  background-color: var(--gris-claro);
+}
+
+.control-etiqueta {
+  margin: 0 0 4px;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.control-valor {
+  margin: 0 0 8px;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--azul-oscuro);
+}
+
+.control-valor--ok {
+  color: var(--verde-oscuro);
+}
+
+.control-valor--alerta {
+  color: var(--rojo);
+}
+
+.control-bloque .acciones-sistema {
+  margin-top: 10px;
+}
+
+.campo-hora-guia {
+  margin: 0 0 8px;
+}
+
+.campo-hora input[type="time"] {
+  width: auto;
+  min-width: 12.5rem;
+  max-width: 16rem;
+}
+
+.campo-hora input[type="time"]::-webkit-calendar-picker-indicator {
+  display: inline-block;
+  opacity: 1;
+  cursor: pointer;
+}
+
 /* Acciones del CRUD en la tabla */
 .crud-acciones {
   display: flex;
@@ -73,4 +133,87 @@
 .estado-agotado {
   background-color: #fdecea;
   color: var(--rojo);
+}
+
+/* Tarjeta informativa discreta sobre costos de inventario */
+.tarjeta-aviso-costos {
+  background-color: #f8fbfe;
+  border: 1px solid rgba(43, 120, 197, 0.22);
+  border-left: 4px solid var(--azul);
+  border-radius: var(--radio, 12px);
+  padding: 18px 22px;
+  margin: 18px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tarjeta-aviso-costos-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tarjeta-aviso-costos-header h4 {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--azul);
+  margin: 0;
+}
+
+.tarjeta-aviso-costos-cuerpo p {
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: var(--texto);
+  margin: 0 0 10px;
+}
+
+.tarjeta-aviso-costos .pasos-costos {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(220, 226, 235, 0.9);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 12px 0;
+}
+
+.tarjeta-aviso-costos .pasos-costos strong {
+  color: var(--azul-oscuro, #1e5a96);
+  font-size: 0.94rem;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.tarjeta-aviso-costos .pasos-costos ol {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--texto);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.tarjeta-aviso-costos .pasos-costos li {
+  margin-bottom: 4px;
+}
+
+.tarjeta-aviso-costos .pasos-costos li:last-child {
+  margin-bottom: 0;
+}
+
+.tarjeta-aviso-costos .aviso-costos-bd {
+  background-color: #fff9e6;
+  border: 1px solid #ffe082;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.88rem;
+  color: #795548;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.tarjeta-aviso-costos .aviso-costos-importante {
+  font-size: 0.88rem;
+  color: var(--texto-suave);
+  margin: 10px 0 0;
+  border-top: 1px dashed rgba(200, 210, 225, 0.8);
+  padding-top: 10px;
 }

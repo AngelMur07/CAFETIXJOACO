@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Gracias</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,7 +11,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/cliente.css">
 </head>
-<body>
+<body class="gracias-page">
 
   <header class="header">
     <div class="header-contenedor">
@@ -18,10 +19,14 @@
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
           <h1>CAFETIX JOACO</h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -29,13 +34,10 @@
 
     <div class="formulario-contenedor tarjeta">
       <div class="form-icono" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="9"></circle>
-          <path d="M8 12l3 3 5-6"></path>
-        </svg>
+        <img src="../img/iconos/encuesta.svg" alt="" class="icono icono-tarjeta">
       </div>
-      <h2>¡Gracias por tu compra!</h2>
-      <p class="subtitulo-form">Tu opinión nos ayuda a mejorar nuestro servicio.</p>
+      <h2>¡Gracias por tu opinión!</h2>
+      <p class="subtitulo-form">Tu respuesta nos ayuda a mejorar nuestro servicio.</p>
       <a href="index.html" class="btn btn-verde form-boton">Cerrar</a>
     </div>
 

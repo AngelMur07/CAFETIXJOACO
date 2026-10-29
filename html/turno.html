@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Mi turno</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,16 +11,19 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/cliente.css">
 </head>
-<body>
+<body class="turno-page">
 
   <header class="header">
     <div class="header-contenedor">
       <a href="index.html" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Cliente</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
       {% include "indicador-turno.html" %}
@@ -29,7 +33,7 @@
   <main class="main">
 
     <div class="guia-pasos">
-      <span class="guia-paso">1. Catálogo</span>
+      <span class="guia-paso">1. Compras</span>
       <span class="guia-flecha">→</span>
       <span class="guia-paso">2. Carrito</span>
       <span class="guia-flecha">→</span>
@@ -38,18 +42,35 @@
       <span class="guia-paso guia-paso-activo">4. Turno</span>
     </div>
 
+    {% if aviso %}
+    {% with texto=aviso %}{% include "aviso.html" %}{% endwith %}
+    {% endif %}
+
     {% if ultimo_pedido %}
 
     <div class="turno-pagina">
 
-      <h2 class="turno-titulo">¡Compra realizada correctamente!</h2>
-      <p class="turno-subtitulo">Tu pedido ha sido registrado.</p>
-      <p>Dirígete a la cafetería cuando tu turno sea llamado.</p>
+      {% if ultimo_pedido.estado == "pendiente" %}
+      <h2 class="turno-titulo">Pedido realizado</h2>
+      <p class="turno-subtitulo">La cafetería tomará tu pedido enseguida. Espera tu turno.</p>
+      {% elif ultimo_pedido.estado == "en_preparacion" %}
+      <h2 class="turno-titulo">Tu pedido está en preparación</h2>
+      <p class="turno-subtitulo">Estamos preparando tu pedido con mucho gusto.</p>
+      {% elif ultimo_pedido.estado == "listo" %}
+      <h2 class="turno-titulo">¡Tu pedido está listo!</h2>
+      <p class="turno-subtitulo">Acércate a la cafetería cuando llamen tu turno.</p>
+      {% elif ultimo_pedido.estado == "entregado" %}
+      <h2 class="turno-titulo">¡Gracias por tu compra!</h2>
+      <p class="turno-subtitulo">Tu pedido ha sido entregado. ¡Que lo disfrutes!</p>
+      {% else %}
+      <h2 class="turno-titulo">Tu pedido</h2>
+      <p class="turno-subtitulo">Consulta el estado y el número de turno.</p>
+      {% endif %}
 
       <div class="turno-card">
         <p class="etiqueta">Tu turno es</p>
         <p class="turno-numero-grande">{{ ultimo_pedido.turno }}</p>
-        <p>Pedido {{ ultimo_pedido.numero }}</p>
+        <p><span class="estado-badge {{ ultimo_pedido.estado_clase }}">{{ ultimo_pedido.estado_texto }}</span></p>
       </div>
 
       <div class="detalle-pedido">
@@ -59,44 +80,80 @@
           <strong>{{ ultimo_pedido.numero }}</strong>
         </div>
         <div class="detalle-fila">
-          <span>Estado del pago</span>
-          <strong>Pagado (prueba)</strong>
+          <span>Método de pago</span>
+          <strong>{{ "Transferencia con QR" if ultimo_pedido.metodo_pago == "Nequi" else (ultimo_pedido.metodo_pago or "No registrado") }}</strong>
         </div>
-        <ul class="detalle-lista">
-          {% for item in ultimo_pedido.productos %}
-          <li>{{ item.nombre }} × {{ item.cantidad }} — {{ item.subtotal_texto }}</li>
-          {% endfor %}
-        </ul>
         <div class="detalle-fila">
-          <span>Total</span>
-          <strong>{{ ultimo_pedido.total_texto }}</strong>
+          <span>Estado del pago</span>
+          <strong>{{ ultimo_pedido.estado_pago or "No registrado" }}</strong>
+        </div>
+        {% if ultimo_pedido.metodo_pago == "Efectivo" and ultimo_pedido.estado_pago == "Pendiente" %}
+        {% with texto="El pago en efectivo queda pendiente hasta que el Vendedor lo confirme en la cafetería.", estilo="aviso" %}{% include "aviso.html" %}{% endwith %}
+        {% endif %}
+        {% if ultimo_pedido.metodo_pago == "Nequi" and ultimo_pedido.estado_pago == "Pendiente" %}
+        {% with texto="Si pagaste por transferencia con QR, sigue las indicaciones y espera la confirmación del vendedor. Tu pedido se confirmará cuando se verifique el pago.", estilo="aviso" %}{% include "aviso.html" %}{% endwith %}
+        {% endif %}
+        <div class="pedido-tabla-contenedor" style="margin-top: 14px;">
+          <table class="pedido-tabla">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cant.</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in ultimo_pedido.productos %}
+              <tr>
+                <td><strong>{{ item.nombre }}</strong></td>
+                <td>{{ item.precio_texto }}</td>
+                <td>{{ item.cantidad }}</td>
+                <td><strong>{{ item.subtotal_texto }}</strong></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="detalle-fila detalle-fila--total" style="margin-top: 12px;">
+          <span class="resumen-total-label">Total</span>
+          <strong class="resumen-total-valor">{{ ultimo_pedido.total_texto }}</strong>
         </div>
       </div>
 
+      {% if ultimo_pedido.estado == "entregado" %}
       <div class="pedido-acciones">
-        <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
-        <a href="encuesta.html" class="btn btn-verde">Responder encuesta</a>
-        <a href="gracias.html" class="btn btn-outline">No, gracias</a>
+        <a href="catalogo.html" class="btn btn-verde">Volver a Compras</a>
+        <a href="mis-compras.html" class="btn btn-outline">Ver mis compras</a>
       </div>
+      {% else %}
+      <div class="pedido-acciones">
+        <a href="catalogo.html" class="btn btn-outline">← Volver a Compras</a>
+      </div>
+      {% endif %}
 
-    </div>
+      {% if mostrar_invitacion_encuesta %}
+      <section class="invitacion-encuesta">
+        <h3>¿Cómo fue tu experiencia?</h3>
+        <p>Tu opinión nos ayuda a mejorar el servicio de la cafetería.</p>
+        <div class="invitacion-encuesta-acciones">
+          <a href="encuesta.html" class="btn btn-verde">Responder encuesta</a>
+          <form action="/posponer-encuesta" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="origen" value="turno">
+            <button type="submit" class="btn btn-outline">Ahora no</button>
+          </form>
+        </div>
+      </section>
+      {% endif %}
 
-    {% elif not sistema_activo %}
-
-    <div class="aviso-panel">
-      {{ mensaje_turnos_cerrados }}
-    </div>
-    <div class="pedido-acciones">
-      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
     </div>
 
     {% else %}
 
-    <div class="aviso-panel">
-      Aún no tienes un pedido confirmado. Agrega productos al carrito para comprar.
-    </div>
+    <p class="tabla-vacia">Aún no tienes un pedido activo. ¡Ve a Compras y elige tus favoritos!</p>
     <div class="pedido-acciones">
-      <a href="catalogo.html" class="btn btn-outline">Volver al catálogo</a>
+      <a href="catalogo.html" class="btn btn-verde">Ir a Compras</a>
     </div>
 
     {% endif %}
@@ -104,6 +161,8 @@
   </main>
 
 {% include "pie.html" %}
+
+{% include "carrito-flotante.html" %}
 
 </body>
 </html>

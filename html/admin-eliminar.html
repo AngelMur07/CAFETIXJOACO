@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
   <title>CAFETIX JOACO - Eliminar producto</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,18 +12,22 @@
   <link rel="stylesheet" href="../css/paneles.css">
   <link rel="stylesheet" href="../css/admin.css">
 </head>
-<body>
+<body class="{{ rol }}-page">
 
   <header class="header panel-header">
     <div class="header-contenedor">
-      <a href="administrador.html" class="header-marca">
+      <a href="{% if rol == 'superadmin' %}superadmin.html{% else %}administrador.html{% endif %}" class="header-marca">
         <img src="../img/logo.png" alt="Escudo Institución Educativa JJFH" class="header-logo">
         <div class="header-texto">
-          <h1>CAFETIX JOACO <span class="rol-etiqueta">Administrador</span></h1>
-          <p>Sistema Web de la Cafetería Institucional JJFH</p>
+          <h1>CAFETIX JOACO</h1>
         </div>
+        {% if sesion_iniciada and nombre_usuario %}
+        <span class="header-divisor" aria-hidden="true"></span>
+        <span class="header-saludo">👋 Hola, {{ nombre_usuario.split()[0] }}</span>
+        {% endif %}
       </a>
       {% include "menu.html" %}
+      {% include "indicador-turno.html" %}
     </div>
   </header>
 
@@ -30,8 +35,12 @@
     <div class="admin-pagina">
 
       <div class="panel-titulo">
-        <h2>Eliminar producto</h2>
-        <p>Confirma si quieres quitar este producto de la lista.</p>
+        <div class="panel-titulo-lectura">
+          <div class="panel-titulo-copy">
+            <h2>Eliminar producto</h2>
+            <p>Confirma si quieres quitar este producto de la lista.</p>
+          </div>
+        </div>
       </div>
 
       <section class="bloque-panel form-admin">
@@ -41,6 +50,7 @@
         <p>Cantidad: {{ producto.cantidad }}</p>
 
         <form action="/eliminar-producto" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
           <input type="hidden" name="id" value="{{ producto.id }}">
           <div class="form-acciones">
             <button type="submit" class="btn btn-oscuro">Eliminar</button>
